@@ -1,8 +1,8 @@
 import Table from 'react-bootstrap/Table';
-import "../styles/table.css"
-import BG from './buttonsGroup';
+import "../../styles/table.css"
+import BG from '../buttonsGroup';
 
-export default function TableGlobal() {
+export default function TableUsu() {
   return (
     <div className="box-list">
         <Table className="table" striped bordered hover size="sm" >
