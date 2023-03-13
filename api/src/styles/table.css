@@ -1,0 +1,40 @@
+.box-list{
+    position: absolute;
+    width: 1007px;
+    height: 480px;
+    left: 25%;
+    top: 32%;
+    background: #FFFFFF;
+    box-shadow: 10px 10px 24px rgba(151, 149, 195, 0.5);
+    border-radius: 10px;
+}
+
+.table{
+    width: 1007px;
+    margin: 20px;
+}
+
+.bt{
+    width: 36px;
+    height: 36px;
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+}
+
+.bt-view{
+    background: #01C3FF;
+}
+
+.bt-edit{
+    background: #F9D80D;
+}
+
+.bt-delete{
+    background: #FE7235;
+}
+
+.icon{
+    height: 100%;
+    min-width: 20px;
+}
