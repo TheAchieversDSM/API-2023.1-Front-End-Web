@@ -1,7 +1,7 @@
 import React from 'react';
 import Sidebar from '../components/sidebar';
 import Search from '../components/search';
-import TableGlobal from '../components/table';
+import TablePar from '../components/tables/tablePar';
 
 
 export default function Parametros() {
@@ -10,7 +10,7 @@ export default function Parametros() {
             <Sidebar />
             <h1>Parâmetros</h1>
             <Search/>
-            <TableGlobal id="ID" nome="Nome" titulo1="Tipo" titulo2="Unidade de medida"/>
+            <TablePar/>
         </>
     )
 }
