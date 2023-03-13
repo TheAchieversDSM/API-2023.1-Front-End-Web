@@ -1,6 +1,5 @@
 .box-search{
-    max-width: 1007px;
-    width: 100%;
+    width: 65%;
     height: 99px;
     background-color: #ffff !important;
     box-shadow: 10px 10px 24px rgba(151, 149, 195, 0.5);
@@ -15,7 +14,7 @@
 }
 
 .input-search{
-    width: 760px;
+    width: 70%;
     height: 41px;
     background: #EDF0F9;
     border: 2px solid #A7A4DB;
