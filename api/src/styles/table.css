@@ -10,8 +10,9 @@
 }
 
 .table{
-    width: 1007px;
+    width: 100%;
     margin: 20px;
+    margin:  0 0 0 0 auto !important;
 }
 
 .bt{
@@ -22,19 +23,39 @@
     margin: 10px;
 }
 
+th{
+    color: #3E3579
+}
+
 .bt-view{
     background: #01C3FF;
+    transition: 0.3s;
+}
+.bt-view:hover{
+    background: #0280ff;
+    transition: 0.3s;
 }
 
 .bt-edit{
     background: #F9D80D;
+    transition: 0.3s;
+}
+.bt-edit:hover{
+    background: #fdb101;
+    transition: 0.3s;
 }
 
 .bt-delete{
     background: #FE7235;
+    transition: 0.3s;
+}
+.bt-delete:hover{
+    background: #ff4d00;
+    transition: 0.3s;
 }
 
 .icon{
     height: 100%;
     min-width: 20px;
+    color: #282348;
 }
