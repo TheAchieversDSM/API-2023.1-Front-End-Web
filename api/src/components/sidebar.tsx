@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 // styles & images ✨
 import '../styles/sidebar.css';
-import logo from '../images/logo-simples-2.png';
+import logo from '../images/logo-3.png';
 
 // components & icons ✨
 import { BsSearch, BsHouse, BsSignpostSplit, BsPerson, BsExclamationTriangle, BsClipboard2Check, BsBarChart, BsBoxArrowInLeft } from 'react-icons/bs'
@@ -17,10 +17,6 @@ export default function Sidebar() {
                         <span className="image">
                             <img src={logo} alt="logo" />
                         </span>
-                    </div>
-
-                    <div className="text header-text">
-                        <span className="name">Tecsus</span>
                     </div>
                 </header>
 
