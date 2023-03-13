@@ -10,7 +10,7 @@ export default function Usuarios() {
             <Sidebar />
             <h1>Usuários</h1>
             <Search/>
-            <TableGlobal/>
+            <TableGlobal id="ID" nome="Nome" titulo1="Email" titulo2="Nível"/>    
         </>
     )
 }
