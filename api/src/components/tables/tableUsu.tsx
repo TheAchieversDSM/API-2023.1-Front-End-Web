@@ -1,4 +1,4 @@
-import Table from 'react-bootstrap/Table';
+import {Table} from 'react-bootstrap';
 import "../../styles/table.css"
 import BG from '../buttonsGroup';
 
