@@ -28,8 +28,8 @@
     color: var(--purple);
 }
 
- .sidebar {
-    position: fixed;
+.sidebar {
+    position: absolute;
     top: 0;
     left: 0;
     height: 100%;
@@ -161,6 +161,10 @@ header .header-text .name {
     flex-direction: column;
     justify-content: space-between;
     overflow-y: scroll;
+}
+
+.sidebar .menu-links {
+    margin-left: -30px;
 }
 
 .menu-bar::-webkit-scrollbar {

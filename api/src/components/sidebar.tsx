@@ -10,7 +10,7 @@ import { BsSearch, BsHouse, BsSignpostSplit, BsPerson, BsExclamationTriangle, Bs
 
 export default function Sidebar() {
     return (
-        <body>
+        <>
             <nav className="sidebar">
                 <header>
                     <div className="image-text">
@@ -84,6 +84,6 @@ export default function Sidebar() {
 
                 </div>
             </nav>
-        </body>
+        </>
     );
 }
