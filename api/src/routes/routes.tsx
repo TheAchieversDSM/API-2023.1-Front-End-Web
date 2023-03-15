@@ -7,7 +7,7 @@ const Routes = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path="/alertas" element={<Alertas />} />
+                <Route path="/create-alertas" element={<Alertas />} />
             </Switch>
         </BrowserRouter>
     )
