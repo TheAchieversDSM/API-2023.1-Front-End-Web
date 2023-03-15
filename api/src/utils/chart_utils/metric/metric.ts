@@ -1,13 +1,16 @@
 export default class Metric{
-    constructor(name, data){
+    name: string;
+    data: Array<any>;
+
+    constructor(name: string, data: Array<any>){
         this.name = name;
         this.data = data;
     }
 
-    setName(name){
+    setName(name: string){
         this.name = name
     }
-    setData(data){
+    setData(data: Array<any>){
         this.data = data
     }
 }
