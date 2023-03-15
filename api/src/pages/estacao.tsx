@@ -1,16 +1,16 @@
 import React from 'react';
 import Sidebar from '../components/sidebar';
 import Search from '../components/search';
-import TableUsu from '../components/tables/tableUsu';
+import TableEst from '../components/tables/tableEst';
 
 
-export default function Usuarios() {
+export default function Estacao() {
     return (
         <>
             <Sidebar />
-            <h1>Usuários</h1>
+            <h1>Estações</h1>
             <Search/>
-            <TableUsu />    
+            <TableEst/>
         </>
     )
 }

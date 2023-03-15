@@ -1,16 +1,16 @@
 import React from 'react';
 import Sidebar from '../components/sidebar';
 import Search from '../components/search';
-import TableUsu from '../components/tables/tableUsu';
+import TablePar from '../components/tables/tablePar';
 
 
-export default function Usuarios() {
+export default function Parametros() {
     return (
         <>
             <Sidebar />
-            <h1>Usuários</h1>
+            <h1>Parâmetros</h1>
             <Search/>
-            <TableUsu />    
+            <TablePar/>
         </>
     )
 }

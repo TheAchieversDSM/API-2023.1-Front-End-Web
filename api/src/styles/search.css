@@ -1,6 +1,5 @@
 .box-search{
-    max-width: 1007px;
-    width: 100%;
+    width: 65%;
     height: 99px;
     background-color: #ffff !important;
     box-shadow: 10px 10px 24px rgba(151, 149, 195, 0.5);
@@ -15,7 +14,7 @@
 }
 
 .input-search{
-    width: 760px;
+    width: 70%;
     height: 41px;
     background: #EDF0F9;
     border: 2px solid #A7A4DB;
@@ -25,12 +24,12 @@
 .button-new{
     width: 140px;
     height: 41px;
-    background: #2BF400;
-    border-radius: 20px;
-    border: none;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 24px;
+    background: #2BF400 !important;
+    border-radius: 20px !important;
+    border: none !important;
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 24px !important;
     color: #FFFFFF;
     margin-left: 24px;
     transition: 0.3s;

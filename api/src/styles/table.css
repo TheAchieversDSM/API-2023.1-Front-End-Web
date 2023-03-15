@@ -1,16 +1,16 @@
 .box-list{
     position: absolute;
-    width: 1007px;
+    width: 65%;
     height: 480px;
     left: 25%;
     top: 32%;
     background: #FFFFFF;
     box-shadow: 10px 10px 24px rgba(151, 149, 195, 0.5);
     border-radius: 10px;
+    display: flex;
 }
 
 .table{
-    width: 100%;
     margin: 20px;
     margin:  0 0 0 0 auto !important;
 }
@@ -19,7 +19,7 @@
     width: 36px;
     height: 36px;
     border-radius: 5px;
-    border: none;
+    border: none !important;
     margin: 10px;
 }
 
@@ -28,29 +28,29 @@ th{
 }
 
 .bt-view{
-    background: #01C3FF;
+    background: #01C3FF !important;
     transition: 0.3s;
 }
 .bt-view:hover{
-    background: #0280ff;
+    background: #0280ff !important;
     transition: 0.3s;
 }
 
 .bt-edit{
-    background: #F9D80D;
+    background: #F9D80D !important;
     transition: 0.3s;
 }
 .bt-edit:hover{
-    background: #fdb101;
+    background: #fdb101 !important;
     transition: 0.3s;
 }
 
 .bt-delete{
-    background: #FE7235;
+    background: #FE7235 !important;
     transition: 0.3s;
 }
 .bt-delete:hover{
-    background: #ff4d00;
+    background: #ff4d00 !important;
     transition: 0.3s;
 }
 
