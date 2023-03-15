@@ -1,0 +1,19 @@
+:root {
+    /* colors ✨ */
+    --background: #EDF0F9;
+    --light-purple: #9894EA;
+    --purple: #5751D3;
+    --green: #2BF400;
+    --white: #FFFFFF;
+    --black: #181818;
+}
+
+
+.main-body {
+    margin-top: 25px;
+    margin-left: 300px;
+}
+
+.main-body h1 {
+    color: var(--light-purple)
+}
