@@ -5,6 +5,7 @@ import Input from '../components/input';
 import SelectMulti from '../components/select';
 import Sidebar from '../components/sidebar';
 import TextareaInput from '../components/textarea';
+import Button from '../components/button'
 
 import '../styles/criar-alertas.css'
 
@@ -46,6 +47,7 @@ export default function Alertas() {
                     height="100px"
                 />
 
+                <Button label="Criar!!!!!!!!!!!1"/>
             </div>
         </>
     )
