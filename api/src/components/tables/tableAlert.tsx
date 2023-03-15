@@ -5,7 +5,7 @@ import BG from '../buttonsGroup';
 export default function TableAlert() {
   return (
     <div className="box-list">
-        <Table className="table" striped bordered hover size="sm" >
+        <Table className="table" size="sm" >
             <thead>
                 <tr>
                     <th>ID</th>
