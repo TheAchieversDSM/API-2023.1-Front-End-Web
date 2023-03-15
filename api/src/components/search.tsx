@@ -6,7 +6,7 @@ export default function Search(){
     return(
         <div className="box-search">
             <input className="input-search"></input>
-            <Button variant="primary" className="button-new">+ Novo</Button>
+            <Button variant="primary" className="button-new" size="lg"><p>+ Novo</p></Button>
         </div>
     )
 }

@@ -16,9 +16,8 @@ h1{
     left: 25%;
     top: 47px;
 
-    font-family: 'Montserrat', sans-serif;
-    font-style: normal;
-    font-weight: 700;
+    font-style: normal !important;
+    font-weight: 600 !important;
     font-size: 32px;
     line-height: 39px;
     color: #3E3579;
