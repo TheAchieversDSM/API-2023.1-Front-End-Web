@@ -8,6 +8,7 @@ import TextareaInput from '../components/textarea';
 import Button from '../components/button'
 
 import '../styles/criar-alertas.css'
+import { Col, Row } from 'react-bootstrap';
 
 export default function Alertas() {
     return (
@@ -17,37 +18,55 @@ export default function Alertas() {
             <div className="main-body">
                 <h1>Cadastro de Alertas</h1>
                 
-                <Input
-                    label="Estação (ID/Nome)"
-                    size="mb-6"
-                    type="text"
-                    placeholder="Insira o ID/nome da estação."
-                />
+                <div className="box-create">
+                    <Row className="create-alert-content">
+                        <Col md={6}>
+                            <Input
+                                label="Estação (ID/Nome)"
+                                size="mb-6"
+                                type="text"
+                                placeholder="Insira o ID/nome da estação."
+                            />
+                        </Col>
 
-                <Input
-                    label="Valor"
-                    size="mb-6"
-                    type="number"
-                    placeholder="Insira o valor para acionar o alerta."
-                />
+                        <Col md={5}>
+                            <Input
+                                label="Valor"
+                                size="mb-6"
+                                type="number"
+                                placeholder="Insira o valor para acionar o alerta."
+                            />
+                        </Col>
+                    </Row>
+                    
+                    <Row className="create-alert-content">
+                        <Col md={11}>
+                            <SelectMulti
+                                label="Parâmetro"
+                                size="mb-3"
+                                name="Parametro"
+                                placeholder="Selecione o parâmetro correspondente."
+                                options={[]}
+                                onChange={null}
+                                close={true}
+                            />
+                        </Col>
+                    </Row>
 
-                <SelectMulti
-                    label="Parâmetro"
-                    size="mb-3"
-                    name="Parametro"
-                    placeholder="Selecione o parâmetro correspondente."
-                    options={[]}
-                    onChange={null}
-                    close={true}
-                />
+                    <Row className="create-alert-content">
+                        <Col md={11}>
+                            <TextareaInput
+                                label="Mensagem"
+                                placeholder="Insira a mensagem que deve aparecer ao alerta ser acionado."
+                                height="100px"
+                            />
+                        </Col>
+                    </Row>
 
-                <TextareaInput
-                    label="Mensagem"
-                    placeholder="Insira a mensagem que deve aparecer ao alerta ser acionado."
-                    height="100px"
-                />
-
-                <Button label="Criar!!!!!!!!!!!1"/>
+                    <div className="create-alert-button">
+                        <Button label="Criar!"/>
+                    </div>
+                </div>
             </div>
         </>
     )
