@@ -2,7 +2,6 @@ import { Route, BrowserRouter, Routes as Switch } from "react-router-dom";
 
 // pages ✨
 import Alertas from "../pages/criar-alertas";
-import Alertas from "../pages/alertas";
 import Dashboard from "../pages/dashboard";
 
 const Routes = () => {
