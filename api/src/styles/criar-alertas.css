@@ -1,6 +1,7 @@
 :root {
     /* colors ✨ */
     --background: #EDF0F9;
+    --lighter-purple: #EDF0F9;
     --dark-purple: #3E3579;
     --light-purple: #9894EA;
     --purple: #5751D3;
@@ -10,17 +11,14 @@
     --black: #181818;
 
     /* transition ✨ */
-    --trans: transition: 0.3;
-}
-
-
-.main-body {
-    margin-top: 25px;
-    margin-left: 300px;
+    --trans: all 0.3s ease;
 }
 
 .main-body h1 {
     color: var(--dark-purple);
+    position: absolute;
+    top: 25px !important;
+    left: 25% !important;
 }
 
 button {
@@ -34,4 +32,44 @@ button:hover {
     background-color: var(--dark-green) !important;
     border: 1px solid var(--dark-green) !important;
     transition: var(--trans);
+}
+
+.box-create {
+    position: absolute;
+    width: 65%;
+    height: 440px;
+    left: 25%;
+    top: 100px;
+    background: #FFFFFF;
+    box-shadow: 10px 10px 24px rgba(151, 149, 195, 0.5);
+    border-radius: 10px;
+}
+
+.create-alert-content {
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.create-alert-button {
+    display: flex;
+    justify-content: center; 
+    margin-top: 25px;
+}
+
+.create-alert-button button {
+    width: 120px;
+}
+
+.box-create label {
+    color: var(--dark-purple);
+}
+
+.box-create input,
+.box-create textarea,
+.box-create .css-13cymwt-control,
+.box-create input:focus,
+.box-create textarea:focus,
+.box-create .css-13cymwt-control:focus {
+    background-color: var(--lighter-purple);
+    border: 1px solid var(--light-purple);
 }
