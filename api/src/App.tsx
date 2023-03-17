@@ -1,10 +1,16 @@
 import React from 'react';
 
-function App() {
-  return (
-    <div>
-    </div>
-  );
-}
+// styles ✨
+import './styles/global.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default App;
+// components ✨
+import Routes from './routes/routes';
+
+export default function App() {
+    return (
+        <>
+            <Routes />
+        </>
+    );
+}
