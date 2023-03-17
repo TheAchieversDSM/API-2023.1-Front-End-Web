@@ -1,6 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import "../../styles/table.css"
-import BG from '../buttonsGroup';
+import Button from 'react-bootstrap/Button';
+import { BsTrash3, BsEye, BsPencil } from 'react-icons/bs'
 
 export default function TableEst() {
   return (
@@ -21,7 +22,11 @@ export default function TableEst() {
                     <td>Station</td>
                     <td>-28.1845</td>
                     <td>32.9533</td>
-                    <td><BG/></td>
+                    <td>
+                        <Button className="bt bt-view"><BsEye className="icon"/></Button>
+                        <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
+                        <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
+                    </td>
                 </tr>
             </tbody>
         </Table>
