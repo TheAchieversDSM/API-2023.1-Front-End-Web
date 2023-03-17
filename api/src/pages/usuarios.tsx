@@ -1,16 +1,16 @@
 import React from 'react';
 import Sidebar from '../components/sidebar';
 import Search from '../components/search';
-import TableAlert from '../components/tables/tableAlert';
+import TableUsu from '../components/tables/tableUsu';
 
 
-export default function Alerts() {
+export default function Usuarios() {
     return (
         <>
             <Sidebar />
-            <h1>Alertas</h1>
+            <h1>Usuários</h1>
             <Search/>
-            <TableAlert/>
+            <TableUsu />    
         </>
     )
 }
