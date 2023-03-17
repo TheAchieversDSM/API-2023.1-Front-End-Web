@@ -17,7 +17,7 @@ export default function Estacoes() {
             <div className="main-body">
                 <h1>Cadastro de Estações</h1>
                 
-                <div className="box-create">
+                <div className="box-create-station">
                     <Row className="create-station-content">
                         <Col md={11}>
                             <Input

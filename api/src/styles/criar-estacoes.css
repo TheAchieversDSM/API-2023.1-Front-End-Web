@@ -34,7 +34,7 @@ button:hover {
     transition: var(--trans);
 }
 
-.box-create {
+.box-create-station {
     position: absolute;
     width: 65%;
     height: 540px;
@@ -60,16 +60,16 @@ button:hover {
     width: 120px;
 }
 
-.box-create label {
+.box-create-station label {
     color: var(--dark-purple);
 }
 
-.box-create input,
-.box-create textarea,
-.box-create .css-13cymwt-control,
-.box-create input:focus,
-.box-create textarea:focus,
-.box-create .css-13cymwt-control:focus {
+.box-create-station input,
+.box-create-station textarea,
+.box-create-station .css-13cymwt-control,
+.box-create-station input:focus,
+.box-create-station textarea:focus,
+.box-create-station .css-13cymwt-control:focus {
     background-color: var(--lighter-purple);
     border: 1px solid var(--light-purple);
 }
