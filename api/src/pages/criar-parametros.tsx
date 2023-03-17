@@ -7,7 +7,7 @@ import Sidebar from '../components/sidebar';
 import TextareaInput from '../components/textarea';
 import Button from '../components/button'
 
-import '../styles/criar-alertas.css'
+import '../styles/criar-parametros.css'
 import { Col, Row } from 'react-bootstrap';
 
 export default function Parametros() {
@@ -18,8 +18,8 @@ export default function Parametros() {
             <div className="main-body">
                 <h1>Cadastro de Parâmetros</h1>
 
-                <div className="box-create">
-                    <Row className="create-alert-content">
+                <div className="box-create-parameters">
+                    <Row className="create-parameters-content">
                         <Col md={5}>
                             <Input
                                 label="Nome"
@@ -42,7 +42,7 @@ export default function Parametros() {
                         </Col>
                     </Row>
 
-                    <Row className="create-alert-content">
+                    <Row className="create-parameters-content">
                         <Col md={11}>
                             <TextareaInput
                                 label="Fórmula/Explicação"
@@ -52,7 +52,7 @@ export default function Parametros() {
                         </Col>
                     </Row>
 
-                    <Row className="create-alert-content">
+                    <Row className="create-parameters-content">
                         <Col md={7}>
                             <SelectMulti
                                 label="Tipo de Parâmetro"
@@ -75,7 +75,7 @@ export default function Parametros() {
                         </Col>
                     </Row>
 
-                    <Row className="create-alert-content">
+                    <Row className="create-parameters-content">
                         <Col md={5}>
                             <Input
                                 label="Fator"
