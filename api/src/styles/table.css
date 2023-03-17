@@ -7,11 +7,10 @@
     background: #FFFFFF;
     box-shadow: 10px 10px 24px rgba(151, 149, 195, 0.5);
     border-radius: 10px;
-    display: flex;
+    padding: 20px;
 }
 
 .table{
-    margin: 20px;
     margin:  0 0 0 0 auto !important;
 }
 
@@ -20,7 +19,7 @@ tbody > tr:hover{
 }
 
 .bt{
-    width: 36px;
+    width: 44px;
     height: 36px;
     border-radius: 5px;
     border: none !important;
@@ -29,6 +28,10 @@ tbody > tr:hover{
 
 th{
     color: #3E3579
+}
+
+tr{
+    vertical-align: middle;
 }
 
 .bt-view{
@@ -58,8 +61,17 @@ th{
     transition: 0.3s;
 }
 
-.icon{
-    height: 100%;
-    min-width: 20px;
-    color: #282348;
+.bt-record{
+    background: #b502e6 !important;
+    transition: 0.3s;
+}
+.bt-record:hover{
+    background: #9a00c5 !important;
+    transition: 0.3s;
+}
+
+.bt >.icon{
+    width: 20px !important;
+    height: 20px !important;
+    color: #333333;
 }
