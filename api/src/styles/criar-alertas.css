@@ -37,7 +37,7 @@ button:hover {
 .box-create {
     position: absolute;
     width: 65%;
-    height: 440px;
+    height: 440px !important;
     left: 25%;
     top: 100px;
     background: #FFFFFF;
