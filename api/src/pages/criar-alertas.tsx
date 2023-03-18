@@ -10,7 +10,7 @@ import Button from '../components/button'
 import '../styles/criar-alertas.css'
 import { Col, Row } from 'react-bootstrap';
 
-export default function Alertas() {
+export default function CriarAlertas() {
     return (
         <>
             <Sidebar />

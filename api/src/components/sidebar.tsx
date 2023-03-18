@@ -63,13 +63,6 @@ export default function Sidebar() {
                                     <span className="text nav-text">Parâmetros</span>
                                 </Link>
                             </li>
-
-                            <li className="nav-link">
-                                <Link to="/dashboards">
-                                    <BsBarChart className="icon" />
-                                    <span className="text nav-text">Dashboards</span>
-                                </Link>
-                            </li>
                         </ul>
                     </div>
 

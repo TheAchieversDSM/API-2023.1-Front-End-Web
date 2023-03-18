@@ -9,7 +9,7 @@ import Button from '../components/button'
 import '../styles/criar-estacoes.css'
 import { Col, Row } from 'react-bootstrap';
 
-export default function Estacoes() {
+export default function CriarEstacoes() {
     return (
         <>
             <Sidebar />

@@ -10,7 +10,7 @@ import Button from '../components/button'
 import '../styles/criar-parametros.css'
 import { Col, Row } from 'react-bootstrap';
 
-export default function Parametros() {
+export default function CriarParametros() {
     return (
         <>
             <Sidebar />

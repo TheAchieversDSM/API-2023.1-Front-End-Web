@@ -9,7 +9,7 @@ import Button from '../components/button'
 import '../styles/criar-usuarios.css'
 import { Col, Row } from 'react-bootstrap';
 
-export default function Usuarios() {
+export default function CriarUsuarios() {
     return (
         <>
             <Sidebar />

@@ -1,5 +1,4 @@
 import React from 'react';
-
 // styles ✨
 import './styles/global.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
