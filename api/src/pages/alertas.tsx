@@ -4,7 +4,7 @@ import Search from '../components/search';
 import TableAlert from '../components/tables/tableAlert';
 
 
-export default function Alerts() {
+export default function Alertas() {
     return (
         <>
             <Sidebar />

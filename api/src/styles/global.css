@@ -26,9 +26,11 @@ h1{
 :root {
     /* colors ✨ */
     --background: #EDF0F9;
+    --lighter-purple: #EDF0F9;
     --light-purple: #9894EA;
     --purple: #5751D3;
     --green: #2BF400;
+    --dark-green: #00c961;
     --white: #FFFFFF;
     --black: #181818;
 
