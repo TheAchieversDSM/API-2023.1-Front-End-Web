@@ -9,7 +9,7 @@ export default function Usuarios() {
         <>
             <Sidebar />
             <h1>Usuários</h1>
-            <Search/>
+            <Search link="../criar-usuarios"/>
             <TableUsu />    
         </>
     )

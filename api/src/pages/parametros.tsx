@@ -9,7 +9,7 @@ export default function Parametros() {
         <>
             <Sidebar />
             <h1>Parâmetros</h1>
-            <Search/>
+            <Search link="/criar-parametros"/>
             <TablePar/>
         </>
     )

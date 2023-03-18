@@ -11,7 +11,9 @@ import Chart from '../components/chart';
 export default function Dashboard() {
     const options = {
         chart: {
-            type: 'spline'
+            type: 'spline',
+            width: 1025,
+            height: 450
         },
         title: {
             text: 'Temperaturas diárias'
@@ -41,14 +43,14 @@ export default function Dashboard() {
             <Sidebar />
             <div className='main-body'>
                 <h1>Estação Fatec-SJC</h1>
-                <div className='buttons'>
+                <div className='buttons_dashboard'>
                     <ButtonMain label="Todos" />
                     <ButtonMain label="Param-A" />
                     <ButtonMain label="Param-B" />
                 </div>
-                <Container className='boxes'>
-                    <Chart options={options} />
-                </Container>
+                <div className='container_dashboard'>
+                    <Chart className='container_dashboard' options={options} />
+                </div>
             </div>
 
         </>

@@ -9,7 +9,7 @@ export default function Estacao() {
         <>
             <Sidebar />
             <h1>Estações</h1>
-            <Search/>
+            <Search link="../criar-estacoes"/>
             <TableEst/>
         </>
     )
