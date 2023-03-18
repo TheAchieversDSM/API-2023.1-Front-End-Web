@@ -8,7 +8,7 @@ export default function HOME() {
     return (
         <>
             <Sidebar/>
-                <h1 className="titulo">Bem-vindo à Tecsus!</h1>
+            <h1 className="tituloHome">Bem-vindo à Tecsus!</h1>
             <div className="row pack">
                 
                 <div className="box col-3">
