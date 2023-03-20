@@ -25,6 +25,7 @@ export default function CriarUsuarios() {
                                 size="mb-6"
                                 type="text"
                                 placeholder="Insira o nome do usuário."
+                                onChange={""}
                             />
                         </Col>
 
@@ -34,6 +35,7 @@ export default function CriarUsuarios() {
                                 size="mb-6"
                                 type="email"
                                 placeholder="Insira o e-mail do usuário."
+                                onChange={""}
                             />
                         </Col>
                     </Row>
@@ -59,12 +61,13 @@ export default function CriarUsuarios() {
                                 size="mb-6"
                                 type="password"
                                 placeholder="Insira a primeira senha de acesso do usuário."
+                                onChange={""}
                             />
                         </Col>
                     </Row>
 
                     <div className="create-alert-button">
-                        <Button label="Criar!"/>
+                        <Button type="submit" label="Criar!" onClick={""} />
                     </div>
                 </div>
             </div>
