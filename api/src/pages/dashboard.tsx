@@ -7,13 +7,15 @@ import ButtonMain from '../components/button';
 
 import '../styles/dashboard.css'
 import Chart from '../components/chart';
+import Navigation from '../components/nav/nav';
+import NavItem from '../components/nav/navItem';
 
 export default function Dashboard() {
     const options = {
         chart: {
             type: 'spline',
-            width: 1025,
-            height: 450
+            width: 1200,
+            height: 500
         },
         title: {
             text: 'Temperaturas diárias'
@@ -44,9 +46,11 @@ export default function Dashboard() {
             <div className='main-body'>
                 <h1>Estação Fatec-SJC</h1>
                 <div className='buttons_dashboard'>
-                    <ButtonMain label="Todos" />
-                    <ButtonMain label="Param-A" />
-                    <ButtonMain label="Param-B" />
+                    <Navigation variant="pills" default="1">
+                        <NavItem index={1} label="Todos"/>
+                        <NavItem index={2} label="teste2"/>
+                        <NavItem index={3} label="teste3"/>
+                    </Navigation>
                 </div>
                 <div className='container_dashboard'>
                     <Chart className='container_dashboard' options={options} />

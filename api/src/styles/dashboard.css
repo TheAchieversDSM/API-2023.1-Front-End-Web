@@ -1,9 +1,15 @@
-.buttons_dashboard > button{
+.buttons_dashboard > div{
     position: relative;
     margin-right: 12px;
     margin-top: 6%;
     left: 25%;
 }
+
+.buttons_dashboard > div.nav.nav-pills > div.nav-item > a.nav-link.active{
+    background-color:#9894EA !important;
+    color: #ffff;
+}
+
 
 .container_dashboard{
     position: absolute;
