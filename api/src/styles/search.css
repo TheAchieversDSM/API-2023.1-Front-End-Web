@@ -41,6 +41,6 @@
 }
 
 .button-new:hover{
-    background: #00c961 !important;
+    background: #00c961 ;
     transition: 0.3s;
 }
