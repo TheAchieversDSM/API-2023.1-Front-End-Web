@@ -20,24 +20,12 @@ export default function CriarParametros() {
 
                 <div className="box-create-parameters">
                     <Row className="create-parameters-content">
-                        <Col md={5}>
+                        <Col md={11}>
                             <Input
                                 label="Nome"
                                 size="mb-6"
                                 type="text"
                                 placeholder="Insira o nome do parâmetro."
-                            />
-                        </Col>
-
-                        <Col md={6}>
-                            <SelectMulti
-                                label="Estação"
-                                size="mb-3"
-                                name="estacao"
-                                placeholder="Selecione o estação correspondente."
-                                options={[]}
-                                onChange={null}
-                                close={true}
                             />
                         </Col>
                     </Row>
