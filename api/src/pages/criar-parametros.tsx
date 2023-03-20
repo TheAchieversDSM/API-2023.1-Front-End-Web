@@ -26,6 +26,7 @@ export default function CriarParametros() {
                                 size="mb-6"
                                 type="text"
                                 placeholder="Insira o nome do parâmetro."
+                                onChange={""}
                             />
                         </Col>
                     </Row>
@@ -36,6 +37,7 @@ export default function CriarParametros() {
                                 label="Fórmula/Explicação"
                                 placeholder="Insira a fórmula e, se necessário, explicação para chegar no valor ideal."
                                 height="100px"
+                                onChange={""}
                             />
                         </Col>
                     </Row>
@@ -59,6 +61,7 @@ export default function CriarParametros() {
                                 size="mb-6"
                                 type="text"
                                 placeholder="Insira a unidade de medida."
+                                onChange={""}
                             />
                         </Col>
                     </Row>
@@ -70,6 +73,7 @@ export default function CriarParametros() {
                                 size="mb-6"
                                 type="number"
                                 placeholder="Insira o fator do parâmetro."
+                                onChange={""}
                             />
                         </Col>
 
@@ -79,12 +83,13 @@ export default function CriarParametros() {
                                 size="mb-6"
                                 type="number"
                                 placeholder="Insira o offset do parâmetro."
+                                onChange={""}
                             />
                         </Col>
                     </Row>
 
                     <div className="create-alert-button">
-                        <Button label="Criar!" />
+                        <Button type="submit" label="Criar!" onClick={""} />
                     </div>
                 </div>
             </div>
