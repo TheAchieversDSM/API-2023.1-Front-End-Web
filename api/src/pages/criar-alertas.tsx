@@ -16,7 +16,7 @@ export default function CriarAlertas() {
             <Sidebar />
 
             <div className="main-body">
-                <h1>Cadastro de Alertas</h1>
+                <h1 className="TitImp">Cadastro de Alertas</h1>
                 
                 <div className="box-create">
                     <Row className="create-alert-content">
@@ -64,7 +64,7 @@ export default function CriarAlertas() {
                     </Row>
 
                     <div className="create-alert-button">
-                        <Button label="Criar!"/>
+                        <Button label="Criar!" />
                     </div>
                 </div>
             </div>
