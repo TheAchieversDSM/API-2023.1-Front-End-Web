@@ -26,6 +26,7 @@ export default function CriarAlertas() {
                                 size="mb-6"
                                 type="text"
                                 placeholder="Insira o ID/nome da estação."
+                                onChange={""}
                             />
                         </Col>
 
@@ -35,6 +36,7 @@ export default function CriarAlertas() {
                                 size="mb-6"
                                 type="number"
                                 placeholder="Insira o valor para acionar o alerta."
+                                onChange={""}
                             />
                         </Col>
                     </Row>
@@ -59,12 +61,13 @@ export default function CriarAlertas() {
                                 label="Mensagem"
                                 placeholder="Insira a mensagem que deve aparecer ao alerta ser acionado."
                                 height="100px"
+                                onChange={""}
                             />
                         </Col>
                     </Row>
 
                     <div className="create-alert-button">
-                        <Button label="Criar!"/>
+                        <Button type="submit" label="Criar!" onClick={""}/>
                     </div>
                 </div>
             </div>

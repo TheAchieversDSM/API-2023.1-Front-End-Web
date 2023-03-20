@@ -16,6 +16,7 @@ export default function SelectMulti(props: any) {
                 isClearable={true}
                 isSearchable={true}
                 closeMenuOnSelect={props.close}
+                onInputChange={props.onChange}
             />
         </Form.Group>
     )

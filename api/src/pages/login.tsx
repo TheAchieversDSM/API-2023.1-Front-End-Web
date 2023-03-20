@@ -21,6 +21,7 @@ export default function Login() {
                                 size="mb-6"
                                 type="email"
                                 placeholder="Insira seu e-mail."
+                                onChange={""}
                             />
 
                             <Input
@@ -28,10 +29,11 @@ export default function Login() {
                                 size="mb-6"
                                 type="passoword"
                                 placeholder="Insira sua senha."
+                                onChange={""}
                             />
 
                             <div className="login-button">
-                                <Button label="Log In"/>
+                                <Button type="submit" label="Log In" onClick={''} />
                             </div>
                         </Col>
                     </Row>
