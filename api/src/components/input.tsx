@@ -7,7 +7,7 @@ export default function Input(props: any) {
         <Form.Group className={props.size}>
             <Form.Label>{props.label}</Form.Label>
 
-            <Form.Control type={props.type} placeholder={props.placeholder} onChange={props.onChange}/>
+            <Form.Control name={props.name} type={props.type} placeholder={props.placeholder} onChange={props.onChange}/>
         </Form.Group>
     )
 }
