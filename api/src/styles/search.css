@@ -14,12 +14,20 @@
 }
 
 .input-search{
-    width: 70%;
     height: 41px;
     background: #EDF0F9;
     border: 2px solid #A7A4DB;
     border-radius: 20px;
     padding-left: 25px;
+}
+
+.lupa{
+    border-radius: 0px 20px 20px 0px;
+    background-color: #A7A4DB !important;
+}
+
+.mb-1{
+    width: 70% !important;
 }
 
 .button-new{
