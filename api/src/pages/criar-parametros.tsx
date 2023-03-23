@@ -36,7 +36,6 @@ export default function CriarParametros() {
                 [name]: value,
             };
         });
-        console.log(parametros);
     };
 
     // select's handleChange ✨
@@ -56,6 +55,7 @@ export default function CriarParametros() {
         
         axios.post(`http://localhost:5000/parametro/cadastro`, {
             tipo_parametro: parametros.tipoParametro,
+            //colocar o campo de fórmula aqui
             nome_parametro: parametros.nome,
             unidadeDeMedida_parametro: parametros.unidade,
             offset_parametro: parametros.offset,
