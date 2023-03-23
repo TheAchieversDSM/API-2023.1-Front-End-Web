@@ -1,4 +1,4 @@
-import { Data } from "../types/data";
+import { Data } from "../../types/types";
 
 export default class Metric{
     name: string;

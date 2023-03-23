@@ -1,16 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import {useParams} from "react-router-dom";
 import Sidebar from '../components/sidebar';
-
+import React, { useEffect, useState } from 'react';
 
 import '../styles/dashboard.css'
 import Chart from '../components/chart';
+import { EstacaoParametro } from '../utils/types/types';
 import Navigation from '../components/nav/nav';
 import NavItem from '../components/nav/navItem';
+import { log } from 'console';
 
 export default function Dashboard() {
-    const [metrics, setMetrics] = useState()
+    const {estacaoId} = useParams()
+     
+
+    const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>([{id: 0, nome: "", unidadeDeMedida: "string"}]);
+    const [medidas, setMedidas] = useState()
     const [options, setOptions] = useState()
 
+    useEffect(()=>{
+        function render(){
+            axios.get(`http://localhost:5000/estacao/pegarEstacoesPorId/${estacaoId}`).then(res =>{
+                setEstacaoParametros(res.data)
+            })
+        }
+        if(estacaoParametros){
+            setEstacaoParametros( [
+                {
+                id: 1,
+                nome: 'Estação 1',
+                unidadeDeMedida: 'Celsius'
+                },
+            ])
+        }
+        render()
+    },[])
+
+    console.log(typeof estacaoParametros)
     const optionss = {
         chart: {
             type: 'spline',
@@ -97,8 +123,9 @@ export default function Dashboard() {
                 <div className='buttons_dashboard'>
                     <Navigation variant="pills" default="1">
                         <NavItem index={1} label="Todos" />
-                        <NavItem index={2} label="teste2" />
-                        <NavItem index={3} label="teste3" />
+                        {estacaoParametros?.map((parametro,index)=>{
+                            <NavItem index={index+2} label={parametro.nome} />
+                        })}
                     </Navigation>
                 </div>
                 <div className='container_dashboard'>
