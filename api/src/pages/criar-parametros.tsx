@@ -19,7 +19,7 @@ export default function CriarParametros() {
 
     const [parametros, setParametros] = useState({
         nome: '',
-        //formula: '',
+        formula: '',
         tipoParametro: tipoParametro,
         unidade: '',
         fator: '',
@@ -40,9 +40,7 @@ export default function CriarParametros() {
     };
 
     // select's handleChange ✨
-    const handleChangeSelect = (event: any) => {
-        console.log(event);
-        
+    const handleChangeSelect = (event: any) => {       
         if (event.length != 0 && event) {
             setParametros((prevState) => {
                 return {
@@ -53,7 +51,9 @@ export default function CriarParametros() {
         }  
     };
 
-    const handleSubmit = (event: any) => {                 
+    const handleSubmit = (event: any) => { 
+        event.preventDefault();
+        
         axios.post(`http://localhost:5000/parametro/cadastro`, {
             tipo_parametro: parametros.tipoParametro,
             nome_parametro: parametros.nome,
@@ -66,18 +66,14 @@ export default function CriarParametros() {
 
         alert('Parâmetro cadastrado!');
 
-        event.preventDefault();
-
-        let valores = {
+        setParametros({
             nome: "",
             formula: "",
             tipoParametro: tipoParametro,
             unidade: "",
             fator: "",
             offset: ""
-        }
-
-        setParametros(valores);
+        });        
     };
 
     return (
