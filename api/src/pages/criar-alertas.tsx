@@ -5,7 +5,6 @@ import axios from 'axios';
 import Input from '../components/input';
 import SelectMulti from '../components/select';
 import Sidebar from '../components/sidebar';
-import TextareaInput from '../components/textarea';
 import Button from '../components/button'
 
 import '../styles/criar-alertas.css'
@@ -21,9 +20,9 @@ export default function CriarAlertas() {
         nome: '',
         valorMin: '',
         valorMax: '',
-        estacao: '',
+        estacao: parametro,
         parametro: parametro,
-        nivel: '',
+        nivel: parametro,
     })
 
     // inputs' handleChange ✨
@@ -50,17 +49,19 @@ export default function CriarAlertas() {
                 };
             });               
         }  
+        console.log(alerta);
     };
 
     const handleSubmit = (event: any) => { 
         event.preventDefault();
         
-        axios.post(`http://localhost:5000/parametro/cadastro`, {
-            tipo_parametro: alerta.parametro,
-            //colocar o campo de fórmula aqui
-            nome_parametro: alerta.nome,
-            unidadeDeMedida_parametro: alerta.valorMin,
-            jfjdsfj: alerta.valorMax,
+        axios.post(`http://localhost:5000/alerta/cadastro`, {
+            id_estacao: alerta.estacao,
+            id_parametro: alerta.parametro,
+            nome: alerta.nome,
+            valorMinimo: alerta.valorMin,
+            valorMax: alerta.valorMax,
+            nivel: alerta.nivel
         }).then((res) => {
 
         })
@@ -71,9 +72,9 @@ export default function CriarAlertas() {
             nome: "",
             valorMin: "",
             valorMax: "",
-            estacao: "",
+            estacao: parametro,
             parametro: parametro,
-            nivel: ""
+            nivel: parametro
         });        
     };
 
