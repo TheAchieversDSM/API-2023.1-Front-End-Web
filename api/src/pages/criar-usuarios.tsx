@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 // components ✨
 import Input from '../components/input';
@@ -9,7 +10,65 @@ import Button from '../components/button'
 import '../styles/criar-usuarios.css'
 import { Col, Row } from 'react-bootstrap';
 
+const options = [ {value: '1', label: 'teste'} ]
+
 export default function CriarUsuarios() {
+
+    const tipoUsuario = { value: '', label: '' }
+
+    const [usuario, setUsuario] = useState({
+        nome: '',
+        email: '',
+        tipoUsuario: tipoUsuario,
+        senha: '',
+    })
+
+    // inputs' handleChange ✨
+    const handleChange = (event: any) => {
+        const { name, value } = event.target;
+
+        setUsuario((prevState: any) => {
+            return {
+                ...prevState,
+                [name]: value,
+            };
+        });
+        console.log(usuario);
+    };
+
+    // select's handleChange ✨
+    const handleChangeSelect = (event: any) => {       
+        if (event.length != 0 && event) {
+            setUsuario((prevState) => {
+                return {
+                    ...prevState,
+                    tipoUsuario: event[0].value,
+                };
+            });               
+        }  
+    };
+
+    const handleSubmit = (event: any) => { 
+        
+        axios.post(`http://localhost:5000/user/cadastro`, {
+            // colocar o campo de tipo aqui
+            nome: usuario.nome,
+            email: usuario.email,
+            senha: usuario.senha
+        }).then((res) => {
+
+        })
+
+        alert('Parâmetro cadastrado!');
+
+        setUsuario({
+            nome: "",
+            email: "",
+            tipoUsuario: tipoUsuario,
+            senha: ""
+        });        
+    };
+
     return (
         <>
             <Sidebar />
@@ -22,20 +81,22 @@ export default function CriarUsuarios() {
                         <Col md={6}>
                             <Input
                                 label="Nome"
+                                name="nome"
                                 size="mb-6"
                                 type="text"
                                 placeholder="Insira o nome do usuário."
-                                onChange={""}
+                                onChange={handleChange}
                             />
                         </Col>
 
                         <Col md={5}>
                             <Input
                                 label="E-mail"
+                                name="email"
                                 size="mb-6"
                                 type="email"
                                 placeholder="Insira o e-mail do usuário."
-                                onChange={""}
+                                onChange={handleChange}
                             />
                         </Col>
                     </Row>
@@ -45,10 +106,10 @@ export default function CriarUsuarios() {
                             <SelectMulti
                                 label="Nível de Acesso"
                                 size="mb-3"
-                                name="nivel-user"
+                                name="tipoUsuario"
                                 placeholder="Selecione o nível de acesso do usuário."
-                                options={[]}
-                                onChange={null}
+                                options={options}
+                                onChange={handleChangeSelect}
                                 close={true}
                             />
                         </Col>
@@ -58,16 +119,17 @@ export default function CriarUsuarios() {
                         <Col md={11}>
                             <Input
                                 label="Senha"
+                                name="senha"
                                 size="mb-6"
                                 type="password"
                                 placeholder="Insira a primeira senha de acesso do usuário."
-                                onChange={""}
+                                onChange={handleChange}
                             />
                         </Col>
                     </Row>
 
                     <div className="create-alert-button">
-                        <Button type="submit" label="Criar!" onClick={""} />
+                        <Button type="submit" label="Criar!" onClick={handleSubmit} />
                     </div>
                 </div>
             </div>
