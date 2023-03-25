@@ -11,10 +11,10 @@ body{
     background-color: #EDF0F9 !important;
 }
 
-h1{
+.TitImp{
     position: absolute;
     left: 25% ;
-    top: 47px ;
+    top: 47px !important;
 
     font-style: normal !important;
     font-weight: 600 !important;

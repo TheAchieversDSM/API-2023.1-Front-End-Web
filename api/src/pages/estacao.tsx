@@ -8,7 +8,7 @@ export default function Estacao() {
     return (
         <>
             <Sidebar />
-            <h1>Estações</h1>
+            <h1 className="TitImp">Estações</h1>
             <Search link="../criar-estacoes"/>
             <TableEst/>
         </>
