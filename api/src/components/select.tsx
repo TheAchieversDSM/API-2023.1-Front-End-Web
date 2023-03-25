@@ -9,6 +9,7 @@ export default function SelectMulti(props: any) {
             
             <Select
                 isMulti
+                value={props.value}
                 name={props.name}
                 placeholder={props.placeholder}
                 options={props.options}
@@ -16,6 +17,7 @@ export default function SelectMulti(props: any) {
                 isClearable={true}
                 isSearchable={true}
                 closeMenuOnSelect={props.close}
+                onInputChange={props.onChange}
             />
         </Form.Group>
     )
