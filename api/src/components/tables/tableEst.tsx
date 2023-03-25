@@ -1,7 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import "../../styles/table.css"
 import Button from 'react-bootstrap/Button';
-import { BsTrash3, BsEye, BsPencil, BsGraphUp } from 'react-icons/bs'
+import { BsTrash3, BsEye, BsPencil, BsGraphUp, BsClipboard2 } from 'react-icons/bs'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import MyVerticallyCenteredModal from '../modal';
@@ -20,6 +20,7 @@ let modelo = [
 
 export default function TableEst() {
     const [estacoes, setEstacoes] = useState(modelo)
+    const [modalShow, setModalShow] = React.useState(false);
 
     useEffect(() => {
         function render(){
@@ -52,7 +53,7 @@ export default function TableEst() {
                         <td>{estacao.long}</td>
                         <td>{estacao.unixtime}</td>
                         <td>
-                            <Button className="bt bt-view"><BsEye className="icon"/></Button>
+                            <Button className="bt bt-record"><BsClipboard2  className="icon"/></Button>
                             <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)}/></Button>
                             <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
                             <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
