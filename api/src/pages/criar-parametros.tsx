@@ -16,7 +16,7 @@ export default function CriarParametros() {
             <Sidebar />
 
             <div className="main-body">
-                <h1>Cadastro de Parâmetros</h1>
+                <h1 className="TitImp">Cadastro de Parâmetros</h1>
 
                 <div className="box-create-parameters">
                     <Row className="create-parameters-content">
@@ -84,7 +84,7 @@ export default function CriarParametros() {
                     </Row>
 
                     <div className="create-alert-button">
-                        <Button label="Criar!" />
+                        <Button label="Criar!" className="btnCriar"/>
                     </div>
                 </div>
             </div>

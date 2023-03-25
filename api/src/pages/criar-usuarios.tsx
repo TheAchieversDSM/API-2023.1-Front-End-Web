@@ -15,7 +15,7 @@ export default function CriarUsuarios() {
             <Sidebar />
 
             <div className="main-body">
-                <h1>Cadastro de Usuários</h1>
+                <h1 className="TitImp">Cadastro de Usuários</h1>
                 
                 <div className="box-create-user">
                     <Row className="create-alert-content">
@@ -64,7 +64,7 @@ export default function CriarUsuarios() {
                     </Row>
 
                     <div className="create-alert-button">
-                        <Button label="Criar!"/>
+                        <Button label="Criar!" className="btnCriar"/>
                     </div>
                 </div>
             </div>
