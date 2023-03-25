@@ -8,7 +8,7 @@ export default function Usuarios() {
     return (
         <>
             <Sidebar />
-            <h1>Usuários</h1>
+            <h1 className="TitImp">Usuários</h1>
             <Search link="../criar-usuarios"/>
             <TableUsu />    
         </>

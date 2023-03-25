@@ -119,7 +119,7 @@ export default function Dashboard() {
         <>
             <Sidebar />
             <div className='main-body'>
-                <h1>Estação Fatec-SJC</h1>
+                <h1 className="TitImp">Estação Fatec-SJC</h1>
                 <div className='buttons_dashboard'>
                     <Navigation variant="pills" default="1">
                         <NavItem index={1} label="Todos" />

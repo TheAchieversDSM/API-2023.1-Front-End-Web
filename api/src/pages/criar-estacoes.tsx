@@ -15,7 +15,7 @@ export default function CriarEstacoes() {
             <Sidebar />
 
             <div className="main-body">
-                <h1>Cadastro de Estações</h1>
+                <h1 className="TitImp">Cadastro de Estações</h1>
                 
                 <div className="box-create-station">
                     <Row className="create-station-content">
@@ -25,6 +25,7 @@ export default function CriarEstacoes() {
                                 size="mb-6"
                                 type="text"
                                 placeholder="Insira o nome da estação."
+                                onChange={""}
                             />
                         </Col>
                     </Row>
@@ -36,6 +37,7 @@ export default function CriarEstacoes() {
                                 size="mb-6"
                                 type="number"
                                 placeholder="Insira a latitude da estação."
+                                onChange={""}
                             />
                         </Col>
 
@@ -45,6 +47,7 @@ export default function CriarEstacoes() {
                                 size="mb-6"
                                 type="number"
                                 placeholder="Insira longitude da estação."
+                                onChange={""}
                             />
                         </Col>
                     </Row>
@@ -56,6 +59,7 @@ export default function CriarEstacoes() {
                                 size="mb-6"
                                 type="text"
                                 placeholder="Insira o UID da estação."
+                                onChange={""}
                             />
                         </Col>
 
@@ -65,6 +69,7 @@ export default function CriarEstacoes() {
                                 size="mb-6"
                                 type="text"
                                 placeholder="Insira a UTC do local."
+                                onChange={""}
                             />
                         </Col>
                     </Row>
@@ -98,7 +103,7 @@ export default function CriarEstacoes() {
                     </Row>
 
                     <div className="create-station-button">
-                        <Button label="Criar!"/>
+                        <Button type="submit" label="Criar!" className="btnCriar" onClick={""} />
                     </div>
                 </div>
             </div>
