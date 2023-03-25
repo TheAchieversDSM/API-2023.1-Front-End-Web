@@ -3,10 +3,33 @@ import "../../styles/table.css"
 import Button from 'react-bootstrap/Button';
 import MyVerticallyCenteredModal from '../modal';
 import { BsTrash3, BsEye, BsPencil, BsClipboard2 } from 'react-icons/bs'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+let modelo = [
+    {
+        'id': '',
+        'nome':'',
+        'id_estacao': '',
+        'id_parametro': '',
+        'valorMax': '',
+        'valorMinimo': ''
+    }
+]
 
 export default function TableAlert() {
+    const [alertas, setAlertas] = useState(modelo)
     const [modalShow, setModalShow] = React.useState(false);
+
+    useEffect(() =>{
+        function render(){
+            axios.get("http://localhost:5000/alerta/pegarAlertas").then((res) =>{
+                setAlertas(res.data)
+            })
+        }
+        render()
+    },[])
+
   return (
     <div className="box-list">
         <Table className="table" size="sm" >
@@ -15,16 +38,19 @@ export default function TableAlert() {
                     <th>ID</th>
                     <th>Estação</th>
                     <th>Parâmetro</th>
-                    <th>Valor</th>
+                    <th>Valor Máximo</th>
+                    <th>Valor Minimo</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>935457</td>
-                    <td>Station</td>
-                    <td>Velocidade do vento</td>
-                    <td>30 km/h</td>
+                {alertas.map(alerta =>
+                    <tr>
+                    <td>{alerta.id}</td>
+                    <td>{alerta.id_estacao}</td>
+                    <td>{alerta.id_parametro}</td>
+                    <td>{alerta.valorMax}</td>
+                    <td>{alerta.valorMinimo}</td>
                     <td>      
                         <Button className="bt bt-record"><BsClipboard2 className="icon"/></Button>      
                         <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)}/></Button>
@@ -34,15 +60,15 @@ export default function TableAlert() {
                         <MyVerticallyCenteredModal
                             show={modalShow}
                             onHide={() => setModalShow(false)}
-                            titulo="935457"
-                            coluna1="ID: " resp1="935457"
-                            coluna2="Estação: " resp2="Station"
-                            coluna3="Parâmetro: " resp3="Velocidade do vento"
-                            coluna4="Valor: " resp4="30 km/h"
-                            coluna5="Mensagem: " resp5="Mensagem"
+                            titulo={alerta.id}
+                            coluna1="ID: " resp1={alerta.id}
+                            coluna2="Estação: " resp2={alerta.id_estacao}
+                            coluna3="Parâmetro: " resp3={alerta.id_parametro}
+                            coluna4="Valor Máximo: " resp4={alerta.valorMax}
+                            coluna5="Valor Minimo: " resp5={alerta.valorMinimo}
                         />
                     </td>
-                </tr>
+                </tr>)}
             </tbody>
         </Table>
     </div>
