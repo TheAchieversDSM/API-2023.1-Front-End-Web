@@ -42,7 +42,7 @@ export default function Dashboard() {
         <>
             <Sidebar />
             <div className='main-body'>
-                <h1>Estação Fatec-SJC</h1>
+                <h1 className="TitImp">Estação Fatec-SJC</h1>
                 <div className='buttons_dashboard'>
                     <ButtonMain label="Todos" />
                     <ButtonMain label="Param-A" />

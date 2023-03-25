@@ -70,6 +70,15 @@ tr{
     transition: 0.3s;
 }
 
+.bt-dash{
+    background: #b502e6 !important;
+    transition: 0.3s;
+}
+.bt-dash:hover{
+    background: #9a00c5 !important;
+    transition: 0.3s;
+}
+
 .bt >.icon{
     width: 20px !important;
     height: 20px !important;

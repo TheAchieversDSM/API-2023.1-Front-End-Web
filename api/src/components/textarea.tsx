@@ -9,8 +9,10 @@ export default function TextareaInput(props: any) {
             
             <Form.Control
                 as="textarea"
+                name={props.name}
                 placeholder={props.placeholder}
                 style={{ height: props.height }}
+                onChange={props.onChange}
             />
         </Form.Group>
     )
