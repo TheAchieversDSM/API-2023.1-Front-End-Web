@@ -11,17 +11,18 @@ import Button from '../components/button'
 import '../styles/criar-parametros.css'
 import { Col, Row } from 'react-bootstrap';
 
-const options = [ {value: '1', label: 'teste'} ]
+const options = [{ value: '1', label: 'teste' }, {  value: '2', label: 'testinho' }]
 
 export default function CriarParametros() {
 
     const tipoParametro = { value: '', label: '' }
+    const unidade = { value: '', label: '' }
 
     const [parametros, setParametros] = useState({
         nome: '',
         formula: '',
         tipoParametro: tipoParametro,
-        unidade: '',
+        unidade: unidade,
         fator: '',
         offset: ''
     })
@@ -36,23 +37,37 @@ export default function CriarParametros() {
                 [name]: value,
             };
         });
+
+        console.log(parametros);
+
     };
 
     // select's handleChange ✨
-    const handleChangeSelect = (event: any) => {       
+    const handleChangeSelectTipo = (event: any) => {
         if (event.length != 0 && event) {
             setParametros((prevState) => {
                 return {
                     ...prevState,
                     tipoParametro: event[0].value,
                 };
-            });               
-        }  
+            });
+        }
     };
 
-    const handleSubmit = (event: any) => { 
+    const handleChangeSelectUnidade = (event: any) => {
+        if (event.length != 0 && event) {
+            setParametros((prevState) => {
+                return {
+                    ...prevState,
+                    unidade: event[0].value,
+                };
+            });
+        }
+    };
+
+    const handleSubmit = (event: any) => {
         event.preventDefault();
-        
+
         axios.post(`http://localhost:5000/parametro/cadastro`, {
             tipo_parametro: parametros.tipoParametro,
             //colocar o campo de fórmula aqui
@@ -70,10 +85,10 @@ export default function CriarParametros() {
             nome: "",
             formula: "",
             tipoParametro: tipoParametro,
-            unidade: "",
+            unidade: unidade,
             fator: "",
             offset: ""
-        });        
+        });
     };
 
     return (
@@ -110,7 +125,7 @@ export default function CriarParametros() {
                     </Row>
 
                     <Row className="create-parameters-content">
-                        <Col md={7}>
+                        <Col md={6}>
                             <SelectMulti
                                 label="Tipo de Parâmetro"
                                 value={parametros.tipoParametro.label}
@@ -118,19 +133,21 @@ export default function CriarParametros() {
                                 name="tipoParamentro"
                                 placeholder="Selecione o tipo correspondente do parâmetro."
                                 options={options}
-                                onChange={(e: any) => {handleChangeSelect(e)}}
+                                onChange={(e: any) => { handleChangeSelectTipo(e) }}
                                 close={true}
                             />
                         </Col>
 
-                        <Col md={4}>
-                            <Input
+                        <Col md={5}>
+                            <SelectMulti
                                 label="Unidade de Medida"
+                                value={parametros.unidade.label}
+                                size="mb-3"
                                 name="unidade"
-                                size="mb-6"
-                                type="text"
-                                placeholder="Insira a unidade de medida."
-                                onChange={handleChange}
+                                placeholder="Selecione a unidade de medida do parâmetro."
+                                options={options}
+                                onChange={(e: any) => { handleChangeSelectUnidade(e) }}
+                                close={true}
                             />
                         </Col>
                     </Row>
