@@ -5,6 +5,7 @@ import MyVerticallyCenteredModal from '../modal';
 import { BsTrash3, BsEye, BsPencil, BsClipboard2 } from 'react-icons/bs'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 let modelo = [
     {
@@ -52,7 +53,7 @@ export default function TableAlert() {
                     <td>{alerta.valorMax}</td>
                     <td>{alerta.valorMinimo}</td>
                     <td>      
-                        <Button className="bt bt-record"><BsClipboard2 className="icon"/></Button>      
+                        <Link to="/reports/:id"><Button className="bt bt-record"><BsClipboard2 className="icon"/></Button></Link>      
                         <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)}/></Button>
                         <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
                         <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
