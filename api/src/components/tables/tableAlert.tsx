@@ -21,6 +21,7 @@ let modelo = [
 export default function TableAlert() {
     const [alertas, setAlertas] = useState(modelo)
     const [modalShow, setModalShow] = React.useState(false);
+    
 
     useEffect(() =>{
         function render(){
@@ -53,7 +54,7 @@ export default function TableAlert() {
                     <td>{alerta.valorMax}</td>
                     <td>{alerta.valorMinimo}</td>
                     <td>      
-                        <Link to="/reports/:id"><Button className="bt bt-record"><BsClipboard2 className="icon"/></Button></Link>      
+                        <Link to={`/reports/${alerta.id}`}><Button className="bt bt-record"><BsClipboard2 className="icon"/></Button></Link>      
                         <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)}/></Button>
                         <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
                         <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
