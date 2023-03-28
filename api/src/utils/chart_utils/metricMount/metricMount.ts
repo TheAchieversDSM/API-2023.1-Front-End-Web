@@ -2,11 +2,12 @@ import Metric from "../metric/metric";
 
 export default function metricMount(data: Array<any>){
     var metrics: Metric[] = []
-    data.forEach( metric => {
-        var newMetric = new Metric("",[], metric.medida);
-        newMetric.setName(metric.name)
+    data.map( metric => {
+        var newMetric = new Metric("",[], metric.medidas_valorMedido);
+        newMetric.setName(metric.ps_nome)
         newMetric.setData(metric.data)
-        metrics.push(newMetric)
+        metrics.push(newMetric) 
       });
+      
     return metrics;
 }

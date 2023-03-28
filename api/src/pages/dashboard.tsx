@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Sidebar from '../components/sidebar';
 import React, { useEffect, useState } from 'react';
 
@@ -9,46 +9,69 @@ import { EstacaoParametro } from '../utils/types/types';
 import Navigation from '../components/nav/nav';
 import NavItem from '../components/nav/navItem';
 import { log } from 'console';
+import metricMount from '../utils/chart_utils/metricMount/metricMount';
+import { Button } from 'react-bootstrap';
+import Metric from '../utils/chart_utils/metric/metric';
+import chartMount from '../utils/chart_utils/chartMount/chartMount';
+import Options from '../utils/chart_utils/options/options';
 
 export default function Dashboard() {
-    const {estacaoId} = useParams()
-     
+    const { estacaoId } = useParams()
 
-    const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>([{id: 0, nome: "", unidadeDeMedida: "string"}]);
-    const [medidas, setMedidas] = useState()
-    const [options, setOptions] = useState()
 
-    useEffect(()=>{
-        function render(){
-            axios.get(`http://localhost:5000/estacao/pegarEstacoesPorId/${estacaoId}`).then(res =>{
-                setEstacaoParametros(res.data)
+    const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>([{ id: 0, nome: "", unidadeDeMedida: "string" }]);
+    const [medidas, setMedidas] = useState([])
+    const [options, setOptions] = useState<Options>()
+
+    useEffect(() => {
+        function render() {
+            axios.get(`http://localhost:5000/estacao/pegarEstacoesRelacoes/${estacaoId}`).then(res => {
+                setEstacaoParametros(res.data.parametros)
             })
         }
-        if(estacaoParametros){
-            setEstacaoParametros( [
+        if (estacaoParametros) {
+            setEstacaoParametros([
                 {
-                id: 1,
-                nome: 'Estação 1',
-                unidadeDeMedida: 'Celsius'
+                    id: 1,
+                    nome: 'Estação 1',
+                    unidadeDeMedida: 'Celsius'
                 },
             ])
         }
         render()
-    },[])
+    }, [])
 
-    console.log(typeof estacaoParametros)
+    useEffect(() => {
+        var opts = chartMount(metricMount(medidas))
+        setOptions(opts)
+        console.log(options)
+    }, [medidas])
+
+    function getParamsMetrics(paramId: number){
+        axios.get(`http://localhost:5000/estacao/pegarEstacoesRelacoes/${estacaoId}/${paramId}`).then(res => {
+            console.log(res.data)
+            setMedidas(res.data)
+            console.log(medidas)
+        })
+        console.log(medidas)
+        
+        
+
+
+    }
+
     const optionss = {
         chart: {
             type: 'spline',
             width: 1200,
             height: 500,
-            
+
         },
         title: {
             text: 'Temperaturas diárias'
         },
         xAxis: {
-            type:"datetime"
+            type: "datetime"
         },
         yAxis: {
             title: {
@@ -57,53 +80,53 @@ export default function Dashboard() {
         },
         series: [{
             name: 'Máxima',
-            data: [[1647529200000,26], [1647615600000,25], [1647702000000,23], [1647788400000,20], [1647874800000,18], [1647961200000,20], [1648047600000,22]],
+            data: [[1647529200000, 26], [1647615600000, 25], [1647702000000, 23], [1647788400000, 20], [1647874800000, 18], [1647961200000, 20], [1648047600000, 22]],
             tooltip: {
                 valueSuffix: '°F'
             },
         }, {
             name: 'Mínima',
-            data: [[1647529200000,5], [1647615600000,6], [1647702000000,4], [1647788400000,8], [1647874800000,12], [1647961200000,10], [1648047600000,12]],
+            data: [[1647529200000, 5], [1647615600000, 6], [1647702000000, 4], [1647788400000, 8], [1647874800000, 12], [1647961200000, 10], [1648047600000, 12]],
             tooltip: {
                 valueSuffix: '°C'
             },
         }],
         rangeSelector: {
             buttons: [
-              {
-                type: "hour",
-                count: 1,
-                text: "1h",
-              },
-              {
-                type: "day",
-                count: 1,
-                text: "1d",
-              },
-              {
-                type: "week",
-                count: 1,
-                text: "1w",
-              },
-              {
-                type: "month",
-                count: 1,
-                text: "1m",
-              },
-              {
-                type: "year",
-                count: 1,
-                text: "1y",
-              },
-              {
-                type: "all",
-                text: "Tudo",
-              },
+                {
+                    type: "hour",
+                    count: 1,
+                    text: "1h",
+                },
+                {
+                    type: "day",
+                    count: 1,
+                    text: "1d",
+                },
+                {
+                    type: "week",
+                    count: 1,
+                    text: "1w",
+                },
+                {
+                    type: "month",
+                    count: 1,
+                    text: "1m",
+                },
+                {
+                    type: "year",
+                    count: 1,
+                    text: "1y",
+                },
+                {
+                    type: "all",
+                    text: "Tudo",
+                },
             ],
             selected: 5,
             inputDateFormat: "%d/%m/%Y",
             inputEditDateFormat: "%d/%m/%Y"
-          },
+        },
         lang: {
             noData: "Não há dados disponíveis para exibição."
         },
@@ -123,9 +146,10 @@ export default function Dashboard() {
                 <div className='buttons_dashboard'>
                     <Navigation variant="pills" default="1">
                         <NavItem index={1} label="Todos" />
-                        {estacaoParametros?.map((parametro,index)=>{
-                            <NavItem index={index+2} label={parametro.nome} />
-                        })}
+                        {estacaoParametros.map((parametro, index) => 
+                            <NavItem function={()=> getParamsMetrics(parametro.id)} index={index + 2} label={parametro.nome} />
+                        )}
+                        <Button onClick={()=>{console.log(options)}} >check</Button>
                     </Navigation>
                 </div>
                 <div className='container_dashboard'>
