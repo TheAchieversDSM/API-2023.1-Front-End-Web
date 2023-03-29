@@ -13,14 +13,18 @@ export type Medida = {
     unixtime: number;
 }
 
-export type MedidaMedia = {valor: number, timestamp: number}
+export interface MedidasAgrupadas {
+    [unixtime: number]: Medida[];
+  }
 
-export type MediasSeries = {media: MedidaMedia, nome:string, sufixo:string}
+export type MedidaMedia = Medida[]
+
+export type MediasSeries = {media: MedidaMedia, nome:string, sufixo:{nome:string, id:number}}
 
 export type EstacaoParametro = {
     parametro_id: number;
     nome: string;
-    unidadeDeMedida: string;
+    unidadeDeMedida: {nome:string, unidade_id:number};
     formula: string;
     fator: number;
     offset: number;

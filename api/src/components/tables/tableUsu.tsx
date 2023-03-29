@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import MyVerticallyCenteredModal from '../modal';
 import axios from 'axios';
 
-let modelo = [
+const modelo = [
     {
         'id': '',
         'nome': '',

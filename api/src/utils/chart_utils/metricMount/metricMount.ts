@@ -2,17 +2,20 @@ import { MediasSeries, Data } from "../../types/types";
 import Metric from "../metric/metric";
 
 export default function metricMount(data: Array<MediasSeries>){
-    var metrics: Metric[] = []
-    var series: [number,number]
+    const metrics: Metric[] = []
     data.map(metric => {
-        var newMetric = new Metric("",[0,0]);
-        newMetric.setTooltip(metric.sufixo)
+        const series: number[][] = []
+        const newMetric = new Metric("",[[0,0]]);
+        newMetric.setTooltip(metric.sufixo.nome)
         newMetric.setName(metric.nome)
-        series.push(metric.media.valor)
-        series.push(metric.media.timestamp)
+        metric.media.map(metrica =>{
+          const datas: number[] = [];
+          datas.push(metrica.unixtime)
+          datas.push(Number(metrica.valorMedido))
+          series.push(datas)
+        })
         newMetric.setData(series)
         metrics.push(newMetric) 
       });
-      
     return metrics;
 }

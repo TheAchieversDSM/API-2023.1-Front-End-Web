@@ -8,7 +8,7 @@ import MyVerticallyCenteredModal from '../modal';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-let modelo = [
+const modelo = [
     {
         'id': '',
         'nome': '',

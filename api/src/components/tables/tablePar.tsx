@@ -6,7 +6,7 @@ import { BsTrash3, BsEye, BsPencil } from 'react-icons/bs'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-let modelo = [
+const modelo = [
     {
         'id': '',
         'nome': '',
