@@ -8,12 +8,24 @@ export type Estacao = {
     unixtime: number;    
 }
 
+export type Medida = {
+    valorMedido: string;
+    unixtime: number;
+}
+
+export type MedidaMedia = {valor: number, timestamp: number}
+
+export type MediasSeries = {media: MedidaMedia, nome:string, sufixo:string}
+
 export type EstacaoParametro = {
-    id: number;
+    parametro_id: number;
     nome: string;
     unidadeDeMedida: string;
+    formula: string;
+    fator: number;
+    offset: number;
+    medidas: Medida[];
+    medidaMedia: MedidaMedia;
+    
 }
 
-export type Medida = {
-
-}

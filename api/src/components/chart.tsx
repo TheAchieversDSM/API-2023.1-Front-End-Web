@@ -7,5 +7,5 @@ import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 NoDataToDisplay(Highcharts)
 
 export default function Chart(props: any){
-    return <HighchartsReact highcharts={Highcharts} constructorType={'stockChart'} options={props.options} />;
+    return <HighchartsReact highcharts={Highcharts} options={props.options} />;
 }

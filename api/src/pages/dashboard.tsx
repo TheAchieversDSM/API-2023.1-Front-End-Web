@@ -1,64 +1,78 @@
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 import Sidebar from '../components/sidebar';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import '../styles/dashboard.css'
 import Chart from '../components/chart';
-import { EstacaoParametro } from '../utils/types/types';
+import { EstacaoParametro, MediasSeries } from '../utils/types/types';
 import Navigation from '../components/nav/nav';
 import NavItem from '../components/nav/navItem';
-import { log } from 'console';
 import metricMount from '../utils/chart_utils/metricMount/metricMount';
 import { Button } from 'react-bootstrap';
-import Metric from '../utils/chart_utils/metric/metric';
-import chartMount from '../utils/chart_utils/chartMount/chartMount';
 import Options from '../utils/chart_utils/options/options';
+import averageCalculator from '../utils/averageCalculator/averageCalculator';
+import chartMount from '../utils/chart_utils/chartMount/chartMount';
 
 export default function Dashboard() {
     const { estacaoId } = useParams()
 
 
-    const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>([{ id: 0, nome: "", unidadeDeMedida: "string" }]);
-    const [medidas, setMedidas] = useState([])
+    const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>();
+    const [medidas, setMedidas] = useState<Array<MediasSeries>>() ;
     const [options, setOptions] = useState<Options>()
 
     useEffect(() => {
         function render() {
             axios.get(`http://localhost:5000/estacao/pegarEstacoesRelacoes/${estacaoId}`).then(res => {
+                console.log(res.data.parametros)
                 setEstacaoParametros(res.data.parametros)
             })
+          
         }
-        if (estacaoParametros) {
-            setEstacaoParametros([
-                {
-                    id: 1,
-                    nome: 'Estação 1',
-                    unidadeDeMedida: 'Celsius'
-                },
-            ])
-        }
+
         render()
     }, [])
 
     useEffect(() => {
-        var opts = chartMount(metricMount(medidas))
-        setOptions(opts)
-        console.log(options)
-    }, [medidas])
+        //var opts = chartMount(metricMount(medidas))
+        //setOptions(opts)
+        //console.log(estacaoParametros)
 
-    function getParamsMetrics(paramId: number){
-        axios.get(`http://localhost:5000/estacao/pegarEstacoesRelacoes/${estacaoId}/${paramId}`).then(res => {
-            console.log(res.data)
-            setMedidas(res.data)
-            console.log(medidas)
-        })
+
+        var medidasseries: MediasSeries[] = []
+        estacaoParametros?.map((parametro:EstacaoParametro) =>{
+            if(parametro.medidas[0].unixtime){
+            parametro.medidaMedia = averageCalculator(parametro.medidas)
+            var med = {nome: parametro.nome, sufixo: parametro.unidadeDeMedida, media:parametro.medidaMedia}
+            console.log(med);
+            
+            medidasseries.push(med)
+        }})
+        console.log(medidasseries)
+        setMedidas(medidasseries)
+
         console.log(medidas)
+
+        if(medidas){
+            var metrics = metricMount(medidas)
+            console.log(metrics)
+            setOptions(chartMount(metrics))
+        }
+        console.log(options)
         
-        
+    }, [estacaoParametros])
 
 
-    }
+      
+
+
+    //function getParamsMetrics(medidas: any){
+    //
+    //    })
+    //  console.log(estacaoParametros)
+    //   
+    //}
 
     const optionss = {
         chart: {
@@ -146,14 +160,14 @@ export default function Dashboard() {
                 <div className='buttons_dashboard'>
                     <Navigation variant="pills" default="1">
                         <NavItem index={1} label="Todos" />
-                        {estacaoParametros.map((parametro, index) => 
-                            <NavItem function={()=> getParamsMetrics(parametro.id)} index={index + 2} label={parametro.nome} />
+                        {estacaoParametros?.map((parametro, index) => 
+                            <NavItem  index={index + 2} label={parametro.nome} />
                         )}
                         <Button onClick={()=>{console.log(options)}} >check</Button>
                     </Navigation>
                 </div>
                 <div className='container_dashboard'>
-                    <Chart className='container_dashboard' options={optionss} />
+                    <Chart className='container_dashboard' options={options} />
                 </div>
             </div>
 
