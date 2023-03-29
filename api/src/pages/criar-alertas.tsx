@@ -87,7 +87,7 @@ export default function CriarAlertas() {
                 
                 <div className="box-create">
                     <Row className="create-alert-content">
-                        <Col md={5}>
+                        <Col md={11}>
                             <Input
                                 label="Nome do alerta"
                                 name="nome"
@@ -95,18 +95,6 @@ export default function CriarAlertas() {
                                 type="text"
                                 placeholder="Insira o nome do alerta."
                                 onChange={handleChange}
-                            />
-                        </Col>
-
-                        <Col md={6}>
-                            <SelectMulti
-                                label="Estação"
-                                size="mb-3"
-                                name="estacao"
-                                placeholder="Selecione a estação correspondente."
-                                options={options}
-                                onChange={handleChangeSelect}
-                                close={true}
                             />
                         </Col>
                     </Row>
@@ -131,20 +119,6 @@ export default function CriarAlertas() {
                                 type="number"
                                 placeholder="Insira o valor máximo do alerta."
                                 onChange={handleChange}
-                            />
-                        </Col>
-                    </Row>
-
-                    <Row className="create-alert-content">
-                        <Col md={11}>
-                            <SelectMulti
-                                label="Parâmetro"
-                                size="mb-3"
-                                name="parametro"
-                                placeholder="Selecione o parâmetro correspondente."
-                                options={options}
-                                onChange={handleChangeSelect}
-                                close={true}
                             />
                         </Col>
                     </Row>
