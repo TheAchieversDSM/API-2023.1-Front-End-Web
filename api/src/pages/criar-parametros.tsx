@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 // components ✨
+import CreatableSelect from 'react-select/creatable';
 import Input from '../components/input';
 import SelectMulti from '../components/select';
 import Sidebar from '../components/sidebar';
@@ -9,7 +10,7 @@ import TextareaInput from '../components/textarea';
 import Button from '../components/button'
 
 import '../styles/criar-parametros.css'
-import { Col, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 
 const options = [{ value: '1', label: 'teste' }, {  value: '2', label: 'testinho' }]
 
@@ -48,7 +49,10 @@ export default function CriarParametros() {
             setParametros((prevState) => {
                 return {
                     ...prevState,
-                    tipoParametro: event[0].value,
+                    tipoParametro: {
+                        value: event.value,
+                        label: event.label,
+                    },
                 };
             });
         }
@@ -56,10 +60,15 @@ export default function CriarParametros() {
 
     const handleChangeSelectUnidade = (event: any) => {
         if (event.length != 0 && event) {
+            console.log(event.value);
+            
             setParametros((prevState) => {
                 return {
                     ...prevState,
-                    unidade: event[0].value,
+                    unidade: {
+                        value: event.value,
+                        label: event.label,
+                    },
                 };
             });
         }
@@ -126,28 +135,26 @@ export default function CriarParametros() {
 
                     <Row className="create-parameters-content">
                         <Col md={6}>
-                            <SelectMulti
-                                label="Tipo de Parâmetro"
-                                value={parametros.tipoParametro.label}
-                                size="mb-3"
+                            <Form.Label className="label">Tipo de Parâmetro</Form.Label>
+                            <CreatableSelect
+                                isClearable
+                                value={[{ value: parametros.tipoParametro.value,label: parametros.tipoParametro.label }]}
                                 name="tipoParamentro"
                                 placeholder="Selecione o tipo correspondente do parâmetro."
-                                options={options}
                                 onChange={(e: any) => { handleChangeSelectTipo(e) }}
-                                close={true}
+                                options={options}
                             />
                         </Col>
 
                         <Col md={5}>
-                            <SelectMulti
-                                label="Unidade de Medida"
-                                value={parametros.unidade.label}
-                                size="mb-3"
+                            <Form.Label className="label">Unidade de Medida</Form.Label>
+                            <CreatableSelect
+                                isClearable
+                                value={[{ value: parametros.unidade.value, label: parametros.unidade.label }]}
                                 name="unidade"
                                 placeholder="Selecione a unidade de medida do parâmetro."
-                                options={options}
                                 onChange={(e: any) => { handleChangeSelectUnidade(e) }}
-                                close={true}
+                                options={options}
                             />
                         </Col>
                     </Row>
