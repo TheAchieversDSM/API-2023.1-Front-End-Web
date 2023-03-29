@@ -1,4 +1,4 @@
-import { Medida, MedidasAgrupadas } from "../types/types";
+import { Medida, MedidasAgrupadas } from "../../types/types";
 
 export default function groupByUnixtime(medidas: Medida[]): MedidasAgrupadas {
   const medidasAgrupadas: MedidasAgrupadas = {};

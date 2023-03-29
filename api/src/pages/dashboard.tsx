@@ -12,7 +12,7 @@ import metricMount from '../utils/chart_utils/metricMount/metricMount';
 import Options from '../utils/chart_utils/options/options';
 import averageCalculator from '../utils/chart_utils/averageCalculator/averageCalculator';
 import chartMount from '../utils/chart_utils/chartMount/chartMount';
-import groupByUnixtime from '../utils/groupUnixtime/groupUnixtime';
+import groupByUnixtime from '../utils/chart_utils/groupUnixtime/groupUnixtime';
 
 export default function Dashboard() {
     const { estacaoId } = useParams()
