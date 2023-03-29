@@ -79,13 +79,15 @@ export default function CriarParametros() {
 
         axios.post(`http://localhost:5000/parametro/cadastro`, {
             tipo_parametro: parametros.tipoParametro,
-            //colocar o campo de fórmula aqui
+            formula_parametro: parametros.formula,
             nome_parametro: parametros.nome,
             unidadeDeMedida_parametro: parametros.unidade,
             offset_parametro: parametros.offset,
             fator_parametro: parametros.fator
         }).then((res) => {
 
+        }).catch((err) => {
+            console.log(err);
         })
 
         alert('Parâmetro cadastrado!');
