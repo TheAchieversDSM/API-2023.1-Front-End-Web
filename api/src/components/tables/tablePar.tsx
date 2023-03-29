@@ -5,13 +5,14 @@ import MyVerticallyCenteredModal from '../modal';
 import { BsTrash3, BsEye, BsPencil } from 'react-icons/bs'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { log } from 'console';
 
 let modelo = [
     {
         'id': '',
         'nome': '',
         'tipo': '',
-        'unidadeDeMedida': '',
+        'unidadeDeMedida': {nome: '', id: ''},
         'fator': '',
         'offset': ''
     }
@@ -24,7 +25,7 @@ export default function TablePar(props:any) {
     useEffect(() => {
         function render(){
             axios.get("http://localhost:5000/parametro/pegarParametros").then((res)=>{
-                setParametros(res.data)
+                setParametros(res.data)               
             })
         }
         render()
@@ -48,7 +49,7 @@ export default function TablePar(props:any) {
                         <td>{parametro.id}</td>
                         <td>{parametro.nome}</td>
                         <td>{parametro.tipo}</td>
-                        <td>{parametro.unidadeDeMedida}</td>
+                        <td>{parametro.unidadeDeMedida.nome}</td>
                         <td>            
                             <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)}/></Button>
                             <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
