@@ -10,7 +10,7 @@ import Navigation from '../components/nav/nav';
 import NavItem from '../components/nav/navItem';
 import metricMount from '../utils/chart_utils/metricMount/metricMount';
 import Options from '../utils/chart_utils/options/options';
-import averageCalculator from '../utils/averageCalculator/averageCalculator';
+import averageCalculator from '../utils/chart_utils/averageCalculator/averageCalculator';
 import chartMount from '../utils/chart_utils/chartMount/chartMount';
 import groupByUnixtime from '../utils/groupUnixtime/groupUnixtime';
 

@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Medida, MedidasAgrupadas } from "../types/types";
+import { Medida, MedidasAgrupadas } from "../../types/types";
 
 export default function averageCalculator(medidasAgrupadas: MedidasAgrupadas) {
   const medias: Medida[] = [];
