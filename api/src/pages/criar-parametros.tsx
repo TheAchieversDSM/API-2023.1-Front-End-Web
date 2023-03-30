@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 // components ✨
@@ -13,11 +13,13 @@ import '../styles/criar-parametros.css'
 import { Col, Form, Row } from 'react-bootstrap';
 
 const options = [{ value: '1', label: 'teste' }, {  value: '2', label: 'testinho' }]
+const modelo = [{ value: '', label: '' }]
 
 export default function CriarParametros() {
 
     const tipoParametro = { value: '', label: '' }
     const unidade = { value: '', label: '' }
+    const [unidadeMedidas, setUnidadeMedidas] = useState(modelo)
 
     const [parametros, setParametros] = useState({
         nome: '',
@@ -59,9 +61,7 @@ export default function CriarParametros() {
     };
 
     const handleChangeSelectUnidade = (event: any) => {
-        if (event.length != 0 && event) {
-            console.log(event.value);
-            
+        if (event.length != 0 && event) {           
             setParametros((prevState) => {
                 return {
                     ...prevState,
@@ -101,6 +101,28 @@ export default function CriarParametros() {
             offset: ""
         });
     };
+
+    // get unidade de medidas ✨
+    useEffect(() => {
+        async function render() {
+            axios.get(`http://localhost:5000/unidadeMedida/pegarUnidadeDeMedidas`).then((res) => {
+                const unidades = []                          
+
+                for (let index = 0; index <= res.data.length - 1; index++) {
+                    let option = {
+                        value: res.data[index].unidade_id,
+                        label: res.data[index].nome
+                    }
+
+                    unidades.push(option)
+                }
+
+                setUnidadeMedidas(unidades)
+            })
+        }
+
+        render()
+    }, [])
 
     return (
         <>
@@ -156,7 +178,7 @@ export default function CriarParametros() {
                                 name="unidade"
                                 placeholder="Selecione a unidade de medida do parâmetro."
                                 onChange={(e: any) => { handleChangeSelectUnidade(e) }}
-                                options={options}
+                                options={unidadeMedidas}
                             />
                         </Col>
                     </Row>
