@@ -2,6 +2,7 @@ import Table from 'react-bootstrap/Table';
 import "../../styles/table.css"
 import Button from 'react-bootstrap/Button';
 import { BsTrash3, BsEye, BsPencil, BsGraphUp, BsClipboard2 } from 'react-icons/bs'
+import {FaChartLine} from 'react-icons/fa'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import MyVerticallyCenteredModal from '../modal';
@@ -10,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 const modelo = [
     {
-        'id': '',
+        'estacao_id': '',
         'nome': '',
         'lati': '',
         'long': '',
@@ -25,6 +26,7 @@ export default function TableEst() {
     useEffect(() => {
         function render(){
             axios.get("http://localhost:5000/estacao/pegarEstacoes").then((res)=>{
+                console.log(res.data)
                 setEstacoes(res.data)
             })
         }
@@ -47,13 +49,13 @@ export default function TableEst() {
             <tbody>
                 {estacoes.map(estacao =>
                     <tr>
-                        <td>{estacao.id}</td>
+                        <td>{estacao.estacao_id}</td>
                         <td>{estacao.nome}</td>
                         <td>{estacao.lati}</td>
                         <td>{estacao.long}</td>
                         <td>{estacao.unixtime}</td>
                         <td>
-                            <Button className="bt bt-record"><BsClipboard2  className="icon"/></Button>
+                           <Link to={`/dashboard/${estacao.estacao_id}`}><Button className="bt bt-record"><FaChartLine className="icon"/></Button></Link>
                             <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)}/></Button>
                             <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
                             <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>

@@ -18,16 +18,17 @@ export default function Dashboard() {
     const { estacaoId } = useParams()
     const [estacaoNome, setEstacaoNome] = useState()
     const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>();
-    const [medidas, setMedidas] = useState<Array<MediasSeries>>() ;
+    const [medidas, setMedidas] = useState<Array<MediasSeries>>();
     const [options, setOptions] = useState<Options>()
 
     useEffect(() => {
         function render() {
-            axios.get(`http://localhost:5000/estacao/pegarEstacoesRelacoes/${estacaoId}`).then(res => {
+            axios.get(`http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${estacaoId}`).then(res => {
+                console.log(res.data)
                 setEstacaoNome(res.data.nome)
-                setEstacaoParametros(res.data.parametros)
+                setEstacaoParametros(res.data)
             })
-          
+
         }
 
         render()
@@ -35,32 +36,35 @@ export default function Dashboard() {
 
     useEffect(() => {
         const medidasseries: MediasSeries[] = []
-        estacaoParametros?.map((parametro:EstacaoParametro) =>{
-            if(parametro.medidas[0].unixtime){
-            parametro.medidaMedia = averageCalculator(groupByUnixtime(parametro.medidas))
-            const med = {nome: parametro.nome, sufixo: {nome: parametro.unidadeDeMedida.nome, id: parametro.unidadeDeMedida.unidade_id}, media:parametro.medidaMedia}     
-            medidasseries.push(med)
-        }})
+        estacaoParametros?.map((parametro: EstacaoParametro) => {
+            if (parametro.medidas[0].unixtime) {
+                parametro.medidaMedia = averageCalculator(groupByUnixtime(parametro.medidas))
+                const med = { nome: parametro.nome, sufixo: { nome: ' '+ parametro.unidadeDeMedida.nome, id: parametro.unidadeDeMedida.unidade_id }, media: parametro.medidaMedia }
+                medidasseries.push(med)
+            }
+        })
         setMedidas(medidasseries)
 
 
-        if(medidas){
+        if (medidas) {
             const metrics = metricMount(medidas)
             setOptions(chartMount(metrics))
         }
-        
+
     }, [estacaoParametros])
-    
+
     return (
         <>
             <Sidebar />
             <div className='main-body'>
                 <h1 className="TitImp">Estação {estacaoNome}</h1>
                 <div className='buttons_dashboard'>
+
                     <Navigation variant="pills" default="1">
                         <NavItem index={1} label="Todos" />
-                        {estacaoParametros?.map((parametro, index) => 
-                            <NavItem  index={index + 2} label={parametro.nome} />
+                        {estacaoParametros?.map((parametro, index) =>
+
+                            <NavItem index={index + 2} label={parametro.nome} />
                         )}
                     </Navigation>
                 </div>
