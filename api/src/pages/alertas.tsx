@@ -8,7 +8,7 @@ export default function Alertas() {
     return (
         <>
             <Sidebar />
-            <h1>Alertas</h1>
+            <h1 className="TitImp">Alertas</h1>
             <Search link="../criar-alertas"/>
             <TableAlert/>
         </>

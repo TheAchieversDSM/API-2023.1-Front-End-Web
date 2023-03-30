@@ -83,11 +83,11 @@ export default function CriarAlertas() {
             <Sidebar />
 
             <div className="main-body">
-                <h1>Cadastro de Alertas</h1>
+                <h1 className="TitImp">Cadastro de Alertas</h1>
                 
                 <div className="box-create">
                     <Row className="create-alert-content">
-                        <Col md={5}>
+                        <Col md={11}>
                             <Input
                                 label="Nome do alerta"
                                 name="nome"
@@ -95,18 +95,6 @@ export default function CriarAlertas() {
                                 type="text"
                                 placeholder="Insira o nome do alerta."
                                 onChange={handleChange}
-                            />
-                        </Col>
-
-                        <Col md={6}>
-                            <SelectMulti
-                                label="Estação"
-                                size="mb-3"
-                                name="estacao"
-                                placeholder="Selecione a estação correspondente."
-                                options={options}
-                                onChange={handleChangeSelect}
-                                close={true}
                             />
                         </Col>
                     </Row>
@@ -138,20 +126,6 @@ export default function CriarAlertas() {
                     <Row className="create-alert-content">
                         <Col md={11}>
                             <SelectMulti
-                                label="Parâmetro"
-                                size="mb-3"
-                                name="parametro"
-                                placeholder="Selecione o parâmetro correspondente."
-                                options={options}
-                                onChange={handleChangeSelect}
-                                close={true}
-                            />
-                        </Col>
-                    </Row>
-
-                    <Row className="create-alert-content">
-                        <Col md={11}>
-                            <SelectMulti
                                 label="Nível"
                                 size="mb-3"
                                 name="nivel"
@@ -164,7 +138,7 @@ export default function CriarAlertas() {
                     </Row>
 
                     <div className="create-alert-button">
-                        <Button type="submit" label="Criar!" onClick={handleSubmit}/>
+                        <Button type="submit" label="Criar!" className="btnCriar" onClick={handleSubmit}/>
                     </div>
                 </div>
             </div>

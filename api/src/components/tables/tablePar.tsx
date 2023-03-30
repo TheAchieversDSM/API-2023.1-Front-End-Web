@@ -3,10 +3,34 @@ import "../../styles/table.css"
 import Button from 'react-bootstrap/Button';
 import MyVerticallyCenteredModal from '../modal';
 import { BsTrash3, BsEye, BsPencil } from 'react-icons/bs'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { log } from 'console';
+
+let modelo = [
+    {
+        'id': '',
+        'nome': '',
+        'tipo': '',
+        'unidadeDeMedida': {nome: '', id: ''},
+        'fator': '',
+        'offset': ''
+    }
+]
 
 export default function TablePar(props:any) {
+    const [parametros, setParametros] = useState(modelo)
     const [modalShow, setModalShow] = React.useState(false);
+
+    useEffect(() => {
+        function render(){
+            axios.get("http://localhost:5000/parametro/pegarParametros").then((res)=>{
+                setParametros(res.data)               
+            })
+        }
+        render()
+    }, [])
+
   return (
     <div className="box-list">
         <Table className="table" size="sm" >
@@ -20,28 +44,29 @@ export default function TablePar(props:any) {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>200</td>
-                    <td>Pluviômetro</td>
-                    <td>pluviometro</td>
-                    <td>mm</td>
-                    <td>            
-                        <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)}/></Button>
-                        <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
-                        <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
-                        <MyVerticallyCenteredModal
-                            show={modalShow}
-                            onHide={() => setModalShow(false)}
-                            titulo="200"
-                            coluna1="ID: " resp1="200"
-                            coluna2="Nome: " resp2="Pluviômetro"
-                            coluna3="Tipo: " resp3="Pluviômetro"
-                            coluna4="Unidade de medida: " resp4="mm"
-                            coluna5="Fator: " resp5="não sei"
-                            coluna6="OffSet: " resp6="não sei também"
-                        />
-                    </td>
-                </tr>
+                {parametros.map(parametro =>
+                    <tr>
+                        <td>{parametro.id}</td>
+                        <td>{parametro.nome}</td>
+                        <td>{parametro.tipo}</td>
+                        <td>{parametro.unidadeDeMedida.nome}</td>
+                        <td>            
+                            <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)}/></Button>
+                            <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
+                            <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
+                            <MyVerticallyCenteredModal
+                                show={modalShow}
+                                onHide={() => setModalShow(false)}
+                                titulo={parametro.nome}
+                                coluna1="ID: " resp1={parametro.id}
+                                coluna3="Tipo: " resp3={parametro.tipo}
+                                coluna4="Unidade de medida: " resp4={parametro.unidadeDeMedida}
+                                coluna5="Fator: " resp5={parametro.fator}
+                                coluna6="OffSet: " resp6={parametro.offset}
+                            />
+                        </td>
+                    </tr>
+                )}
             </tbody>
         </Table>
     </div>

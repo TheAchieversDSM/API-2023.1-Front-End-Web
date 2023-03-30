@@ -15,7 +15,7 @@ export default function CriarEstacoes() {
             <Sidebar />
 
             <div className="main-body">
-                <h1>Cadastro de Estações</h1>
+                <h1 className="TitImp">Cadastro de Estações</h1>
                 
                 <div className="box-create-station">
                     <Row className="create-station-content">
@@ -88,22 +88,8 @@ export default function CriarEstacoes() {
                         </Col>
                     </Row>
 
-                    <Row className="create-station-content">
-                        <Col md={11}>
-                            <SelectMulti
-                                label="Alertas"
-                                size="mb-3"
-                                name="Alertas"
-                                placeholder="Selecione o(s) alerta(s) correspondente(s)."
-                                options={[]}
-                                onChange={null}
-                                close={false}
-                            />
-                        </Col>
-                    </Row>
-
                     <div className="create-station-button">
-                        <Button type="submit" label="Criar!" onClick={""} />
+                        <Button type="submit" label="Criar!" className="btnCriar" onClick={""} />
                     </div>
                 </div>
             </div>
