@@ -75,10 +75,10 @@ export default function CriarParametros() {
         event.preventDefault();
 
         axios.post(`http://localhost:5000/parametro/cadastro`, {
-            tipo_parametro: parametros.tipoParametro,
+            tipo_parametro: parametros.tipoParametro.value,
             formula_parametro: parametros.formula,
             nome_parametro: parametros.nome,
-            unidadeDeMedida_parametro: parametros.unidade,
+            unidadeDeMedida_parametro: parametros.unidade.value,
             offset_parametro: parametros.offset,
             fator_parametro: parametros.fator
         }).then((res) => {
