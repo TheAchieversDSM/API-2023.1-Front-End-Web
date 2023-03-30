@@ -7,6 +7,7 @@ import axios from 'axios';
 import MyVerticallyCenteredModal from '../modal';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Search from '../search';
 
 let modelo = [
     {
@@ -14,13 +15,17 @@ let modelo = [
         'nome': '',
         'lati': '',
         'long': '',
-        'unixtime': ''
+        'unixtime': '',
+        'uid': '',
+        'UTC': '',
+        'estacao_parametro': ''
     }
 ]
 
 export default function TableEst() {
     const [estacoes, setEstacoes] = useState(modelo)
     const [modalShow, setModalShow] = React.useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         function render(){
@@ -30,49 +35,75 @@ export default function TableEst() {
         }
         render()
     },[])
+
+    function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
+        setSearchTerm(event.target.value);
+    }
+
+    function renderTableRows() {
+        return estacoes
+          .filter((estacao) => {
+            if (!searchTerm) {
+              return true;
+            }
+    
+            if (
+              estacao.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              estacao.id.toString().toLowerCase().includes(searchTerm.toLowerCase())
+            ) {
+              return true;
+            }
+    
+            return false;
+          })
+          .map((estacao) => (
+            <tr>
+            <td>{estacao.id}</td>
+            <td>{estacao.nome}</td>
+            <td>{estacao.lati}</td>
+            <td>{estacao.long}</td>
+            <td>{estacao.estacao_parametro}</td>
+            <td>
+                <Button className="bt bt-record"><BsClipboard2  className="icon"/></Button>
+                <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)}/></Button>
+                <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
+                <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
+                <MyVerticallyCenteredModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                titulo={estacao.nome}
+                coluna1="ID: " resp1={estacao.id}
+                coluna2="Latitude: " resp2={estacao.lati}
+                coluna3="Longitude: " resp3={estacao.long}
+                coluna4="UID: " resp4={estacao.uid}
+                coluna5="UTC: " resp5={estacao.UTC}
+                coluna6="UnixTime: " resp6={estacao.unixtime}
+                coluna7="Parâmetros: " resp7={estacao.estacao_parametro}
+            />
+            </td>
+        </tr>
+          ));
+      }
     
   return (
+    <>
+    <Search change={handleSearch} link="/criar-estacoes" />
     <div className="box-list">
-        <Table className="table" size="sm" >
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
-                    <th>UnixTime</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {estacoes.map(estacao =>
-                    <tr>
-                        <td>{estacao.id}</td>
-                        <td>{estacao.nome}</td>
-                        <td>{estacao.lati}</td>
-                        <td>{estacao.long}</td>
-                        <td>{estacao.unixtime}</td>
-                        <td>
-                            <Button className="bt bt-record"><BsClipboard2  className="icon"/></Button>
-                            <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)}/></Button>
-                            <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
-                            <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
-                            <MyVerticallyCenteredModal
-                            show={modalShow}
-                            onHide={() => setModalShow(false)}
-                            titulo="Station"
-                            coluna1="ID: " resp1="6583"
-                            coluna2="Latitude: " resp2="-28.1845"
-                            coluna3="Longitude: " resp3="32.9533"
-                            coluna4="UID: " resp4=""
-                            coluna5="UTC: " resp5=""
-                            coluna6="Parâmetros: " resp6=""
-                        />
-                        </td>
-                    </tr>
-                )}
-            </tbody>
-        </Table>
-    </div>
+          <Table className="table" size="sm">
+              <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>Nome</th>
+                      <th>Latitude</th>
+                      <th>Longitude</th>
+                      <th>Parametros</th>
+                      <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {renderTableRows()}
+              </tbody>
+          </Table>
+      </div></>
   )
 }
