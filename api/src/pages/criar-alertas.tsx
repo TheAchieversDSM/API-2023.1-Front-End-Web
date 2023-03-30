@@ -10,19 +10,21 @@ import Button from '../components/button'
 import '../styles/criar-alertas.css'
 import { Col, Row } from 'react-bootstrap';
 
-const options = [ {value: '1', label: 'teste'} ]
+const options = [ 
+                    {value: '1', label: 'Atenção'}, 
+                    {value: '2', label: 'Perigo'}, 
+                    {value: '3', label: 'Crítico'} 
+                ]
 
 export default function CriarAlertas() {
 
-    const parametro = { value: '', label: '' }
+    const nivel = { value: '', label: '' }
 
     const [alerta, setAlerta] = useState({
         nome: '',
         valorMin: '',
         valorMax: '',
-        estacao: parametro,
-        parametro: parametro,
-        nivel: parametro,
+        nivel: nivel,
     })
 
     // inputs' handleChange ✨
@@ -35,6 +37,9 @@ export default function CriarAlertas() {
                 [name]: value,
             };
         });
+
+        console.log(alerta);
+        
     };
 
     // select's handleChange ✨
@@ -43,8 +48,6 @@ export default function CriarAlertas() {
             setAlerta((prevState) => {
                 return {
                     ...prevState,
-                    parametro: event[0].value,
-                    estacao: event[0].value,
                     nivel: event[0].value,
                 };
             });               
@@ -55,8 +58,6 @@ export default function CriarAlertas() {
         event.preventDefault();
         
         axios.post(`http://localhost:5000/alerta/cadastro`, {
-            id_estacao: alerta.estacao,
-            id_parametro: alerta.parametro,
             nome: alerta.nome,
             valorMinimo: alerta.valorMin,
             valorMax: alerta.valorMax,
@@ -71,9 +72,7 @@ export default function CriarAlertas() {
             nome: "",
             valorMin: "",
             valorMax: "",
-            estacao: parametro,
-            parametro: parametro,
-            nivel: parametro
+            nivel: nivel
         });        
     };
 
