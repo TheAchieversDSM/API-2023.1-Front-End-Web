@@ -10,7 +10,7 @@ import Button from '../components/button'
 import '../styles/criar-usuarios.css'
 import { Col, Row } from 'react-bootstrap';
 
-const options = [ {value: '1', label: 'teste'} ]
+const options = [ {value: '1', label: 'Administrador'}, {value: '2', label: 'Comum'} ]
 
 export default function CriarUsuarios() {
 
@@ -48,7 +48,6 @@ export default function CriarUsuarios() {
     };
 
     const handleSubmit = (event: any) => { 
-        
         axios.post(`http://localhost:5000/user/cadastro`, {
             // colocar o campo de tipo aqui
             nome: usuario.nome,
@@ -58,7 +57,7 @@ export default function CriarUsuarios() {
 
         })
 
-        alert('Parâmetro cadastrado!');
+        alert('Usuário cadastrado!');
 
         setUsuario({
             nome: "",
