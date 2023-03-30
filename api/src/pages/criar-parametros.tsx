@@ -12,7 +12,6 @@ import Button from '../components/button'
 import '../styles/criar-parametros.css'
 import { Col, Form, Row } from 'react-bootstrap';
 
-const options = [{ value: '1', label: 'teste' }, {  value: '2', label: 'testinho' }]
 const modelo = [{ value: '', label: '' }]
 
 export default function CriarParametros() {
@@ -20,6 +19,7 @@ export default function CriarParametros() {
     const tipoParametro = { value: '', label: '' }
     const unidade = { value: '', label: '' }
     const [unidadeMedidas, setUnidadeMedidas] = useState(modelo)
+    const [tipos, setTipos] = useState(modelo)
 
     const [parametros, setParametros] = useState({
         nome: '',
@@ -106,7 +106,7 @@ export default function CriarParametros() {
     useEffect(() => {
         async function render() {
             axios.get(`http://localhost:5000/unidadeMedida/pegarUnidadeDeMedidas`).then((res) => {
-                const unidades = []                          
+                const unidades = [{ value: '', label: '' }]                          
 
                 for (let index = 0; index <= res.data.length - 1; index++) {
                     let option = {
@@ -118,6 +118,21 @@ export default function CriarParametros() {
                 }
 
                 setUnidadeMedidas(unidades)
+            });
+
+            axios.get(`http://localhost:5000/tipoParametro/pegarTiposParametro`).then((res) => {
+                const parametrosTipos = [{ value: '', label: '' }]    
+                                      
+                for (let index = 0; index <= res.data.length - 1; index++) {
+                    let option = {
+                        value: res.data[index].tipo_id,
+                        label: res.data[index].nome
+                    }
+
+                    parametrosTipos.push(option)
+                }
+
+                setTipos(parametrosTipos)
             })
         }
 
@@ -166,7 +181,7 @@ export default function CriarParametros() {
                                 name="tipoParamentro"
                                 placeholder="Selecione o tipo correspondente do parâmetro."
                                 onChange={(e: any) => { handleChangeSelectTipo(e) }}
-                                options={options}
+                                options={tipos}
                             />
                         </Col>
 
