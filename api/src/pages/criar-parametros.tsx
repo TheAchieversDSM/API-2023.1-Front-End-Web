@@ -40,9 +40,6 @@ export default function CriarParametros() {
                 [name]: value,
             };
         });
-
-        console.log(parametros);
-
     };
 
     // select's handleChange ✨
@@ -102,7 +99,7 @@ export default function CriarParametros() {
         });
     };
 
-    // get unidade de medidas ✨
+    // get unidade de medidas & tipos de parâmetros ✨
     useEffect(() => {
         async function render() {
             axios.get(`http://localhost:5000/unidadeMedida/pegarUnidadeDeMedidas`).then((res) => {

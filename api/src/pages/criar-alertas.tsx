@@ -49,7 +49,6 @@ export default function CriarAlertas() {
                 };
             });               
         }  
-        console.log(alerta);
     };
 
     const handleSubmit = (event: any) => { 
