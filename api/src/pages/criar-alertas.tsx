@@ -54,7 +54,6 @@ export default function CriarAlertas() {
     const handleSubmit = (event: any) => {
         for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
             event.target.querySelectorAll("input")[index].value = ""
-            
         }
         
         event.preventDefault();
