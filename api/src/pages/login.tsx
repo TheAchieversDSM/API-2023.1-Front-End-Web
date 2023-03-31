@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom';
 import Input from '../components/input';
 import Button from '../components/button';
 import { Row, Col } from 'react-bootstrap';
@@ -33,8 +34,16 @@ export default function Login() {
                             />
 
                             <div className="login-button">
-                                <Button type="submit" label="Log In" onClick={''} />
+                                <Link to="/home">
+                                    <Button type="submit" label="Log In" onClick={''} />
+                                </Link>
                             </div>
+
+                            <hr></hr>
+
+                            <Link to="/home" className="acesso-livre">
+                                <p>Ou acesse sem logar!</p>
+                            </Link>
                         </Col>
                     </Row>
                 </div>
