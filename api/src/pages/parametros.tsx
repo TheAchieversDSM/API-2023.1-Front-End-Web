@@ -9,7 +9,6 @@ export default function Parametros() {
         <>
             <Sidebar />
             <h1 className="TitImp">Parâmetros</h1>
-            <Search link="/criar-parametros"/>
             <TablePar/>
         </>
     )

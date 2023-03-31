@@ -23,6 +23,8 @@ export default function MyVerticallyCenteredModal(props:any) {
         <p><b>{props.coluna4}</b>{props.resp4}</p>
         <p><b>{props.coluna5}</b>{props.resp5}</p>
         <p><b>{props.coluna6}</b>{props.resp6}</p>
+        <p><b>{props.coluna7}</b>{props.resp7}</p>
+        <p><b>{props.coluna8}</b>{props.resp8}</p>
       </Modal.Body>
     </Modal>
   );
