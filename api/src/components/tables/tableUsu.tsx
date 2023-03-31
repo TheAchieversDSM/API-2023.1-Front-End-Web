@@ -6,17 +6,16 @@ import React, { useEffect, useState } from 'react';
 import MyVerticallyCenteredModal from '../modal';
 import axios from 'axios';
 
-let modelo = [
-    {
-        'id': '',
-        'nome': '',
-        'email': ''
-    }
-]
+interface IUser {
+    user_id: number;
+    nome?: string;
+    email?: string;
+  }
 
 export default function TableUsu() {
-    const [users, setUsers] = useState(modelo)
+    const [users, setUsers] = useState<IUser[]>([])
     const [modalShow, setModalShow] = React.useState(false);
+    const [modalData, setModalData] = React.useState<IUser>();
 
     useEffect(() => {
         function render(){
@@ -26,6 +25,11 @@ export default function TableUsu() {
         }
         render()
     }, [])
+
+    const handleShowModal = (user: IUser) => {
+        setModalData(user);
+        setModalShow(true);
+      };
 
   return (
     <div className="box-list">
@@ -42,23 +46,24 @@ export default function TableUsu() {
                 {users.map(user =>
                     <>
                         <tr>
-                            <td>{user.id}</td>
-                            <td>{user.nome}</td>
-                            <td>{user.email}</td>
+                            <td>{user.user_id}</td>
+                            <td>{user?.nome}</td>
+                            <td>{user?.email}</td>
                             <td>            
-                                <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)}/></Button>
+                                <Button className="bt bt-view"><BsEye className="icon" onClick={() => handleShowModal(user)}/></Button>
                                 <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
                                 <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
-                                <MyVerticallyCenteredModal
-                                    show={modalShow}
-                                    onHide={() => setModalShow(false)}
-                                    titulo={user.nome}
-                                    coluna1="ID: " resp1={user.id}
-                                    coluna2="Email: " resp2={user.email}
-                                />
                             </td>
                         </tr>
                     </>)}
+                    <MyVerticallyCenteredModal
+                                    show={modalShow}
+                                    {...modalData}
+                                    onHide={() => setModalShow(false)}
+                                    titulo={modalData?.nome}
+                                    coluna1="ID: " resp1={modalData?.user_id}
+                                    coluna2="Email: " resp2={modalData?.email}
+                                />
             </tbody>
         </Table>
     </div>
