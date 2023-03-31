@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import Form from "react-bootstrap/Form";
 // components ✨
 import Input from "../components/input";
 import SelectMulti from "../components/select";
 import Sidebar from "../components/sidebar";
 import Button from "../components/button";
-import Form from "react-bootstrap/Form";
 
 import "../styles/criar-alertas.css";
 import { Col, Row } from "react-bootstrap";
@@ -16,6 +15,7 @@ const options = [
   { value: 2, label: "Perigo" },
   { value: 3, label: "Crítico" },
 ];
+
 const { Select } = Form;
 
 export default function CriarAlertas() {
@@ -31,24 +31,22 @@ export default function CriarAlertas() {
   // inputs' handleChange ✨
   const handleChange = (event: any) => {
     const { name, value } = event.target;
-
     setAlerta((prevState: any) => {
       return {
         ...prevState,
         [name]: value,
       };
     });
-
-    console.log(alerta);
   };
 
   // select's handleChange ✨
   const handleChangeSelect = (event: any) => {
+    console.log(event.target.value);
     if (event.length != 0 && event) {
       setAlerta((prevState) => {
         return {
           ...prevState,
-          nivel: event[0].value,
+          nivel: event.target.value,
         };
       });
     }
@@ -56,13 +54,12 @@ export default function CriarAlertas() {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-
     axios
       .post(`http://localhost:5000/alerta/cadastro`, {
         nome: alerta.nome,
         valorMinimo: alerta.valorMin,
         valorMax: alerta.valorMax,
-        nivel: alerta.nivel.value,
+        nivel: alerta.nivel,
       })
       .then((res) => {});
 
@@ -123,19 +120,12 @@ export default function CriarAlertas() {
 
           <Row className="create-alert-content">
             <Col md={11}>
-              <Select
-              className="mb-3"
-                 onChange={(e: any) => {
-                    handleChangeSelect(e);
-                  }}
-              >
-                {options.map((i) => {
-                  return (
-                    <option key={i.value} value={i.value}>
-                      {i.label}
-                    </option>
-                  );
-                })}
+              <Select onChange={handleChangeSelect}>
+                {options.map((option) => (
+                  <option key={option?.value} value={option?.value}>
+                    {option?.label}
+                  </option>
+                ))}
               </Select>
             </Col>
           </Row>
