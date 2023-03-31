@@ -8,7 +8,7 @@ import Sidebar from '../components/sidebar';
 import Button from '../components/button'
 
 import '../styles/criar-usuarios.css'
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Form } from 'react-bootstrap';
 
 const options = [ {value: '1', label: 'Administrador'}, {value: '2', label: 'Comum'} ]
 
@@ -48,6 +48,10 @@ export default function CriarUsuarios() {
     };
 
     const handleSubmit = (event: any) => { 
+        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
+            event.target.querySelectorAll("input")[index].value = ""
+        }
+
         axios.post(`http://localhost:5000/user/cadastro`, {
             // colocar o campo de tipo aqui
             nome: usuario.nome,
@@ -57,80 +61,81 @@ export default function CriarUsuarios() {
 
         })
 
-        alert('Usuário cadastrado!');
-
-        setUsuario({
-            nome: "",
-            email: "",
-            tipoUsuario: tipoUsuario,
-            senha: ""
-        });        
+        alert('Usuário cadastrado!');   
     };
 
     return (
         <>
-            <Sidebar />
+            <Form onSubmit={handleSubmit}>
+                <Sidebar />
 
-            <div className="main-body">
-                <h1 className="TitImp">Cadastro de Usuários</h1>
+                <div className="main-body">
+                    <h1 className="TitImp">Cadastro de Usuários</h1>
                 
-                <div className="box-create-user">
-                    <Row className="create-alert-content">
-                        <Col md={6}>
-                            <Input
-                                label="Nome"
-                                name="nome"
-                                size="mb-6"
-                                type="text"
-                                placeholder="Insira o nome do usuário."
-                                onChange={handleChange}
-                            />
-                        </Col>
+                    <div className="box-create-user">
 
-                        <Col md={5}>
-                            <Input
-                                label="E-mail"
-                                name="email"
-                                size="mb-6"
-                                type="email"
-                                placeholder="Insira o e-mail do usuário."
-                                onChange={handleChange}
-                            />
-                        </Col>
-                    </Row>
-                    
-                    <Row className="create-alert-content">
-                        <Col md={11}>
-                            <SelectMulti
-                                label="Nível de Acesso"
-                                size="mb-3"
-                                name="tipoUsuario"
-                                placeholder="Selecione o nível de acesso do usuário."
-                                options={options}
-                                onChange={handleChangeSelect}
-                                close={true}
-                            />
-                        </Col>
-                    </Row>
+                        <Row className="create-alert-content">
+                            <Col md={6}>
+                                <Input
+                                    label="Nome"
+                                    name="nome"
+                                    size="mb-6"
+                                    type="text"
+                                    placeholder="Insira o nome do usuário."
+                                    onChange={handleChange}
+                                />
+                            </Col>
 
-                    <Row className="create-alert-content">
-                        <Col md={11}>
-                            <Input
-                                label="Senha"
-                                name="senha"
-                                size="mb-6"
-                                type="password"
-                                placeholder="Insira a primeira senha de acesso do usuário."
-                                onChange={handleChange}
-                            />
-                        </Col>
-                    </Row>
+                            <Col md={5}>
+                                <Input
+                                    label="E-mail"
+                                    name="email"
+                                    size="mb-6"
+                                    type="email"
+                                    placeholder="Insira o e-mail do usuário."
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                        </Row>
+                
+                        <Row className="create-alert-content">
+                            <Col md={11}>
+                                <SelectMulti
+                                    label="Nível de Acesso"
+                                    size="mb-3"
+                                    name="tipoUsuario"
+                                    placeholder="Selecione o nível de acesso do usuário."
+                                    options={options}
+                                    onChange={handleChangeSelect}
+                                    close={true}
+                                />
+                            </Col>
+                        </Row>
 
-                    <div className="create-alert-button">
-                        <Button type="submit" label="Criar!" className="btnCriar" onClick={handleSubmit} />
+                        <Row className="create-alert-content">
+                            <Col md={11}>
+                                <Input
+                                    label="Senha"
+                                    name="senha"
+                                    size="mb-6"
+                                    type="password"
+                                    placeholder="Insira a primeira senha de acesso do usuário."
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                        </Row>
+
+                        <div className="create-alert-button">
+                            <Button 
+                                type="submit" 
+                                label="Criar!" 
+                                className="btnCriar" 
+                                /* onClick={handleSubmit} */ 
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Form>
         </>
     )
 }
