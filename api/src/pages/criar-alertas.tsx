@@ -66,6 +66,8 @@ export default function CriarAlertas() {
                 nivel: alerta.nivel,
             })
             .then((res) => { });
+
+        alert("Alerta cadastrada!")
     };
 
     return (
