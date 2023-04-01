@@ -9,7 +9,7 @@ import Search from '../search';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-let modelo = [
+const modelo = [
     {
         'id': '',
         'nome': '',

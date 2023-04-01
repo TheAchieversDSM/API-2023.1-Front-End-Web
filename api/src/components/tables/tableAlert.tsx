@@ -8,7 +8,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Search from '../search';
 
-let modelo = [
+const modelo = [
     {
         'id': '',
         'nome':'',
