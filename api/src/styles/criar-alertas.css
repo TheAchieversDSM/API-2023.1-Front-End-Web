@@ -14,8 +14,6 @@
     --trans: all 0.3s ease;
 }
 
-
-
 .btn-create {
     background-color: var(--green) !important;
     border: 1px solid var(--green) !important;
@@ -32,7 +30,8 @@
 .box-create {
     position: absolute;
     width: 65%;
-    height: 500px !important;
+    height: fit-content;
+    padding-bottom: 20px;
     left: 25%;
     top: 120px;
     background: #FFFFFF;
@@ -64,7 +63,9 @@
 .box-create .css-13cymwt-control,
 .box-create input:focus,
 .box-create textarea:focus,
-.box-create .css-13cymwt-control:focus {
+.box-create .css-13cymwt-control:focus,
+.form-select,
+.form-select:focus {
     background-color: var(--lighter-purple);
     border: 1px solid var(--light-purple);
 }

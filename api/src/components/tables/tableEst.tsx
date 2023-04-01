@@ -1,3 +1,65 @@
+<<<<<<< API20231-72-Integracao-cadastro-estacoes
+import Table from "react-bootstrap/Table";
+import "../../styles/table.css";
+import Button from "react-bootstrap/Button";
+import {
+  BsTrash3,
+  BsEye,
+  BsPencil,
+  BsGraphUp,
+  BsClipboard2,
+} from "react-icons/bs";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import MyVerticallyCenteredModal from "../modal";
+import React from "react";
+import { Link } from "react-router-dom";
+
+interface IEstacao {
+  estacao_id: number;
+  nome: string;
+  uid: string;
+  UTC: string;
+  lati: number;
+  long: number;
+  unixtime: number;
+  parametros?: {
+    parametro_id: number;
+    nome: string;
+    formula: string;
+    fator: string;
+    offset: string;
+    tipo?: {
+      tipo_id: number;
+      nome: string;
+    };
+    unidadeDeMedida?: {
+      unidade_id: number;
+      nome: string;
+    };
+  }[];
+}
+
+export default function TableEst() {
+  const [estacoes, setEstacoes] = useState<IEstacao[]>([]);
+  const [modalShow, setModalShow] = React.useState(false);
+  const [modalData, setModalData] = React.useState<IEstacao>();
+
+  const handleShowModal = (estacao: IEstacao) => {
+    setModalData(estacao);
+    setModalShow(true);
+  };
+
+  useEffect(() => {
+    function render() {
+      axios.get("http://localhost:5000/estacao/pegarEstacoes").then((res) => {
+        setEstacoes(res.data);
+      });
+    }
+    render();
+  }, []);
+
+=======
 import Table from 'react-bootstrap/Table';
 import "../../styles/table.css"
 import Button from 'react-bootstrap/Button';
@@ -87,6 +149,7 @@ export default function TableEst() {
           ));
       }
     
+>>>>>>> develop
   return (
     <>
     <Search change={handleSearch} link="/criar-estacoes" />

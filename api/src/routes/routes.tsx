@@ -19,14 +19,14 @@ const Routes = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path="/" element={<HOME />} />
+                <Route path="/home" element={<HOME />} />
                 <Route path="/usuarios" element={<Usuarios />} />
                 <Route path="/alertas" element={<Alertas />} />
                 <Route path="/reports/:id" element={<Reports />} />
                 <Route path="/dashboard/:id" element={<Dashboard />}/>
                 <Route path="/parametros" element={<Parametros />} />
                 <Route path="/estacoes" element={<Estacao />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Login />} />
                 <Route path="/criar-alertas" element={<CriarAlertas />} />
                 <Route path="/criar-estacoes" element={<CriarEstacoes />} />
                 <Route path="/criar-usuarios" element={<CriarUsuarios />} />

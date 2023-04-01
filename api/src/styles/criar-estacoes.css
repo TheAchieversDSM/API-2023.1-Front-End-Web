@@ -30,7 +30,8 @@
 .box-create-station {
     position: absolute;
     width: 65%;
-    height: 540px;
+    height: fit-content;
+    padding-bottom: 20px;    
     left: 25%;
     top: 120px;
     background: #FFFFFF;

@@ -9,17 +9,16 @@ import Search from '../search';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const modelo = [
-    {
-        'id': '',
-        'nome': '',
-        'email': ''
-    }
-]
+interface IUser {
+    user_id: number;
+    nome?: string;
+    email?: string;
+  }
 
 export default function TableUsu() {
-    const [users, setUsers] = useState(modelo)
+    const [users, setUsers] = useState<IUser[]>([])
     const [modalShow, setModalShow] = React.useState(false);
+    const [modalData, setModalData] = React.useState<IUser>();
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
@@ -31,6 +30,10 @@ export default function TableUsu() {
         render()
     }, [])
 
+    const handleShowModal = (user: IUser) => {
+        setModalData(user);
+        setModalShow(true);
+      };
     function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
         setSearchTerm(event.target.value);
     }
@@ -81,7 +84,6 @@ export default function TableUsu() {
           ));
       }
 
-
   return (
     <>
     <Search change={handleSearch} link="/criar-usuarios"/>
@@ -99,6 +101,6 @@ export default function TableUsu() {
                 {renderTableRows()}
               </tbody>
           </Table>
-      </div></>
+      </div>
   )
 }

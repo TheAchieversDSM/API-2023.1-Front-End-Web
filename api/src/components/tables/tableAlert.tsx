@@ -8,20 +8,18 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Search from '../search';
 
-const modelo = [
-    {
-        'id': '',
-        'nome':'',
-        'id_estacao': '',
-        'id_parametro': '',
-        'valorMax': '',
-        'valorMinimo': ''
-    }
-]
+interface IAlerta {
+    alerta_id: number;
+    nome?: string;
+    valorMax?: number;
+    valorMinimo?: string;
+    nivel?: number;
+  }
 
 export default function TableAlert() {
-    const [alertas, setAlertas] = useState(modelo)
+    const [alertas, setAlertas] = useState<IAlerta[]>([])
     const [modalShow, setModalShow] = React.useState(false);
+    const [modalData, setModalData] = React.useState<IAlerta>();
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() =>{
@@ -33,7 +31,12 @@ export default function TableAlert() {
         render()
     },[])
 
-    function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
+    const handleShowModal = (alerta: any) => {
+        setModalData(alerta);
+        setModalShow(true);
+      };
+
+  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
         setSearchTerm(event.target.value);
     }
 
