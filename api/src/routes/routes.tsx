@@ -12,6 +12,7 @@ import CriarAlertas from "../pages/criar-alertas";
 import CriarEstacoes from "../pages/criar-estacoes";
 import CriarUsuarios from "../pages/criar-usuarios";
 import CriarParametros from "../pages/criar-parametros";
+import Reports from "../pages/reports";
 
 
 const Routes = () => {
@@ -21,7 +22,8 @@ const Routes = () => {
                 <Route path="/" element={<HOME />} />
                 <Route path="/usuarios" element={<Usuarios />} />
                 <Route path="/alertas" element={<Alertas />} />
-                <Route path="/dashboard/:estacaoId" element={<Dashboard />}/>
+                <Route path="/reports/:id" element={<Reports />} />
+                <Route path="/dashboard/:id" element={<Dashboard />}/>
                 <Route path="/parametros" element={<Parametros />} />
                 <Route path="/estacoes" element={<Estacao />} />
                 <Route path="/login" element={<Login />} />

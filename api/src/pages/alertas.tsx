@@ -9,7 +9,6 @@ export default function Alertas() {
         <>
             <Sidebar />
             <h1 className="TitImp">Alertas</h1>
-            <Search link="../criar-alertas"/>
             <TableAlert/>
         </>
     )

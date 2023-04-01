@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../styles/search.css';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ export default function Search(props: any){
                 <Form.Control className="input-search"
                     placeholder="Search..."
                     aria-describedby="basic-addon2"
+                    onChange={props.change}
                 />
                 <InputGroup.Text id="basic-addon2" className="lupa"><BsSearch className="icon"/></InputGroup.Text>
             </InputGroup>
