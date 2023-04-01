@@ -30,7 +30,7 @@ export default function Sidebar() {
 
                         <ul className="menu-links">
                             <li className="nav-link">
-                                <Link to="/">
+                                <Link to="/home">
                                     <BsHouse className="icon" />
                                     <span className="text nav-text">Início</span>
                                 </Link>
@@ -68,7 +68,7 @@ export default function Sidebar() {
 
                     <div className="bottom-content">
                         <li>
-                            <a href="#">
+                            <a href="/">
                                 <BsBoxArrowInLeft className="icon" />
                                 <span className="text nav-text">Logout</span>
                             </a>
