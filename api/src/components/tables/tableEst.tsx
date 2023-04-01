@@ -89,27 +89,6 @@ export default function TableEst() {
                 <Button className="bt bt-view" onClick={() => handleShowModal(estacao)}><BsEye className="icon" /></Button>
                 <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
                 <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
-                <MyVerticallyCenteredModal
-                show={modalShow}
-                {...modalData}
-                onHide={() => setModalShow(false)}
-                titulo={estacao.nome}
-                coluna1="ID: " resp1={estacao.estacao_id}
-                coluna2="Latitude: " resp2={estacao.lati}
-                coluna3="Longitude: " resp3={estacao.long}
-                coluna4="UID: " resp4={estacao.uid}
-                coluna5="UTC: " resp5={estacao.UTC}
-                coluna6="UnixTime: " resp6={estacao.unixtime}
-                coluna7="Parâmetros: " resp7={modalData?.parametros?.map((itens) => {
-                  return (
-                    <div key={itens.parametro_id}>
-                      <p>{itens?.nome}</p>
-                      <p>{itens?.tipo?.nome}</p>
-                      <p>{itens?.unidadeDeMedida?.nome}</p>
-                    </div>
-                  );
-                })}
-            />
             </td>
         </tr>
           ));
@@ -132,6 +111,27 @@ export default function TableEst() {
               </thead>
               <tbody>
                   {renderTableRows()}
+                  <MyVerticallyCenteredModal
+                show={modalShow}
+                {...modalData}
+                onHide={() => setModalShow(false)}
+                titulo={modalData?.nome}
+                coluna1="ID: " resp1={modalData?.estacao_id}
+                coluna2="Latitude: " resp2={modalData?.lati}
+                coluna3="Longitude: " resp3={modalData?.long}
+                coluna4="UID: " resp4={modalData?.uid}
+                coluna5="UTC: " resp5={modalData?.UTC}
+                coluna6="UnixTime: " resp6={modalData?.unixtime}
+                coluna7="Parâmetros: " resp7={modalData?.parametros?.map((itens) => {
+                  return (
+                    <div key={itens.parametro_id}>
+                      <ul>
+                        <li><b>Nome:</b> {itens?.nome}  <b>Tipo: </b>{itens?.tipo?.nome}  <b>Unidade de medida: </b>{itens?.unidadeDeMedida?.nome}</li>
+                      </ul>
+                    </div>
+                  );
+                })}
+            />
               </tbody>
           </Table>
       </div>

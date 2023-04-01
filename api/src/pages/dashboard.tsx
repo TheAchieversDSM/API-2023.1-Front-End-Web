@@ -15,15 +15,15 @@ import chartMount from '../utils/chart_utils/chartMount/chartMount';
 import groupByUnixtime from '../utils/chart_utils/groupUnixtime/groupUnixtime';
 
 export default function Dashboard() {
-    const { estacaoId } = useParams()
+    const { id } = useParams()
     const [estacaoNome, setEstacaoNome] = useState()
     const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>();
     const [medidas, setMedidas] = useState<Array<MediasSeries>>();
     const [options, setOptions] = useState<Options>()
-
+    console.log(estacaoParametros)
     useEffect(() => {
         function render() {
-            axios.get(`http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${estacaoId}`).then(res => {
+            axios.get(`http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${id}`).then(res => {
                 console.log(res.data)
                 setEstacaoNome(res.data.nome)
                 setEstacaoParametros(res.data)
