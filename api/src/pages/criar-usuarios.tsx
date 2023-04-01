@@ -98,7 +98,7 @@ export default function CriarUsuarios() {
                             </Col>
                         </Row>
                 
-                        <Row className="create-alert-content">
+                        {/* <Row className="create-alert-content">
                             <Col md={11}>
                                 <SelectMulti
                                     label="Nível de Acesso"
@@ -110,7 +110,7 @@ export default function CriarUsuarios() {
                                     close={true}
                                 />
                             </Col>
-                        </Row>
+                        </Row> */}
 
                         <Row className="create-alert-content">
                             <Col md={11}>

@@ -54,6 +54,7 @@ export default function TableAlert() {
             <tr>
                 <td>{alerta.alerta_id}</td>
                 <td>{alerta.nome}</td>
+                <td>{alerta.nivel}</td>
                 <td>{alerta.valorMax}</td>
                 <td>{alerta.valorMinimo}</td>
                 <td>
@@ -75,6 +76,7 @@ export default function TableAlert() {
                   <tr>
                       <th>ID</th>
                       <th>Nome</th>
+                      <th>Nível</th>
                       <th>Valor Máximo</th>
                       <th>Valor Minimo</th>
                       <th></th>
