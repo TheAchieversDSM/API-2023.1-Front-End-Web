@@ -40,6 +40,9 @@ export default function CriarParametros() {
                 [name]: value,
             };
         });
+
+        console.log(parametros);
+
     };
 
     // select's handleChange ✨
@@ -229,8 +232,7 @@ export default function CriarParametros() {
                                 className="btnCriar" 
                                 /* onClick={handleSubmit} */ 
                             />
-                        </div>
-                    </div>
+                      </div>
                 </div>
             </Form>
         </>

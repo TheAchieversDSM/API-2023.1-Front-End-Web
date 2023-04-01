@@ -1,44 +1,59 @@
 import Table from "react-bootstrap/Table";
 import "../../styles/table.css";
 import Button from "react-bootstrap/Button";
-import MyVerticallyCenteredModal from "../modal";
-import { BsTrash3, BsEye, BsPencil } from "react-icons/bs";
-import React, { useEffect, useState } from "react";
+import {
+  BsTrash3,
+  BsEye,
+  BsPencil,
+  BsGraphUp,
+  BsClipboard2,
+} from "react-icons/bs";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { log } from "console";
+import MyVerticallyCenteredModal from "../modal";
+import React from "react";
+import { Link } from "react-router-dom";
 
-interface IParametro {
-  parametro_id: number;
-  nome?: string;
-  tipo?: {
-    tipo_id: number;
+interface IEstacao {
+  estacao_id: number;
+  nome: string;
+  uid: string;
+  UTC: string;
+  lati: number;
+  long: number;
+  unixtime: number;
+  parametros?: {
+    parametro_id: number;
     nome: string;
-  };
-  unidadeDeMedida?: {
-    nome: string;
-    unidade_id: number;
-  };
-  fator?: string;
-  offset?: string;
+    formula: string;
+    fator: string;
+    offset: string;
+    tipo?: {
+      tipo_id: number;
+      nome: string;
+    };
+    unidadeDeMedida?: {
+      unidade_id: number;
+      nome: string;
+    };
+  }[];
 }
 
-export default function TablePar(props: any) {
-  const [parametros, setParametros] = useState<IParametro[]>([]);
+export default function TableEst() {
+  const [estacoes, setEstacoes] = useState<IEstacao[]>([]);
   const [modalShow, setModalShow] = React.useState(false);
-  const [modalData, setModalData] = React.useState<IParametro>();
+  const [modalData, setModalData] = React.useState<IEstacao>();
 
-  const handleShowModal = (parametro: any) => {
-    setModalData(parametro);
+  const handleShowModal = (estacao: IEstacao) => {
+    setModalData(estacao);
     setModalShow(true);
   };
 
   useEffect(() => {
     function render() {
-      axios
-        .get("http://localhost:5000/parametro/pegarParametros")
-        .then((res) => {
-          setParametros(res.data);
-        });
+      axios.get("http://localhost:5000/estacao/pegarEstacoes").then((res) => {
+        setEstacoes(res.data);
+      });
     }
     render();
   }, []);
@@ -50,24 +65,26 @@ export default function TablePar(props: any) {
           <tr>
             <th>ID</th>
             <th>Nome</th>
-            <th>Tipo</th>
-            <th>Unidade de medida</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>UnixTime</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {parametros.map((parametro, index) => (
-            <tr key={parametro.parametro_id}>
-              <td>{parametro.parametro_id}</td>
-              <td>{parametro.nome}</td>
-              <td>{parametro?.tipo?.nome}</td>
-              <td>{parametro.unidadeDeMedida?.nome}</td>
+          {estacoes.map((estacao) => (
+            <tr key={estacao.estacao_id}>
+              <td>{estacao.estacao_id}</td>
+              <td>{estacao.nome}</td>
+              <td>{estacao.lati}</td>
+              <td>{estacao.long}</td>
+              <td>{estacao.unixtime}</td>
               <td>
+                <Button className="bt bt-record">
+                  <BsClipboard2 className="icon" />
+                </Button>
                 <Button className="bt bt-view">
-                  <BsEye
-                    className="icon"
-                    onClick={() => handleShowModal(parametro)}
-                  />
+                  <BsEye className="icon" onClick={() => handleShowModal(estacao)} />
                 </Button>
                 <Button className="bt bt-edit">
                   <BsPencil className="icon" />
@@ -84,15 +101,25 @@ export default function TablePar(props: any) {
             onHide={() => setModalShow(false)}
             titulo={modalData?.nome}
             coluna1="ID: "
-            resp1={modalData?.parametro_id}
-            coluna3="Tipo: "
-            resp3={modalData?.tipo?.nome}
-            coluna4="Unidade de medida: "
-            resp4={modalData?.unidadeDeMedida?.nome}
-            coluna5="Fator: "
-            resp5={modalData?.fator}
-            coluna6="OffSet: "
-            resp6={modalData?.offset}
+            resp1={modalData?.estacao_id}
+            coluna2="Latitude: "
+            resp2={modalData?.lati}
+            coluna3="Longitude: "
+            resp3={modalData?.long}
+            coluna4="UID: "
+            resp4={modalData?.uid}
+            coluna5="UTC: "
+            resp5={modalData?.UTC}
+            coluna6="ParÃ¢metros: "
+            resp6={modalData?.parametros?.map((itens) => {
+              return (
+                <div key={itens.parametro_id}>
+                  <p>{itens.nome}</p>
+                  <p>{itens?.tipo?.nome}</p>
+                  <p>{itens?.unidadeDeMedida?.nome}</p>
+                </div>
+              );
+            })}
           />
         </tbody>
       </Table>

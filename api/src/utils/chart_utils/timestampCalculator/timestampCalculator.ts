@@ -10,7 +10,7 @@ export default function timestampCalculator(start_date: Date, end_date: Date) {
 
     const datas = Array.from(range.by('day'));
 
-    var timestamps = []
+    const timestamps = []
 
     for (let i = 0; i < datas.length; i++) {
         const date = datas[i];

@@ -5,6 +5,8 @@ import MyVerticallyCenteredModal from '../modal';
 import { BsTrash3, BsEye, BsPencil, BsClipboard2 } from 'react-icons/bs'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import Search from '../search';
 
 interface IAlerta {
     alerta_id: number;
@@ -18,6 +20,7 @@ export default function TableAlert() {
     const [alertas, setAlertas] = useState<IAlerta[]>([])
     const [modalShow, setModalShow] = React.useState(false);
     const [modalData, setModalData] = React.useState<IAlerta>();
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() =>{
         function render(){
@@ -33,46 +36,71 @@ export default function TableAlert() {
         setModalShow(true);
       };
 
+  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
+        setSearchTerm(event.target.value);
+    }
+
+    function renderTableRows() {
+        return alertas
+          .filter((alerta) => {
+            if (!searchTerm) {
+              return true;
+            }
+    
+            if (
+              alerta.id.toString().toLowerCase().includes(searchTerm.toLowerCase())
+            ) {
+              return true;
+            }
+    
+            return false;
+          })
+          .map((alerta) => (
+            <tr>
+                <td>{alerta.id}</td>
+                <td>{alerta.id_estacao}</td>
+                <td>{alerta.id_parametro}</td>
+                <td>{alerta.valorMax}</td>
+                <td>{alerta.valorMinimo}</td>
+                <td>
+                    <Button className="bt bt-record"><BsClipboard2 className="icon" /></Button>
+                    <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)} /></Button>
+                    <Button className="bt bt-edit"><BsPencil className="icon" /></Button>
+                    <Button className="bt bt-delete"><BsTrash3 className="icon" /></Button>
+
+                    <MyVerticallyCenteredModal
+                        show={modalShow}
+                        onHide={() => setModalShow(false)}
+                        titulo={alerta.id}
+                        coluna1="ID: " resp1={alerta.id}
+                        coluna2="Estação: " resp2={alerta.id_estacao}
+                        coluna3="Parâmetro: " resp3={alerta.id_parametro}
+                        coluna4="Valor Máximo: " resp4={alerta.valorMax}
+                        coluna5="Valor Minimo: " resp5={alerta.valorMinimo} />
+                </td>
+            </tr>
+          ));
+      }
+
   return (
+    <>
+    <Search change={handleSearch} link="/criar-alertas"/>
     <div className="box-list">
-        <Table className="table" size="sm" >
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Valor Máximo</th>
-                    <th>Valor Minimo</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {alertas.map(alerta =>
-                    <tr>
-                    <td>{alerta.alerta_id}</td>
-                    <td>{alerta?.nome}</td>
-                    <td>{alerta?.valorMax}</td>
-                    <td>{alerta?.valorMinimo}</td>
-                    <td>      
-                        <Button className="bt bt-record"><BsClipboard2 className="icon"/></Button>      
-                        <Button className="bt bt-view"><BsEye className="icon" onClick={() => handleShowModal(alerta)}/></Button>
-                        <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
-                        <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
-                        
-                        
-                    </td>
-                </tr>)}
-                <MyVerticallyCenteredModal
-                            show={modalShow}
-                            {...modalData}
-                            onHide={() => setModalShow(false)}
-                            titulo={modalData?.nome}
-                            coluna1="ID: " resp1={modalData?.alerta_id}
-                            coluna2="Nível: " resp2={modalData?.nivel}
-                            coluna3="Valor Máximo: " resp3={modalData?.valorMax}
-                            coluna4="Valor Minimo: " resp4={modalData?.valorMinimo}
-                        />
-            </tbody>
-        </Table>
-    </div>
+          <Table className="table" size="sm">
+              <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>Estação</th>
+                      <th>Parâmetro</th>
+                      <th>Valor Máximo</th>
+                      <th>Valor Minimo</th>
+                      <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                {renderTableRows()} 
+              </tbody>
+          </Table>
+      </div></>
   )
 }

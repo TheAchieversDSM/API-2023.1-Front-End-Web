@@ -1,135 +1,75 @@
 import axios from 'axios';
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Sidebar from '../components/sidebar';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import '../styles/dashboard.css'
 import Chart from '../components/chart';
-import { EstacaoParametro } from '../utils/types/types';
+import { EstacaoParametro, MediasSeries } from '../utils/types/types';
 import Navigation from '../components/nav/nav';
 import NavItem from '../components/nav/navItem';
-import { log } from 'console';
+import metricMount from '../utils/chart_utils/metricMount/metricMount';
+import Options from '../utils/chart_utils/options/options';
+import averageCalculator from '../utils/chart_utils/averageCalculator/averageCalculator';
+import chartMount from '../utils/chart_utils/chartMount/chartMount';
+import groupByUnixtime from '../utils/chart_utils/groupUnixtime/groupUnixtime';
 
 export default function Dashboard() {
-    const {estacaoId} = useParams()
-     
+    const { estacaoId } = useParams()
+    const [estacaoNome, setEstacaoNome] = useState()
+    const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>();
+    const [medidas, setMedidas] = useState<Array<MediasSeries>>();
+    const [options, setOptions] = useState<Options>()
 
-    const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>([{id: 0, nome: "", unidadeDeMedida: "string"}]);
-    const [medidas, setMedidas] = useState()
-    const [options, setOptions] = useState()
-
-    useEffect(()=>{
-        function render(){
-            axios.get(`http://localhost:5000/estacao/pegarEstacoesPorId/${estacaoId}`).then(res =>{
+    useEffect(() => {
+        function render() {
+            axios.get(`http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${estacaoId}`).then(res => {
+                console.log(res.data)
+                setEstacaoNome(res.data.nome)
                 setEstacaoParametros(res.data)
             })
-        }
-        if(estacaoParametros){
-            setEstacaoParametros( [
-                {
-                id: 1,
-                nome: 'Estação 1',
-                unidadeDeMedida: 'Celsius'
-                },
-            ])
-        }
-        render()
-    },[])
 
-    console.log(typeof estacaoParametros)
-    const optionss = {
-        chart: {
-            type: 'spline',
-            width: 1200,
-            height: 500,
-            
-        },
-        title: {
-            text: 'Temperaturas diárias'
-        },
-        xAxis: {
-            type:"datetime"
-        },
-        yAxis: {
-            title: {
-                text: 'Temperatura (°C)'
-            }
-        },
-        series: [{
-            name: 'Máxima',
-            data: [[1647529200000,26], [1647615600000,25], [1647702000000,23], [1647788400000,20], [1647874800000,18], [1647961200000,20], [1648047600000,22]],
-            tooltip: {
-                valueSuffix: '°F'
-            },
-        }, {
-            name: 'Mínima',
-            data: [[1647529200000,5], [1647615600000,6], [1647702000000,4], [1647788400000,8], [1647874800000,12], [1647961200000,10], [1648047600000,12]],
-            tooltip: {
-                valueSuffix: '°C'
-            },
-        }],
-        rangeSelector: {
-            buttons: [
-              {
-                type: "hour",
-                count: 1,
-                text: "1h",
-              },
-              {
-                type: "day",
-                count: 1,
-                text: "1d",
-              },
-              {
-                type: "week",
-                count: 1,
-                text: "1w",
-              },
-              {
-                type: "month",
-                count: 1,
-                text: "1m",
-              },
-              {
-                type: "year",
-                count: 1,
-                text: "1y",
-              },
-              {
-                type: "all",
-                text: "Tudo",
-              },
-            ],
-            selected: 5,
-            inputDateFormat: "%d/%m/%Y",
-            inputEditDateFormat: "%d/%m/%Y"
-          },
-        lang: {
-            noData: "Não há dados disponíveis para exibição."
-        },
-        noData: {
-            style: {
-                fontWeight: 'bold',
-                fontSize: '24px',
-                color: '#5751D3'
-            }
         }
-    }
+
+        render()
+    }, [])
+
+    useEffect(() => {
+        const medidasseries: MediasSeries[] = []
+        estacaoParametros?.map((parametro: EstacaoParametro) => {
+            if (parametro.medidas[0].unixtime) {
+                parametro.medidaMedia = averageCalculator(groupByUnixtime(parametro.medidas))
+                const med = { nome: parametro.nome, sufixo: { nome: ' '+ parametro.unidadeDeMedida.nome, id: parametro.unidadeDeMedida.unidade_id }, media: parametro.medidaMedia }
+                medidasseries.push(med)
+            }
+        })
+        setMedidas(medidasseries)
+
+
+        if (medidas) {
+            const metrics = metricMount(medidas)
+            setOptions(chartMount(metrics))
+        }
+
+    }, [estacaoParametros])
+
     return (
         <>
             <Sidebar />
             <div className='main-body'>
-                <h1 className="TitImp">Estação Fatec-SJC</h1>
+                <h1 className="TitImp">Estação {estacaoNome}</h1>
                 <div className='buttons_dashboard'>
+
                     <Navigation variant="pills" default="1">
                         <NavItem index={1} label="Todos" />
-                        {estacaoParametros?.map((parametro,index)=>{
-                            <NavItem index={index+2} label={parametro.nome} />
-                        })}
+                        {estacaoParametros?.map((parametro, index) =>
+
+                            <NavItem index={index + 2} label={parametro.nome} />
+                        )}
                     </Navigation>
                 </div>
                 <div className='container_dashboard'>
-                    <Chart className='container_dashboard' options={optionss} />
+                    <Chart className='container_dashboard' options={options} />
                 </div>
             </div>
 
