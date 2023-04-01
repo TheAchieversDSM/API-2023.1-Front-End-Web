@@ -18,8 +18,6 @@ interface IAlerta {
 
 export default function TableAlert() {
     const [alertas, setAlertas] = useState<IAlerta[]>([])
-    const [modalShow, setModalShow] = React.useState(false);
-    const [modalData, setModalData] = React.useState<IAlerta>();
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() =>{
@@ -31,10 +29,6 @@ export default function TableAlert() {
         render()
     },[])
 
-    const handleShowModal = (alerta: any) => {
-        setModalData(alerta);
-        setModalShow(true);
-      };
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
         setSearchTerm(event.target.value);
@@ -48,7 +42,8 @@ export default function TableAlert() {
             }
     
             if (
-              alerta.id.toString().toLowerCase().includes(searchTerm.toLowerCase())
+              alerta?.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              alerta.alerta_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
             ) {
               return true;
             }
@@ -57,26 +52,15 @@ export default function TableAlert() {
           })
           .map((alerta) => (
             <tr>
-                <td>{alerta.id}</td>
-                <td>{alerta.id_estacao}</td>
-                <td>{alerta.id_parametro}</td>
+                <td>{alerta.alerta_id}</td>
+                <td>{alerta.nome}</td>
                 <td>{alerta.valorMax}</td>
                 <td>{alerta.valorMinimo}</td>
                 <td>
-                    <Button className="bt bt-record"><BsClipboard2 className="icon" /></Button>
-                    <Button className="bt bt-view"><BsEye className="icon" onClick={() => setModalShow(true)} /></Button>
+                    <Link to={`/reports/${alerta.alerta_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
                     <Button className="bt bt-edit"><BsPencil className="icon" /></Button>
                     <Button className="bt bt-delete"><BsTrash3 className="icon" /></Button>
 
-                    <MyVerticallyCenteredModal
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                        titulo={alerta.id}
-                        coluna1="ID: " resp1={alerta.id}
-                        coluna2="Estação: " resp2={alerta.id_estacao}
-                        coluna3="Parâmetro: " resp3={alerta.id_parametro}
-                        coluna4="Valor Máximo: " resp4={alerta.valorMax}
-                        coluna5="Valor Minimo: " resp5={alerta.valorMinimo} />
                 </td>
             </tr>
           ));
@@ -90,8 +74,7 @@ export default function TableAlert() {
               <thead>
                   <tr>
                       <th>ID</th>
-                      <th>Estação</th>
-                      <th>Parâmetro</th>
+                      <th>Nome</th>
                       <th>Valor Máximo</th>
                       <th>Valor Minimo</th>
                       <th></th>
@@ -101,6 +84,7 @@ export default function TableAlert() {
                 {renderTableRows()} 
               </tbody>
           </Table>
-      </div></>
+      </div>
+      </>
   )
 }

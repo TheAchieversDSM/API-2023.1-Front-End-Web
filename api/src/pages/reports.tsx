@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 let modelo = {
-        'id': '',
+        'alerta_id': '',
         'nome':''
 }
 
@@ -29,7 +29,7 @@ export default function Reports() {
     return (
         <>
             <Sidebar />
-                <h1 className="TitImp">Reports do Alerta {alerta.nome} ({alerta.id})</h1>
+                <h1 className="TitImp">Reports do Alerta {alerta.nome} ({alerta.alerta_id})</h1>
 
             <TableReport/>
         </>

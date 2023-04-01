@@ -17,7 +17,6 @@ interface IUser {
 
 export default function TableUsu() {
     const [users, setUsers] = useState<IUser[]>([])
-    const [modalShow, setModalShow] = React.useState(false);
     const [modalData, setModalData] = React.useState<IUser>();
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -30,10 +29,6 @@ export default function TableUsu() {
         render()
     }, [])
 
-    const handleShowModal = (user: IUser) => {
-        setModalData(user);
-        setModalShow(true);
-      };
     function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
         setSearchTerm(event.target.value);
     }
@@ -46,9 +41,9 @@ export default function TableUsu() {
             }
     
             if (
-              user.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              user.id.toString().toLowerCase().includes(searchTerm.toLowerCase())
+              user?.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              user?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              user.user_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
             ) {
               return true;
             }
@@ -56,29 +51,17 @@ export default function TableUsu() {
             return false;
           })
           .map((user) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
+            <tr key={user.user_id}>
+              <td>{user.user_id}</td>
               <td>{user.nome}</td>
               <td>{user.email}</td>
               <td>
-                <Button className="bt bt-view">
-                  <BsEye className="icon" onClick={() => setModalShow(true)} />
-                </Button>
                 <Button className="bt bt-edit">
                   <BsPencil className="icon" />
                 </Button>
                 <Button className="bt bt-delete">
                   <BsTrash3 className="icon" />
                 </Button>
-                <MyVerticallyCenteredModal
-                  show={modalShow}
-                  onHide={() => setModalShow(false)}
-                  titulo={user.nome}
-                  coluna1="ID: "
-                  resp1={user.id}
-                  coluna2="Email: "
-                  resp2={user.email}
-                />
               </td>
             </tr>
           ));
@@ -102,5 +85,6 @@ export default function TableUsu() {
               </tbody>
           </Table>
       </div>
+      </>
   )
 }

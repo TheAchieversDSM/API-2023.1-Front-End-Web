@@ -232,7 +232,8 @@ export default function CriarParametros() {
                                 className="btnCriar" 
                                 /* onClick={handleSubmit} */ 
                             />
-                      </div>
+                        </div>
+                    </div>
                 </div>
             </Form>
         </>

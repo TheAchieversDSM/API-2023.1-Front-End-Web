@@ -4,24 +4,24 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-let modelo = [
+interface IReport 
     {
-        'reports_id': '',
-        'reports_unixtime': '',
-        'reports_nivel': '',
-        'alerta_nome': ''
+        reports_id: number;
+        reports_unixtime: number;
+        reports_nivel?: number;
+        alerta_nome?: string;
     }
-]
+
 
 export default function TableReport() {
-    const [report, setReports] = useState(modelo)
+    const [report, setReports] = useState<IReport[]>([])
     const { id } = useParams();
 
     useEffect(()=>{
         function render(){
             axios.get(`http://localhost:5000/alerta/pegarReportsAtravesDoAlerta/${id}`).then((res)=>{
                 console.log(res.data)
-                setReports(res.data)
+                setReports([res.data])
             }
             )
         }
@@ -40,13 +40,13 @@ export default function TableReport() {
                 </tr>
             </thead>
             <tbody>
-                {report.map(reports =>
+                {report? report?.map(reports =>
                 <tr>
                     <td>{reports.reports_id}</td>
-                    <td>{reports.alerta_nome}</td>
+                    <td>{reports?.alerta_nome}</td>
                     <td>{reports.reports_unixtime}</td>
-                    <td>{reports.reports_nivel}</td>
-                </tr>)}
+                    <td>{reports?.reports_nivel}</td>
+                </tr>):<></>}
             </tbody>
         </Table>
     </div>
