@@ -20,7 +20,6 @@ export default function TableReport() {
     useEffect(()=>{
         function render(){
             axios.get(`http://localhost:5000/alerta/pegarReportsAtravesDoAlerta/${id}`).then((res)=>{
-                console.log(res.data)
                 setReports([res.data])
             }
             )

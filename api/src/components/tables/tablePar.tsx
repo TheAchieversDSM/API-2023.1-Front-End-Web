@@ -5,7 +5,6 @@ import MyVerticallyCenteredModal from "../modal";
 import { BsTrash3, BsEye, BsPencil } from "react-icons/bs";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { log } from "console";
 import Search from "../search";
 
 interface IParametro {

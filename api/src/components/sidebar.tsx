@@ -44,6 +44,13 @@ export default function Sidebar() {
                             </li>
 
                             <li className="nav-link">
+                                <Link to="/alertas">
+                                    <BsExclamationTriangle className="icon" />
+                                    <span className="text nav-text">Alertas</span>
+                                </Link>
+                            </li>
+
+                            <li className="nav-link">
                                 <Link to="/parametros">
                                     <BsClipboard2Check className="icon" />
                                     <span className="text nav-text">Parâmetros</span>
@@ -54,13 +61,6 @@ export default function Sidebar() {
                                 <Link to="/estacoes">
                                     <BsSignpostSplit className="icon" />
                                     <span className="text nav-text">Estações</span>
-                                </Link>
-                            </li>
-
-                            <li className="nav-link">
-                                <Link to="/alertas">
-                                    <BsExclamationTriangle className="icon" />
-                                    <span className="text nav-text">Alertas</span>
                                 </Link>
                             </li>
                         </ul>

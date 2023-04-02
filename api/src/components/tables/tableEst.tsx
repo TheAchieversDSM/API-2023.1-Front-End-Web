@@ -50,7 +50,6 @@ export default function TableEst() {
     useEffect(() => {
         function render(){
             axios.get("http://localhost:5000/estacao/pegarEstacoes").then((res)=>{
-                console.log(res.data)
                 setEstacoes(res.data)
             })
         }
@@ -83,7 +82,6 @@ export default function TableEst() {
             <td>{estacao.nome}</td>
             <td>{estacao.lati}</td>
             <td>{estacao.long}</td>
-            <td>{estacao?.estacao_parametro}</td>
             <td>
                 <Link to={`/dashboard/${estacao.estacao_id}`}><Button className="bt bt-record"><FaChartLine  className="icon"/></Button></Link>
                 <Button className="bt bt-view" onClick={() => handleShowModal(estacao)}><BsEye className="icon" /></Button>
@@ -105,7 +103,6 @@ export default function TableEst() {
                       <th>Nome</th>
                       <th>Latitude</th>
                       <th>Longitude</th>
-                      <th>Parametros</th>
                       <th></th>
                   </tr>
               </thead>

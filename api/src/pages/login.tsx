@@ -28,7 +28,7 @@ export default function Login() {
                             <Input
                                 label="Senha"
                                 size="mb-6"
-                                type="passoword"
+                                type="password"
                                 placeholder="Insira sua senha."
                                 onChange={""}
                             />

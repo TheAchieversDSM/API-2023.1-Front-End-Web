@@ -66,7 +66,7 @@ export default function CriarAlertas() {
             })
             .then((res) => { });
 
-        alert("Alerta cadastrada!")
+        alert("Alerta cadastrado!")
     };
 
     return (

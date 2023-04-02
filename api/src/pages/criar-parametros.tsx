@@ -40,9 +40,6 @@ export default function CriarParametros() {
                 [name]: value,
             };
         });
-
-        console.log(parametros);
-
     };
 
     // select's handleChange ✨

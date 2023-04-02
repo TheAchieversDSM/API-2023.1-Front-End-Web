@@ -20,12 +20,9 @@ export default function Dashboard() {
     const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>();
     const [medidas, setMedidas] = useState<Array<MediasSeries>>();
     const [options, setOptions] = useState<Options>()
-    console.log(estacaoParametros)
     useEffect(() => {
-        console.log(id)
         function render() {
             axios.get(`http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${id}`).then(res => {
-                console.log(res.data)
                 setEstacaoNome(res.data.nome)
                 setEstacaoParametros(res.data)
             })

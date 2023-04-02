@@ -19,7 +19,6 @@ export default function Reports() {
     useEffect(() =>{
         function render(){
             axios.get(`http://localhost:5000/alerta/pegarAlertasPorId/${id}`).then((res) =>{
-                console.log(res.data)
                 setAlerta(res.data)
             })
         }
