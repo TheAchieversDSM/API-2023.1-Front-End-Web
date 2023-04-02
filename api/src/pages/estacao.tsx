@@ -1,0 +1,15 @@
+import React from 'react';
+import Sidebar from '../components/sidebar';
+import Search from '../components/search';
+import TableEst from '../components/tables/tableEst';
+
+
+export default function Estacao() {
+    return (
+        <>
+            <Sidebar />
+            <h1 className="TitImp">Estações</h1>
+            <TableEst/>
+        </>
+    )
+}

@@ -1,0 +1,69 @@
+:root {
+    /* colors ✨ */
+    --background: #EDF0F9;
+    --lighter-purple: #EDF0F9;
+    --dark-purple: #3E3579;
+    --light-purple: #9894EA;
+    --purple: #5751D3;
+    --green: #2BF400;
+    --dark-green: #00c961;
+    --white: #FFFFFF;
+    --black: #181818;
+
+    /* transition ✨ */
+    --trans: all 0.3s ease;
+}
+
+.btnCriar {
+    background-color: var(--green) !important;
+    border: 1px solid var(--green) !important;
+    border-radius: 10px !important;
+    transition: var(--trans);
+}
+
+.btnCriar:hover {
+    background-color: var(--dark-green) !important;
+    border: 1px solid var(--dark-green) !important;
+    transition: var(--trans);
+}
+
+.box-create-station {
+    position: absolute;
+    width: 65%;
+    height: fit-content;
+    padding-bottom: 20px;    
+    left: 25%;
+    top: 120px;
+    background: #FFFFFF;
+    box-shadow: 10px 10px 24px rgba(151, 149, 195, 0.5);
+    border-radius: 10px;
+}
+
+.create-station-content {
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.create-station-button {
+    display: flex;
+    justify-content: center; 
+    margin-top: 10px;
+}
+
+.create-station-button button {
+    width: 120px;
+}
+
+.box-create-station label {
+    color: var(--dark-purple);
+}
+
+.box-create-station input,
+.box-create-station textarea,
+.box-create-station .css-13cymwt-control,
+.box-create-station input:focus,
+.box-create-station textarea:focus,
+.box-create-station .css-13cymwt-control:focus {
+    background-color: var(--lighter-purple);
+    border: 1px solid var(--light-purple);
+}

@@ -1,0 +1,90 @@
+.box-list{
+    position: absolute;
+    width: 65%;
+    height: fit-content;
+    left: 25%;
+    top: 32%;
+    background: #FFFFFF;
+    box-shadow: 10px 10px 24px rgba(151, 149, 195, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.box-report{
+    top: 18%;
+}
+
+.table{
+    margin:  0 0 0 0 auto !important;
+}
+
+tbody > tr:hover{
+    background-color: #F3F5FD !important;
+}
+
+.bt{
+    width: 44px;
+    height: 36px;
+    border-radius: 5px;
+    border: none !important;
+    margin: 10px;
+}
+
+th{
+    color: #3E3579
+}
+
+tr{
+    vertical-align: middle;
+}
+
+.bt-view{
+    background: #01C3FF !important;
+    transition: 0.3s;
+}
+.bt-view:hover{
+    background: #0280ff !important;
+    transition: 0.3s;
+}
+
+.bt-edit{
+    background: #F9D80D !important;
+    transition: 0.3s;
+}
+.bt-edit:hover{
+    background: #fdb101 !important;
+    transition: 0.3s;
+}
+
+.bt-delete{
+    background: #FE7235 !important;
+    transition: 0.3s;
+}
+.bt-delete:hover{
+    background: #ff4d00 !important;
+    transition: 0.3s;
+}
+
+.bt-record{
+    background: #b502e6 !important;
+    transition: 0.3s;
+}
+.bt-record:hover{
+    background: #9a00c5 !important;
+    transition: 0.3s;
+}
+
+.bt-dash{
+    background: #b502e6 !important;
+    transition: 0.3s;
+}
+.bt-dash:hover{
+    background: #9a00c5 !important;
+    transition: 0.3s;
+}
+
+.bt >.icon{
+    width: 20px !important;
+    height: 20px !important;
+    color: #333333;
+}
