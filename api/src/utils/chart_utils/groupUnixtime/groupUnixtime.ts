@@ -5,11 +5,13 @@ export default function groupByUnixtime(medidas: Medida[]): MedidasAgrupadas {
 
   medidas.forEach(medida => {
     const { unixtime } = medida;
-    if (!medidasAgrupadas[unixtime]) {
-      medidasAgrupadas[unixtime] = [];
+    const data = new Date(unixtime * 1000); // converte unixtime para uma data
+    const dia = data.toISOString().slice(0, 10); // extrai o dia da data no formato yyyy-mm-dd
+    if (!medidasAgrupadas[parseInt(dia)]) {
+      medidasAgrupadas[parseInt(dia)] = [];
     }
-    medidasAgrupadas[unixtime].push(medida);
+    medidasAgrupadas[parseInt(dia)].push(medida);
   });
 
   return medidasAgrupadas;
-}
+} 
