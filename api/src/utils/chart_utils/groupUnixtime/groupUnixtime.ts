@@ -1,6 +1,6 @@
 import { Medida, MedidasAgrupadas } from "../../types/types";
 
-export default function groupByUnixtime(medidas: Medida[]): MedidasAgrupadas {
+export default function groupByUnixtime(medidas: Medida[]): any {
   const medidasAgrupadas: MedidasAgrupadas = {};
 
   medidas.forEach(medida => {
@@ -12,6 +12,8 @@ export default function groupByUnixtime(medidas: Medida[]): MedidasAgrupadas {
     }
     medidasAgrupadas[parseInt(dia)].push(medida);
   });
-
+  if(Object.keys(medidasAgrupadas).length < 2){
+    return medidas
+  }
   return medidasAgrupadas;
 } 
