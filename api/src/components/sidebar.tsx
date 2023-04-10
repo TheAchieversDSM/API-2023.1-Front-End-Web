@@ -23,30 +23,16 @@ export default function Sidebar() {
                 <div className="menu-bar">
                     <div className="menu">
 
-                        <li className="search-box">
+                        {/*<li className="search-box">
                             <BsSearch className="icon" />
                             <input type="text" placeholder="Buscar..." />
-                        </li>
+                        </li>*/}
 
                         <ul className="menu-links">
                             <li className="nav-link">
                                 <Link to="/home">
                                     <BsHouse className="icon" />
                                     <span className="text nav-text">Início</span>
-                                </Link>
-                            </li>
-
-                            <li className="nav-link">
-                                <Link to="/usuarios">
-                                    <BsPerson className="icon" />
-                                    <span className="text nav-text">Usuários</span>
-                                </Link>
-                            </li>
-
-                            <li className="nav-link">
-                                <Link to="/alertas">
-                                    <BsExclamationTriangle className="icon" />
-                                    <span className="text nav-text">Alertas</span>
                                 </Link>
                             </li>
 
@@ -58,9 +44,23 @@ export default function Sidebar() {
                             </li>
 
                             <li className="nav-link">
+                                <Link to="/alertas">
+                                    <BsExclamationTriangle className="icon" />
+                                    <span className="text nav-text">Alertas</span>
+                                </Link>
+                            </li>
+
+                            <li className="nav-link">
                                 <Link to="/estacoes">
                                     <BsSignpostSplit className="icon" />
                                     <span className="text nav-text">Estações</span>
+                                </Link>
+                            </li>
+
+                            <li className="nav-link">
+                                <Link to="/usuarios">
+                                    <BsPerson className="icon" />
+                                    <span className="text nav-text">Usuários</span>
                                 </Link>
                             </li>
                         </ul>
