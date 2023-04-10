@@ -1,7 +1,7 @@
 import Metric from "../metric/metric";
 
 export default class Options {
-    chart = { type: "spline", width: 1200, height: 500 };
+    chart = { type: "spline", width: 900, height: 500 };
     title = { text: `Informações meteorológicas da estação` };
     xAxis = { categories: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'] };
     series: Array<Metric>;
