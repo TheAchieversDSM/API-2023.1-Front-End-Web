@@ -1,7 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import "../../styles/table.css"
 import Button from 'react-bootstrap/Button';
-import MyVerticallyCenteredModal from '../modal';
+import MyVerticallyCenteredModal from '../modals/modal';
 import { BsTrash3, BsEye, BsPencil, BsClipboard2 } from 'react-icons/bs'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';

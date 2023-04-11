@@ -1,5 +1,6 @@
 .btn-primary-botaozinho {
     background-color: var(--green) !important;
+    color: white;
     border: 1px solid var(--green) !important;
     transition: var(--trans);
 }

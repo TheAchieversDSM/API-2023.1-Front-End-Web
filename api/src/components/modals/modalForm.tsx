@@ -33,6 +33,7 @@ export default function ModalForm(props: any) {
                                 placeholder={props.placeholder1}
                                 autoFocus
                                 value={props.value1}
+                                onChange={props.function1}
                             />
                         </Form.Group>
 
@@ -43,6 +44,7 @@ export default function ModalForm(props: any) {
                                 placeholder={props.placeholder2}
                                 autoFocus
                                 value={props.value2}
+                                onChange={props.function2}
                             />
                         </Form.Group>
                     </Form>
