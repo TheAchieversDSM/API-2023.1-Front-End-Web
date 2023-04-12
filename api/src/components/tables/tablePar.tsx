@@ -6,6 +6,7 @@ import { BsTrash3, BsEye, BsPencil } from "react-icons/bs";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Search from "../search";
+import { Tab, Tabs } from "react-bootstrap";
 
 interface IParametro {
   parametro_id: number;
@@ -109,20 +110,40 @@ export default function TablePar(props: any) {
     <>
     <Search change={handleSearch} link="/criar-parametros"/>
     <div className="box-list">
-      <Table className="table" size="sm">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Tipo</th>
-            <th>Unidade de medida</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-        {renderTableRows()}
-        </tbody>
-      </Table>
+      <Tabs>
+        <Tab eventKey="ativo" title="Ativos">
+          <Table className="table" size="sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Unidade de medida</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+            {renderTableRows()}
+            </tbody>
+          </Table>
+        </Tab>
+        <Tab eventKey="inativo" title="Inativos">
+          <Table className="table" size="sm">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Unidade de medida</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+            
+            </tbody>
+          </Table>
+        </Tab>
+      </Tabs>
     </div>
     </>
   );
