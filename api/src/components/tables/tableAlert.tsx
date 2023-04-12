@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Search from '../search';
+import { Tab, Tabs } from 'react-bootstrap';
 
 interface IAlerta {
     alerta_id: number;
@@ -71,21 +72,42 @@ export default function TableAlert() {
     <>
     <Search change={handleSearch} link="/criar-alertas"/>
     <div className="box-list">
-          <Table className="table" size="sm">
-              <thead>
-                  <tr>
-                      <th>ID</th>
-                      <th>Nome</th>
-                      <th>Nível</th>
-                      <th>Valor Máximo</th>
-                      <th>Valor Minimo</th>
-                      <th></th>
-                  </tr>
-              </thead>
-              <tbody>
-                {renderTableRows()} 
-              </tbody>
-          </Table>
+          <Tabs defaultActiveKey="ativo">
+            <Tab eventKey="ativo" title="Ativos">
+              <Table className="table" size="sm">
+                  <thead>
+                      <tr>
+                          <th>ID</th>
+                          <th>Nome</th>
+                          <th>Nível</th>
+                          <th>Valor Máximo</th>
+                          <th>Valor Minimo</th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {renderTableRows()}
+                  </tbody>
+              </Table>
+            </Tab>
+            <Tab eventKey="inativo" title="Inativos">
+              <Table className="table" size="sm">
+                  <thead>
+                      <tr>
+                          <th>ID</th>
+                          <th>Nome</th>
+                          <th>Nível</th>
+                          <th>Valor Máximo</th>
+                          <th>Valor Minimo</th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    
+                  </tbody>
+              </Table>
+            </Tab>
+          </Tabs>
       </div>
       </>
   )
