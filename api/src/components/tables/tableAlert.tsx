@@ -2,7 +2,7 @@ import Table from 'react-bootstrap/Table';
 import "../../styles/table.css"
 import Button from 'react-bootstrap/Button';
 import MyVerticallyCenteredModal from '../modal';
-import { BsTrash3, BsEye, BsPencil, BsClipboard2 } from 'react-icons/bs'
+import { BsXOctagon, BsCheckLg, BsPencil, BsClipboard2 } from 'react-icons/bs'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -71,7 +71,7 @@ export default function TableAlert() {
                 <td>
                     <Link to={`/reports/${alerta.alerta_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
                     <Button className="bt bt-edit"><BsPencil className="icon" /></Button>
-                    <Button className="bt bt-delete"><BsTrash3 className="icon" /></Button>
+                    <Button className="bt bt-delete"><BsXOctagon className="icon" /></Button>
 
                 </td>
             </tr>
@@ -104,7 +104,7 @@ export default function TableAlert() {
                 <td>
                     <Link to={`/reports/${inativo.alerta_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
                     <Button className="bt bt-edit"><BsPencil className="icon" /></Button>
-                    <Button className="bt bt-delete"><BsTrash3 className="icon" /></Button>
+                    <Button className="bt bt-active"><BsCheckLg className="icon" /></Button>
 
                 </td>
             </tr>
