@@ -9,6 +9,7 @@ import MyVerticallyCenteredModal from '../modal';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Search from '../search';
+import { Tab, Tabs } from 'react-bootstrap';
 interface IEstacao {
   estacao_parametro: any;
   id: any;
@@ -96,41 +97,61 @@ export default function TableEst() {
     <>
     <Search change={handleSearch} link="/criar-estacoes" />
     <div className="box-list">
-          <Table className="table" size="sm">
-              <thead>
-                  <tr>
-                      <th>ID</th>
-                      <th>Nome</th>
-                      <th>Latitude</th>
-                      <th>Longitude</th>
-                      <th></th>
-                  </tr>
-              </thead>
-              <tbody>
-                  {renderTableRows()}
-                  <MyVerticallyCenteredModal
-                show={modalShow}
-                {...modalData}
-                onHide={() => setModalShow(false)}
-                titulo={modalData?.nome}
-                coluna1="ID: " resp1={modalData?.estacao_id}
-                coluna2="Latitude: " resp2={modalData?.lati}
-                coluna3="Longitude: " resp3={modalData?.long}
-                coluna4="UID: " resp4={modalData?.uid}
-                coluna5="UTC: " resp5={modalData?.UTC}
-                coluna6="UnixTime: " resp6={modalData?.unixtime}
-                coluna7="Parâmetros: " resp7={modalData?.parametros?.map((itens) => {
-                  return (
-                    <div key={itens.parametro_id}>
-                      <ul>
-                        <li><b>Nome:</b> {itens?.nome}  <b>Tipo: </b>{itens?.tipo?.nome}  <b>Unidade de medida: </b>{itens?.unidadeDeMedida?.nome}</li>
-                      </ul>
-                    </div>
-                  );
-                })}
-            />
-              </tbody>
-          </Table>
+          <Tabs>
+            <Tab eventKey="ativo" title="Ativos">
+              <Table className="table" size="sm">
+                  <thead>
+                      <tr>
+                          <th>ID</th>
+                          <th>Nome</th>
+                          <th>Latitude</th>
+                          <th>Longitude</th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {renderTableRows()}
+                      <MyVerticallyCenteredModal
+                    show={modalShow}
+                    {...modalData}
+                    onHide={() => setModalShow(false)}
+                    titulo={modalData?.nome}
+                    coluna1="ID: " resp1={modalData?.estacao_id}
+                    coluna2="Latitude: " resp2={modalData?.lati}
+                    coluna3="Longitude: " resp3={modalData?.long}
+                    coluna4="UID: " resp4={modalData?.uid}
+                    coluna5="UTC: " resp5={modalData?.UTC}
+                    coluna6="UnixTime: " resp6={modalData?.unixtime}
+                    coluna7="Parâmetros: " resp7={modalData?.parametros?.map((itens) => {
+                      return (
+                        <div key={itens.parametro_id}>
+                          <ul>
+                            <li><b>Nome:</b> {itens?.nome}  <b>Tipo: </b>{itens?.tipo?.nome}  <b>Unidade de medida: </b>{itens?.unidadeDeMedida?.nome}</li>
+                          </ul>
+                        </div>
+                      );
+                    })}
+                />
+                  </tbody>
+              </Table>
+            </Tab>
+            <Tab eventKey="inativo" title="Inativos">
+              <Table className="table" size="sm">
+                  <thead>
+                      <tr>
+                          <th>ID</th>
+                          <th>Nome</th>
+                          <th>Latitude</th>
+                          <th>Longitude</th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      
+                  </tbody>
+              </Table>
+            </Tab>
+          </Tabs>
       </div>
       </>
   )
