@@ -39,6 +39,7 @@ interface IEstacao {
 
 export default function TableEst() {
   const [estacoes, setEstacoes] = useState<IEstacao[]>([]);
+  const [inativos, setInativos] = useState<IEstacao[]>([]);
   const [modalShow, setModalShow] = React.useState(false);
   const [modalData, setModalData] = React.useState<IEstacao>();
   const [searchTerm, setSearchTerm] = useState('');
@@ -50,8 +51,17 @@ export default function TableEst() {
 
     useEffect(() => {
         function render(){
-            axios.get("http://localhost:5000/estacao/pegarEstacoes").then((res)=>{
+            axios.get("http://localhost:5000/estacao/pegarEstacoesAtivas").then((res)=>{
                 setEstacoes(res.data)
+            })
+        }
+        render()
+    },[])
+
+    useEffect(() => {
+        function render(){
+            axios.get("http://localhost:5000/estacao/pegarEstacoesInativas").then((res)=>{
+                setInativos(res.data)
             })
         }
         render()
@@ -86,6 +96,38 @@ export default function TableEst() {
             <td>
                 <Link to={`/dashboard/${estacao.estacao_id}`}><Button className="bt bt-record"><FaChartLine  className="icon"/></Button></Link>
                 <Button className="bt bt-view" onClick={() => handleShowModal(estacao)}><BsEye className="icon" /></Button>
+                <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
+                <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
+            </td>
+        </tr>
+          ));
+      }
+
+      function renderTableRowsInativos() {
+        return inativos
+          .filter((inativo) => {
+            if (!searchTerm) {
+              return true;
+            }
+    
+            if (
+              inativo.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              inativo.estacao_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
+            ) {
+              return true;
+            }
+    
+            return false;
+          })
+          .map((inativo) => (
+            <tr>
+            <td>{inativo.estacao_id}</td>
+            <td>{inativo.nome}</td>
+            <td>{inativo.lati}</td>
+            <td>{inativo.long}</td>
+            <td>
+                <Link to={`/dashboard/${inativo.estacao_id}`}><Button className="bt bt-record"><FaChartLine  className="icon"/></Button></Link>
+                <Button className="bt bt-view" onClick={() => handleShowModal(inativo)}><BsEye className="icon" /></Button>
                 <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
                 <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
             </td>
@@ -147,7 +189,7 @@ export default function TableEst() {
                       </tr>
                   </thead>
                   <tbody>
-                      
+                      {renderTableRowsInativos()}
                   </tbody>
               </Table>
             </Tab>
