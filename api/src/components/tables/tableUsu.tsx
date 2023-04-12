@@ -3,12 +3,12 @@ import "../../styles/table.css"
 import Button from 'react-bootstrap/Button';
 import { BsTrash3, BsEye, BsPencil, BsSearch } from 'react-icons/bs'
 import React, { useEffect, useState } from 'react';
-import MyVerticallyCenteredModal from '../modal';
+import MyVerticallyCenteredModal from '../modals/modal';
 import axios from 'axios';
 import Search from '../search';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import ModalForm from '../modalForm';
+import ModalForm from '../modals/modalForm';
 
 import '../../styles/modal.css';
 interface IUser {
@@ -23,16 +23,14 @@ export default function TableUsu() {
     const [modalData, setModalData] = React.useState<IUser>();
     const [searchTerm, setSearchTerm] = useState('');
 
-    const handleShowModal = (parametro: any) => {
-        console.log(parametro);
-        
-        setModalData(parametro);
+    const handleShowModal = (usuario: any) => {       
+        setModalData(usuario);
         setModalShow(true);
     };
 
     useEffect(() => {
         function render() {
-            axios.get("http://localhost:5000/user/pegarUsuarios").then((res) => {
+            axios.get("http ://localhost:5000/user/pegarUsuarios").then((res) => {
                 setUsers(res.data)
             })
         }
@@ -102,10 +100,12 @@ export default function TableUsu() {
                     campo1={"Nome"}
                     tipo1={"text"}
                     value1={modalData?.nome}
+                    function1={''}
                     placeholder1={"Digite o novo nome do usuário"}
                     campo2={"Email"}
                     tipo2={"email"}
                     value2={modalData?.email}
+                    function2={''}
                     placeholder2={"Digite o novo email do usuário"}
                     function={() => setModalShow(false)}
                 />
