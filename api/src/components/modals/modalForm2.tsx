@@ -31,6 +31,7 @@ export default function ModalForm2(props: any) {
                             <Form.Label>{props.campo1}</Form.Label>
                             <Form.Control
                                 type={props.tipo1}
+                                name={props.name1}
                                 placeholder={props.placeholder1}
                                 autoFocus
                                 value={props.value1}
@@ -42,7 +43,7 @@ export default function ModalForm2(props: any) {
                             <Form.Label>{props.campo2}</Form.Label>
                             <Form.Control
                                 as="textarea"
-                                name={props.name}
+                                name={props.name2}
                                 placeholder={props.placeholder2}
                                 value={props.value2}
                                 autoFocus
@@ -52,7 +53,7 @@ export default function ModalForm2(props: any) {
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label className="label">{props.campo4}</Form.Label>
+                            <Form.Label className="label">{props.campo3}</Form.Label>
                             <CreatableSelect
                                 isClearable
                                 value={props.value3}
@@ -79,6 +80,7 @@ export default function ModalForm2(props: any) {
                             <Form.Label>{props.campo5}</Form.Label>
                             <Form.Control
                                 type={props.tipo5}
+                                name={props.name5}
                                 placeholder={props.placeholder5}
                                 autoFocus
                                 value={props.value5}
@@ -90,6 +92,7 @@ export default function ModalForm2(props: any) {
                             <Form.Label>{props.campo6}</Form.Label>
                             <Form.Control
                                 type={props.tipo6}
+                                name={props.name6}
                                 placeholder={props.placeholder6}
                                 autoFocus
                                 onChange={props.function6}
