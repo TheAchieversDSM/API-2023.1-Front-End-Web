@@ -18,17 +18,27 @@ interface IAlerta {
   }
 
 export default function TableAlert() {
-    const [alertas, setAlertas] = useState<IAlerta[]>([])
+    const [alertas, setAlertas] = useState<IAlerta[]>([]);
+    const [inativos, setInativos] = useState<IAlerta[]>([])
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() =>{
         function render(){
-            axios.get("http://localhost:5000/alerta/pegarAlertas").then((res) =>{
+            axios.get("http://localhost:5000/alerta/pegarAlertasAtivos").then((res) =>{
                 setAlertas(res.data)
             })
         }
         render()
     },[])
+
+    useEffect(() =>{
+      function render(){
+          axios.get("http://localhost:5000/alerta/pegarAlertasInativos").then((res) =>{
+              setInativos(res.data)
+          })
+      }
+      render()
+  },[])
 
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
@@ -60,6 +70,39 @@ export default function TableAlert() {
                 <td>{alerta.valorMinimo}</td>
                 <td>
                     <Link to={`/reports/${alerta.alerta_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
+                    <Button className="bt bt-edit"><BsPencil className="icon" /></Button>
+                    <Button className="bt bt-delete"><BsTrash3 className="icon" /></Button>
+
+                </td>
+            </tr>
+          ));
+      }
+
+      function renderTableRowsInativos() {
+        return inativos
+          .filter((inativo) => {
+            if (!searchTerm) {
+              return true;
+            }
+    
+            if (
+              inativo?.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              inativo.alerta_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
+            ) {
+              return true;
+            }
+    
+            return false;
+          })
+          .map((inativo) => (
+            <tr>
+                <td>{inativo.alerta_id}</td>
+                <td>{inativo.nome}</td>
+                <td>{inativo.nivel}</td>
+                <td>{inativo.valorMax}</td>
+                <td>{inativo.valorMinimo}</td>
+                <td>
+                    <Link to={`/reports/${inativo.alerta_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
                     <Button className="bt bt-edit"><BsPencil className="icon" /></Button>
                     <Button className="bt bt-delete"><BsTrash3 className="icon" /></Button>
 
@@ -103,7 +146,7 @@ export default function TableAlert() {
                       </tr>
                   </thead>
                   <tbody>
-                    
+                    {renderTableRowsInativos()}
                   </tbody>
               </Table>
             </Tab>
