@@ -25,6 +25,7 @@ interface IParametro {
 
 export default function TablePar(props: any) {
   const [parametros, setParametros] = useState<IParametro[]>([]);
+  const [inativos, setInativos] = useState<IParametro[]>([]);
   const [modalShow, setModalShow] = React.useState(false);
   const [modalData, setModalData] = React.useState<IParametro>();
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,9 +38,20 @@ export default function TablePar(props: any) {
   useEffect(() => {
     function render() {
       axios
-        .get("http://localhost:5000/parametro/pegarParametros")
+        .get("http://localhost:5000/parametro/pegarParametrosAtivos")
         .then((res) => {
           setParametros(res.data);
+        });
+    }
+    render();
+  }, []);
+
+  useEffect(() => {
+    function render() {
+      axios
+        .get("http://localhost:5000/parametro/pegarParametrosInativos")
+        .then((res) => {
+          setInativos(res.data);
         });
     }
     render();
@@ -106,6 +118,63 @@ export default function TablePar(props: any) {
       ));
   }
 
+  function renderTableRowsInativos() {
+    return inativos
+      .filter((inativo) => {
+        if (!searchTerm) {
+          return true;
+        }
+
+        if (
+          inativo?.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          inativo?.tipo?.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          inativo.parametro_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        ) {
+          return true;
+        }
+
+        return false;
+      })
+      .map((inativo) => (
+        <tr key={inativo.parametro_id}>
+              <td>{inativo.parametro_id}</td>
+              <td>{inativo.nome}</td>
+              <td>{inativo?.tipo?.nome}</td>
+              <td>{inativo.unidadeDeMedida?.nome}</td>
+              <td>
+                <Button className="bt bt-view" onClick={() => handleShowModal(inativo)}>
+                  <BsEye
+                    className="icon"
+                  />
+                </Button>
+                <Button className="bt bt-edit">
+                  <BsPencil className="icon" />
+                </Button>
+                <Button className="bt bt-delete">
+                  <BsTrash3 className="icon" />
+                </Button>
+                <MyVerticallyCenteredModal
+            show={modalShow}
+            {...modalData}
+            onHide={() => setModalShow(false)}
+            titulo={modalData?.nome}
+            coluna1="ID: "
+            resp1={modalData?.parametro_id}
+            coluna3="Tipo: "
+            resp3={modalData?.tipo?.nome}
+            coluna4="Unidade de medida: "
+            resp4={modalData?.unidadeDeMedida?.nome}
+            coluna5="Fator: "
+            resp5={modalData?.fator}
+            coluna6="OffSet: "
+            resp6={modalData?.offset}
+          />
+              </td>
+            </tr>
+            
+      ));
+  }
+
   return (
     <>
     <Search change={handleSearch} link="/criar-parametros"/>
@@ -139,7 +208,7 @@ export default function TablePar(props: any) {
               </tr>
             </thead>
             <tbody>
-            
+              {renderTableRowsInativos()}
             </tbody>
           </Table>
         </Tab>
