@@ -75,6 +75,7 @@ export default function TableEst() {
         .then((response) => {
           // fazer algo com a resposta, se necessário
           console.log(response.data);
+          window.location.reload();
         })
         .catch((error) => {
           // tratar o erro, se necessário

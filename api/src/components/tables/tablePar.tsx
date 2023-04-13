@@ -70,6 +70,7 @@ export default function TablePar(props: any) {
     axios.put(`http://localhost:5000/parametro/atualizarEstado/${id}`, { ativo })
       .then((response) => {
         // fazer algo com a resposta, se necessário
+        window.location.reload();
         console.log(response.data);
       })
       .catch((error) => {
