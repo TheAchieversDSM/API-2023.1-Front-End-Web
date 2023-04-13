@@ -2,7 +2,7 @@ import Table from "react-bootstrap/Table";
 import "../../styles/table.css";
 import Button from "react-bootstrap/Button";
 import MyVerticallyCenteredModal from "../modal";
-import { BsTrash3, BsEye, BsPencil } from "react-icons/bs";
+import { BsTrash3, BsEye, BsPencil, BsCheckLg, BsXOctagon } from "react-icons/bs";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Search from "../search";
@@ -115,7 +115,7 @@ export default function TablePar(props: any) {
                   <BsPencil className="icon" />
                 </Button>
                 <Button className="bt bt-delete" onClick={() => handleChange(parametro)}>
-                  <BsTrash3 className="icon" />
+                  <BsXOctagon className="icon" />
                 </Button>
                 <MyVerticallyCenteredModal
             show={modalShow}
@@ -171,8 +171,8 @@ export default function TablePar(props: any) {
                 <Button className="bt bt-edit">
                   <BsPencil className="icon" />
                 </Button>
-                <Button className="bt bt-delete" onClick={() => handleChange(inativo)}>
-                  <BsTrash3 className="icon" />
+                <Button className="bt bt-active" onClick={() => handleChange(inativo)}>
+                  <BsCheckLg className="icon" />
                 </Button>
                 <MyVerticallyCenteredModal
             show={modalShow}

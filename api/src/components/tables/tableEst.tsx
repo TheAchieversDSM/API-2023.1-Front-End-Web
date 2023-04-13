@@ -1,7 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import "../../styles/table.css"
 import Button from 'react-bootstrap/Button';
-import { BsTrash3, BsEye, BsPencil, BsGraphUp, BsClipboard2 } from 'react-icons/bs'
+import { BsXOctagon, BsEye, BsPencil, BsCheckLg } from 'react-icons/bs'
 import {FaChartLine} from 'react-icons/fa'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -112,7 +112,7 @@ export default function TableEst() {
                 <Link to={`/dashboard/${estacao.estacao_id}`}><Button className="bt bt-record"><FaChartLine  className="icon"/></Button></Link>
                 <Button className="bt bt-view" onClick={() => handleShowModal(estacao)}><BsEye className="icon" /></Button>
                 <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
-                <Button className="bt bt-delete"><BsTrash3 className="icon" onClick={() => handleChange(estacao)}/></Button>
+                <Button className="bt bt-delete"><BsXOctagon className="icon" onClick={() => handleChange(estacao)}/></Button>
             </td>
         </tr>
           ));
@@ -144,7 +144,7 @@ export default function TableEst() {
                 <Link to={`/dashboard/${inativo.estacao_id}`}><Button className="bt bt-record"><FaChartLine  className="icon"/></Button></Link>
                 <Button className="bt bt-view" onClick={() => handleShowModal(inativo)}><BsEye className="icon" /></Button>
                 <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
-                <Button className="bt bt-delete" onClick={() => handleChange(inativo)}><BsTrash3 className="icon" /></Button>
+                <Button className="bt bt-active" onClick={() => handleChange(inativo)}><BsCheckLg className="icon" /></Button>
             </td>
         </tr>
           ));
