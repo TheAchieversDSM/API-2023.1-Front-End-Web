@@ -12,6 +12,7 @@ import Search from '../search';
 import { Tab, Tabs } from 'react-bootstrap';
 interface IEstacao {
   estacao_parametro: any;
+  ativo?: number;
   id: any;
   estacao_id: number;
   nome: string;
@@ -67,6 +68,20 @@ export default function TableEst() {
         render()
     },[])
 
+    function handleChange(estacoes : IEstacao) {
+      const id = estacoes.estacao_id;
+      const ativo = estacoes.ativo === 1 ? 0 : 1;
+      axios.put(`http://localhost:5000/estacao/atualizarEstado/${id}`, { ativo })
+        .then((response) => {
+          // fazer algo com a resposta, se necessário
+          console.log(response.data);
+        })
+        .catch((error) => {
+          // tratar o erro, se necessário
+          console.error(error);
+        });
+    }
+
     function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
         setSearchTerm(event.target.value);
     }
@@ -97,7 +112,7 @@ export default function TableEst() {
                 <Link to={`/dashboard/${estacao.estacao_id}`}><Button className="bt bt-record"><FaChartLine  className="icon"/></Button></Link>
                 <Button className="bt bt-view" onClick={() => handleShowModal(estacao)}><BsEye className="icon" /></Button>
                 <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
-                <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
+                <Button className="bt bt-delete"><BsTrash3 className="icon" onClick={() => handleChange(estacao)}/></Button>
             </td>
         </tr>
           ));
@@ -129,7 +144,7 @@ export default function TableEst() {
                 <Link to={`/dashboard/${inativo.estacao_id}`}><Button className="bt bt-record"><FaChartLine  className="icon"/></Button></Link>
                 <Button className="bt bt-view" onClick={() => handleShowModal(inativo)}><BsEye className="icon" /></Button>
                 <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
-                <Button className="bt bt-delete"><BsTrash3 className="icon"/></Button>
+                <Button className="bt bt-delete" onClick={() => handleChange(inativo)}><BsTrash3 className="icon" /></Button>
             </td>
         </tr>
           ));
