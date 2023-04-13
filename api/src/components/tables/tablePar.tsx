@@ -21,11 +21,18 @@ interface IParametro {
   };
   fator?: string;
   offset?: string;
+  ativo?: number;
+}
+
+interface IEstados{
+  parametro_id: any;
+  ativo?: number;
 }
 
 export default function TablePar(props: any) {
   const [parametros, setParametros] = useState<IParametro[]>([]);
   const [inativos, setInativos] = useState<IParametro[]>([]);
+  const [estados, setEstados] = useState<IEstados[]>([]);
   const [modalShow, setModalShow] = React.useState(false);
   const [modalData, setModalData] = React.useState<IParametro>();
   const [searchTerm, setSearchTerm] = useState('');
@@ -56,6 +63,20 @@ export default function TablePar(props: any) {
     }
     render();
   }, []);
+
+  function handleChange(parametros : IParametro) {
+    const id = parametros.parametro_id;
+    const ativo = parametros.ativo === 1 ? 0 : 1;
+    axios.put(`http://localhost:5000/parametro/atualizarEstado/${id}`, { ativo })
+      .then((response) => {
+        // fazer algo com a resposta, se necessário
+        console.log(response.data);
+      })
+      .catch((error) => {
+        // tratar o erro, se necessário
+        console.error(error);
+      });
+  }
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(event.target.value);
@@ -93,7 +114,7 @@ export default function TablePar(props: any) {
                 <Button className="bt bt-edit">
                   <BsPencil className="icon" />
                 </Button>
-                <Button className="bt bt-delete">
+                <Button className="bt bt-delete" onClick={() => handleChange(parametro)}>
                   <BsTrash3 className="icon" />
                 </Button>
                 <MyVerticallyCenteredModal
@@ -150,7 +171,7 @@ export default function TablePar(props: any) {
                 <Button className="bt bt-edit">
                   <BsPencil className="icon" />
                 </Button>
-                <Button className="bt bt-delete">
+                <Button className="bt bt-delete" onClick={() => handleChange(inativo)}>
                   <BsTrash3 className="icon" />
                 </Button>
                 <MyVerticallyCenteredModal
@@ -174,6 +195,8 @@ export default function TablePar(props: any) {
             
       ));
   }
+
+
 
   return (
     <>
