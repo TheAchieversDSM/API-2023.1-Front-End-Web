@@ -14,6 +14,7 @@ import CriarUsuarios from "../pages/criar-usuarios";
 import CriarParametros from "../pages/criar-parametros";
 import Reports from "../pages/reports";
 import EditarParametro from "../pages/editar-parametros";
+import EditarUsuarios from "../pages/editar-usuario";
 
 
 const Routes = () => {
@@ -32,6 +33,7 @@ const Routes = () => {
                 <Route path="/criar-estacoes" element={<CriarEstacoes />} />
                 <Route path="/criar-usuarios" element={<CriarUsuarios />} />
                 <Route path="/criar-parametros" element={<CriarParametros />} />
+                <Route path="/editar-usuario/:id" element={<EditarUsuarios />}/>
                 <Route path="/editar-parametro/:id" element={<EditarParametro />}/>
             </Switch>
         </BrowserRouter>

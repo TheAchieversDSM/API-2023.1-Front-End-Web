@@ -60,6 +60,9 @@ export default function EditarParametro() {
                 [name]: value,
             };
         });
+
+        console.log(parametros);
+        
     };
 
     // select's handleChange ✨
@@ -177,6 +180,7 @@ export default function EditarParametro() {
                                     type="text"
                                     placeholder="Insira o nome do parâmetro."
                                     onChange={handleChange}
+                                    default={parametro?.nome}
                                 />
                             </Col>
                         </Row>
@@ -189,6 +193,7 @@ export default function EditarParametro() {
                                     placeholder="Insira a fórmula e, se necessário, explicação para chegar no valor ideal."
                                     height="100px"
                                     onChange={handleChange}
+                                    default={parametro?.formula}
                                 />
                             </Col>
                         </Row>
@@ -229,6 +234,7 @@ export default function EditarParametro() {
                                     type="number"
                                     placeholder="Insira o fator do parâmetro."
                                     onChange={handleChange}
+                                    default={parametro?.fator}
                                 />
                             </Col>
 
@@ -240,6 +246,7 @@ export default function EditarParametro() {
                                     type="number"
                                     placeholder="Insira o offset do parâmetro."
                                     onChange={handleChange}
+                                    default={parametro?.offset}
                                 />
                             </Col>
                         </Row>
