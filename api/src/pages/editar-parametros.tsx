@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import axios from 'axios'
 
 // components ✨
+import { Col, Form, Row } from 'react-bootstrap';
 import CreatableSelect from 'react-select/creatable';
 import Input from '../components/input';
 import SelectMulti from '../components/select';
@@ -10,8 +12,6 @@ import TextareaInput from '../components/textarea';
 import Button from '../components/button'
 
 import '../styles/criar-parametros.css'
-import { Col, Form, Row } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
 
 const modelo = [{ value: '', label: '' }]
 
@@ -41,7 +41,7 @@ export default function EditarParametro() {
     const [tipos, setTipos] = useState(modelo)
     const [parametro, setParametro] = useState<IParametro>()
 
-    const [parametros, setParametros] = useState({
+    const [ parametros, setParametros] = useState({
         nome: '',
         formula: '',
         tipoParametro: tipoParametro,
@@ -105,18 +105,39 @@ export default function EditarParametro() {
 
         event.preventDefault();
 
-/*         axios.post(`http://localhost:5000/parametro/cadastro`, {
-            tipo_parametro: parametros.tipoParametro.value,
+        if (parametros.nome.length === 0) {
+            parametros.nome = parametro?.nome ?? ''
+        }
+        if (parametros.formula.length === 0) {
+            parametros.formula = parametro?.formula ?? ''
+        }
+        if (parametros.tipoParametro.value.length === 0) {
+            parametros.tipoParametro.value = parametro?.tipo?.tipo_id.toString() ?? ''
+        }   
+        if (parametros.unidade.value.length === 0) {
+            parametros.unidade.value = parametro?.unidadeDeMedida?.unidade_id.toString() ?? ''
+        }   
+        if (parametros.fator.length === 0) {
+            parametros.fator = parametro?.fator ?? ''
+        }
+        if (parametros.offset.length === 0) {
+            parametros.offset = parametro?.offset ?? ''
+        }
+
+         axios.put(`http://localhost:5000/parametro/atualizarParametro/${id}`, {
+            tipo_parametro: parseInt(parametros.tipoParametro.value),
             formula_parametro: parametros.formula,
             nome_parametro: parametros.nome,
-            unidadeDeMedida_parametro: parametros.unidade.value,
+            unidadeDeMedida_parametro: parseInt(parametros.unidade.value),
             offset_parametro: parametros.offset,
             fator_parametro: parametros.fator
         }).then((res) => {
-
-        }) */
-
-        alert('Parâmetro cadastrado!');
+        
+        }).catch((err) => {
+            console.log(err);
+        })
+        
+        alert('Parâmetro atualizado!');
     };
 
     // get unidade de medidas & tipos de parâmetros ✨
@@ -205,6 +226,7 @@ export default function EditarParametro() {
                                 <CreatableSelect
                                     isClearable
                                     value={[{ value: parametros.tipoParametro.value,label: parametros.tipoParametro.label }]}
+                                    defaultValue={{value: "AAAAAAAAAAAAAAAA", label: "AAAAAAAAAAAAAAAA"}}
                                     name="tipoParamentro"
                                     placeholder="Selecione o tipo correspondente do parâmetro."
                                     onChange={(e: any) => { handleChangeSelectTipo(e) }}
