@@ -5,7 +5,7 @@ import { BsTrash3, BsEye, BsPencil, BsGraphUp, BsClipboard2 } from 'react-icons/
 import {FaChartLine} from 'react-icons/fa'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import MyVerticallyCenteredModal from '../modals/modal';
+import MyVerticallyCenteredModal from '../modal';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Search from '../search';

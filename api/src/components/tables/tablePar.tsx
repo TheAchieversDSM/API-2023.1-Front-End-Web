@@ -1,12 +1,11 @@
 import Table from "react-bootstrap/Table";
 import "../../styles/table.css";
 import Button from "react-bootstrap/Button";
-import MyVerticallyCenteredModal from "../modals/modal";
+import MyVerticallyCenteredModal from "../modal";
 import { BsTrash3, BsEye, BsPencil } from "react-icons/bs";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Search from "../search";
-import ModalForm2 from "../modals/modalForm2";
 import { Link } from "react-router-dom";
 
 interface IParametro {
