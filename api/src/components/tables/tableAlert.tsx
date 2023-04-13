@@ -15,6 +15,7 @@ interface IAlerta {
     valorMax?: number;
     valorMinimo?: string;
     nivel?: number;
+    ativo?: number;
   }
 
 export default function TableAlert() {
@@ -40,6 +41,19 @@ export default function TableAlert() {
       render()
   },[])
 
+  function handleChange(alertas : IAlerta) {
+    const id = alertas.alerta_id;
+    const ativo = alertas.ativo === 1 ? 0 : 1;
+    axios.put(`http://localhost:5000/alerta/atualizarEstado/${id}`, { ativo })
+      .then((response) => {
+        // fazer algo com a resposta, se necessário
+        console.log(response.data);
+      })
+      .catch((error) => {
+        // tratar o erro, se necessário
+        console.error(error);
+      });
+  }
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
         setSearchTerm(event.target.value);
@@ -71,7 +85,7 @@ export default function TableAlert() {
                 <td>
                     <Link to={`/reports/${alerta.alerta_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
                     <Button className="bt bt-edit"><BsPencil className="icon" /></Button>
-                    <Button className="bt bt-delete"><BsXOctagon className="icon" /></Button>
+                    <Button className="bt bt-delete" onClick={() => handleChange(alerta)}><BsXOctagon className="icon" /></Button>
 
                 </td>
             </tr>
@@ -104,7 +118,7 @@ export default function TableAlert() {
                 <td>
                     <Link to={`/reports/${inativo.alerta_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
                     <Button className="bt bt-edit"><BsPencil className="icon" /></Button>
-                    <Button className="bt bt-active"><BsCheckLg className="icon" /></Button>
+                    <Button className="bt bt-active" onClick={() => handleChange(inativo)}><BsCheckLg className="icon" /></Button>
 
                 </td>
             </tr>
