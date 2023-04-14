@@ -59,13 +59,30 @@ export default function TableUsu() {
                 <Button className="bt bt-edit">
                   <BsPencil className="icon" />
                 </Button>
-                <Button className="bt bt-delete">
+                <Button className="bt bt-delete" onClick={() => handleDelete(user.user_id)}>
                   <BsTrash3 className="icon" />
                 </Button>
               </td>
             </tr>
           ));
       }
+
+      function handleDelete(id: number) {
+        axios.delete(`http://localhost:5000/user/deletarUsuario`, {
+          data: { id },
+        })
+        .then(() => {
+          // Atualiza a lista de usuários após a exclusão
+          axios.get("http://localhost:5000/user/pegarUsuarios").then((res)=>{
+            setUsers(res.data)
+            console.log("Usuário deletado com sucesso")
+          })
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      }
+      
 
   return (
     <>
