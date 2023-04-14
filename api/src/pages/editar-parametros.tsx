@@ -226,7 +226,7 @@ export default function EditarParametro() {
                                 <CreatableSelect
                                     isClearable
                                     value={[{ value: parametros.tipoParametro.value,label: parametros.tipoParametro.label }]}
-                                    defaultValue={{value: "AAAAAAAAAAAAAAAA", label: "AAAAAAAAAAAAAAAA"}}
+                                    defaultValue={{value: "", label: ""}}
                                     name="tipoParamentro"
                                     placeholder="Selecione o tipo correspondente do parâmetro."
                                     onChange={(e: any) => { handleChangeSelectTipo(e) }}

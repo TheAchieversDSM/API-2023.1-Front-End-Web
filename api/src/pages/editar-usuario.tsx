@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 // components ✨
+import { Col, Row, Form } from 'react-bootstrap';
 import Input from '../components/input';
 import SelectMulti from '../components/select';
 import Sidebar from '../components/sidebar';
 import Button from '../components/button'
 
 import '../styles/criar-usuarios.css'
-import { Col, Row, Form } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
 
 export default function EditarUsuarios() {
 
@@ -41,7 +41,6 @@ export default function EditarUsuarios() {
         });
 
         console.log(usuario);
-        
     };
 
     // select's handleChange ✨
@@ -61,15 +60,24 @@ export default function EditarUsuarios() {
             event.target.querySelectorAll("input")[index].value = ""
         }
 
-        /* axios.post(`http://localhost:5000/user/cadastro`, {
+        event.preventDefault();
+
+        if (usuario.nome.length === 0) {
+            usuario.nome = user?.nome ?? ''
+        }
+        if (usuario.email.length === 0) {
+            usuario.email = user?.email ?? ''
+        }
+
+        axios.put(`http://localhost:5000/user/atualizarUsuario/${id}`, {
             // colocar o campo de tipo aqui
             nome: usuario.nome,
             email: usuario.email,
         }).then((res) => {
 
-        }) */
+        })
 
-        alert('Usuário cadastrado!');
+        alert('Usuário atualizado!');
     };
 
     useEffect(() => {
@@ -100,7 +108,7 @@ export default function EditarUsuarios() {
                                     type="text"
                                     placeholder="Insira o nome do usuário."
                                     onChange={handleChange}
-                                    default={user.nome}
+                                    default={user?.nome}
                                 />
                             </Col>
                         </Row>
@@ -114,7 +122,7 @@ export default function EditarUsuarios() {
                                     type="email"
                                     placeholder="Insira o e-mail do usuário."
                                     onChange={handleChange}
-                                    default={user.email}
+                                    default={user?.email}
                                 />
                             </Col>
                         </Row>
