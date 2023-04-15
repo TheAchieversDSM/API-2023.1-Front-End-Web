@@ -20,6 +20,7 @@ export default function EditarUsuarios() {
     const [user, setUser] = useState({
         nome: '',
         email: '',
+        senha: '',
         tipoUsuario: tipoUsuario,
     })    
 
@@ -73,6 +74,7 @@ export default function EditarUsuarios() {
             // colocar o campo de tipo aqui
             nome: usuario.nome,
             email: usuario.email,
+            senha: user.senha
         }).then((res) => {
 
         })
