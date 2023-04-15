@@ -9,20 +9,27 @@ import Search from '../search';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+import '../../styles/modal.css';
 interface IUser {
     user_id: number;
     nome?: string;
     email?: string;
-  }
+}
 
 export default function TableUsu() {
     const [users, setUsers] = useState<IUser[]>([])
+    const [modalShow, setModalShow] = React.useState(false);
     const [modalData, setModalData] = React.useState<IUser>();
     const [searchTerm, setSearchTerm] = useState('');
 
+    const handleShowModal = (usuario: any) => {       
+        setModalData(usuario);
+        setModalShow(true);
+    };
+
     useEffect(() => {
-        function render(){
-            axios.get("http://localhost:5000/user/pegarUsuarios").then((res)=>{
+        function render() {
+            axios.get("http://localhost:5000/user/pegarUsuarios").then((res) => {
                 setUsers(res.data)
             })
         }
@@ -56,9 +63,11 @@ export default function TableUsu() {
               <td>{user.nome}</td>
               <td>{user.email}</td>
               <td>
-                <Button className="bt bt-edit">
-                  <BsPencil className="icon" />
-                </Button>
+                <Link to={`/editar-usuario/${user.user_id}`}>
+                            <Button className="bt bt-edit">
+                                <BsPencil className="icon" />
+                            </Button>
+                        </Link>
                 <Button className="bt bt-delete" onClick={() => handleDelete(user.user_id)}>
                   <BsTrash3 className="icon" />
                 </Button>
@@ -83,7 +92,6 @@ export default function TableUsu() {
         });
       }
       
-
   return (
     <>
     <Search change={handleSearch} link="/criar-usuarios"/>

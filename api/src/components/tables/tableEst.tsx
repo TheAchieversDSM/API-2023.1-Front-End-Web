@@ -56,8 +56,6 @@ export default function TableEst() {
                 setEstacoes(res.data)
             })
         }
-        render()
-    },[])
 
     useEffect(() => {
         function render(){
@@ -112,7 +110,11 @@ export default function TableEst() {
             <td>
                 <Link to={`/dashboard/${estacao.estacao_id}`}><Button className="bt bt-record"><FaChartLine  className="icon"/></Button></Link>
                 <Button className="bt bt-view" onClick={() => handleShowModal(estacao)}><BsEye className="icon" /></Button>
-                <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
+                <Link to={`/editar-estacao/${estacao.estacao_id}`}>
+                  <Button className="bt bt-edit">
+                    <BsPencil className="icon" />
+                  </Button>
+                </Link>
                 <Button className="bt bt-delete"><BsXOctagon className="icon" onClick={() => handleChange(estacao)}/></Button>
             </td>
         </tr>
@@ -144,13 +146,17 @@ export default function TableEst() {
             <td>
                 <Link to={`/dashboard/${inativo.estacao_id}`}><Button className="bt bt-record"><FaChartLine  className="icon"/></Button></Link>
                 <Button className="bt bt-view" onClick={() => handleShowModal(inativo)}><BsEye className="icon" /></Button>
-                <Button className="bt bt-edit"><BsPencil className="icon"/></Button>
+                <Link to={`/editar-estacao/${estacao.estacao_id}`}>
+                  <Button className="bt bt-edit">
+                    <BsPencil className="icon" />
+                  </Button>
+                </Link>
                 <Button className="bt bt-active" onClick={() => handleChange(inativo)}><BsCheckLg className="icon" /></Button>
             </td>
         </tr>
-          ));
-      }
-    
+      ));
+  }
+
   return (
     <>
     <Search change={handleSearch} link="/criar-estacoes" />
@@ -211,6 +217,6 @@ export default function TableEst() {
             </Tab>
           </Tabs>
       </div>
-      </>
+    </>
   )
 }
