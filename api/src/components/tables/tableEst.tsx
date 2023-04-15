@@ -56,6 +56,8 @@ export default function TableEst() {
                 setEstacoes(res.data)
             })
         }
+        render()
+    },[])
 
     useEffect(() => {
         function render(){
@@ -146,7 +148,7 @@ export default function TableEst() {
             <td>
                 <Link to={`/dashboard/${inativo.estacao_id}`}><Button className="bt bt-record"><FaChartLine  className="icon"/></Button></Link>
                 <Button className="bt bt-view" onClick={() => handleShowModal(inativo)}><BsEye className="icon" /></Button>
-                <Link to={`/editar-estacao/${estacao.estacao_id}`}>
+                <Link to={`/editar-estacao/${inativo.estacao_id}`}>
                   <Button className="bt bt-edit">
                     <BsPencil className="icon" />
                   </Button>
@@ -154,9 +156,9 @@ export default function TableEst() {
                 <Button className="bt bt-active" onClick={() => handleChange(inativo)}><BsCheckLg className="icon" /></Button>
             </td>
         </tr>
-      ));
-  }
-
+          ));
+      }
+    
   return (
     <>
     <Search change={handleSearch} link="/criar-estacoes" />
@@ -217,6 +219,6 @@ export default function TableEst() {
             </Tab>
           </Tabs>
       </div>
-    </>
+      </>
   )
 }

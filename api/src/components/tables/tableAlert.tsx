@@ -10,7 +10,6 @@ import Search from '../search';
 import { Tab, Tabs } from 'react-bootstrap';
 
 interface IAlerta {
-
     alerta_id: number;
     nome?: string;
     valorMax?: number;
@@ -57,9 +56,9 @@ export default function TableAlert() {
       });
   }
 
-	function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
-		setSearchTerm(event.target.value);
-	}
+  function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
+        setSearchTerm(event.target.value);
+    }
 
     function renderTableRows() {
         return alertas
@@ -90,7 +89,7 @@ export default function TableAlert() {
                         <Button className="bt bt-edit">
                              <BsPencil className="icon" />
                          </Button>
-                      </Link>   
+                      </Link> 
                     <Button className="bt bt-delete" onClick={() => handleChange(alerta)}><BsXOctagon className="icon" /></Button>
 
                 </td>
@@ -123,20 +122,17 @@ export default function TableAlert() {
                 <td>{inativo.valorMinimo}</td>
                 <td>
                     <Link to={`/reports/${inativo.alerta_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
-						         <Link to={`/editar-alerta/${alerta.alerta_id}`}>
+                    <Link to={`/editar-alerta/${inativo.alerta_id}`}>
                         <Button className="bt bt-edit">
                              <BsPencil className="icon" />
                          </Button>
-                      </Link>                    
-                     <Button className="bt bt-active" onClick={() => handleChange(inativo)}><BsCheckLg className="icon" /></Button>
+                      </Link> 
+                    <Button className="bt bt-active" onClick={() => handleChange(inativo)}><BsCheckLg className="icon" /></Button>
 
-				if (
-					alerta?.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-					alerta.alerta_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
-				) {
-					return true;
-				}
-
+                </td>
+            </tr>
+          ));
+      }
 
   return (
     <>

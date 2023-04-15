@@ -1,5 +1,4 @@
 import Table from "react-bootstrap/Table";
-import { Link } from "react-router-dom"
 import "../../styles/table.css";
 import Button from "react-bootstrap/Button";
 import MyVerticallyCenteredModal from "../modal";
@@ -8,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Search from "../search";
 import { Tab, Tabs } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 interface IParametro {
   parametro_id: number;
@@ -38,10 +38,10 @@ export default function TablePar(props: any) {
   const [modalData, setModalData] = React.useState<IParametro>();
   const [searchTerm, setSearchTerm] = useState('');
 
-    const handleShowModal = (parametro: any) => {
-        setModalData(parametro);
-        setModalShow(true);
-    };
+  const handleShowModal = (parametro: any) => {
+    setModalData(parametro);
+    setModalShow(true);
+  };
 
   useEffect(() => {
     function render() {
@@ -51,6 +51,8 @@ export default function TablePar(props: any) {
           setParametros(res.data);
         });
     }
+    render();
+  }, []);
 
   useEffect(() => {
     function render() {
@@ -82,54 +84,21 @@ export default function TablePar(props: any) {
     setSearchTerm(event.target.value);
   }
 
-                if (
-                    parametro?.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    parametro?.tipo?.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    parametro.parametro_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
-                ) {
-                    return true;
-                }
+  function renderTableRows() {
+    return parametros
+      .filter((parametro) => {
+        if (!searchTerm) {
+          return true;
+        }
 
-                return false;
-            })
-            .map((parametro) => (
-                <tr key={parametro.parametro_id}>
-                    <td>{parametro.parametro_id}</td>
-                    <td>{parametro.nome}</td>
-                    <td>{parametro?.tipo?.nome}</td>
-                    <td>{parametro.unidadeDeMedida?.nome}</td>
-                    <td>
-                        <Button className="bt bt-view" onClick={() => handleShowModal(parametro)}>
-                            <BsEye
-                                className="icon"
-                            />
-                        </Button>
-                        <Link to={`/editar-parametro/${parametro.parametro_id}`}>
-                            <Button className="bt bt-edit">
-                                <BsPencil className="icon" />
-                            </Button>
-                        </Link>
-                        <Button className="bt bt-delete">
-                            <BsTrash3 className="icon" />
-                        </Button>
-                        <MyVerticallyCenteredModal
-                            show={modalShow}
-                            {...modalData}
-                            onHide={() => setModalShow(false)}
-                            titulo={modalData?.nome}
-                            coluna1="ID: "
-                            resp1={modalData?.parametro_id}
-                            coluna3="Tipo: "
-                            resp3={modalData?.tipo?.nome}
-                            coluna4="Unidade de medida: "
-                            resp4={modalData?.unidadeDeMedida?.nome}
-                            coluna5="Fator: "
-                            resp5={modalData?.fator}
-                            coluna6="OffSet: "
-                            resp6={modalData?.offset}
-                        />
-                    </td>
-                </tr>
+        if (
+          parametro?.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          parametro?.tipo?.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          parametro.parametro_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        ) {
+          return true;
+        }
+
         return false;
       })
       .map((parametro) => (
@@ -145,10 +114,10 @@ export default function TablePar(props: any) {
                   />
                 </Button>
                 <Link to={`/editar-parametro/${parametro.parametro_id}`}>
-                            <Button className="bt bt-edit">
-                                <BsPencil className="icon" />
-                            </Button>
-                        </Link>
+                  <Button className="bt bt-edit">
+                    <BsPencil className="icon" />
+                  </Button>
+                </Link>
                 <Button className="bt bt-delete" onClick={() => handleChange(parametro)}>
                   <BsXOctagon className="icon" />
                 </Button>
@@ -203,11 +172,11 @@ export default function TablePar(props: any) {
                     className="icon"
                   />
                 </Button>
-                <Link to={`/editar-parametro/${parametro.parametro_id}`}>
-                            <Button className="bt bt-edit">
-                                <BsPencil className="icon" />
-                            </Button>
-                        </Link>
+                <Link to={`/editar-parametro/${inativo.parametro_id}`}>
+                    <Button className="bt bt-edit">
+                        <BsPencil className="icon" />
+                    </Button>
+                </Link>
                 <Button className="bt bt-active" onClick={() => handleChange(inativo)}>
                   <BsCheckLg className="icon" />
                 </Button>
@@ -232,6 +201,8 @@ export default function TablePar(props: any) {
             
       ));
   }
+
+
 
   return (
     <>
