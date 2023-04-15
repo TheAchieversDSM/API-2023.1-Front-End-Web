@@ -39,6 +39,7 @@ export default function Dashboard() {
                 parametro.medidaMedia = averageCalculator(groupByUnixtime(parametro.medidas))
                 const med = { nome: parametro.nome, sufixo: { nome: ' '+ parametro.unidadeDeMedida.nome, id: parametro.unidadeDeMedida.unidade_id }, media: parametro.medidaMedia }
                 medidasseries.push(med)
+                console.log(medidasseries)
             }
         })
         setMedidas(medidasseries)

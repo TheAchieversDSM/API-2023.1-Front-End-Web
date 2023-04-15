@@ -83,6 +83,15 @@ tr{
     transition: 0.3s;
 }
 
+.bt-active{
+    background: #00dc07 !important;
+    transition: 0.3s;
+}
+.bt-active:hover{
+    background: #39b500 !important;
+    transition: 0.3s;
+}
+
 .bt >.icon{
     width: 20px !important;
     height: 20px !important;

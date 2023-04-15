@@ -42,58 +42,74 @@ export default function TableUsu() {
 
     function renderTableRows() {
         return users
-            .filter((user) => {
-                if (!searchTerm) {
-                    return true;
-                }
-
-                if (
-                    user?.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    user?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    user.user_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
-                ) {
-                    return true;
-                }
-
-                return false;
-            })
-            .map((user) => (
-                <tr key={user.user_id}>
-                    <td>{user.user_id}</td>
-                    <td>{user.nome}</td>
-                    <td>{user.email}</td>
-                    <td>
-                        <Link to={`/editar-usuario/${user.user_id}`}>
+          .filter((user) => {
+            if (!searchTerm) {
+              return true;
+            }
+    
+            if (
+              user?.nome?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              user?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              user.user_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
+            ) {
+              return true;
+            }
+    
+            return false;
+          })
+          .map((user) => (
+            <tr key={user.user_id}>
+              <td>{user.user_id}</td>
+              <td>{user.nome}</td>
+              <td>{user.email}</td>
+              <td>
+                <Link to={`/editar-usuario/${user.user_id}`}>
                             <Button className="bt bt-edit">
                                 <BsPencil className="icon" />
                             </Button>
                         </Link>
-                        <Button className="bt bt-delete">
-                            <BsTrash3 className="icon" />
-                        </Button>
-                    </td>
-                </tr>
-            ));
-    }
+                <Button className="bt bt-delete" onClick={() => handleDelete(user.user_id)}>
+                  <BsTrash3 className="icon" />
+                </Button>
+              </td>
+            </tr>
+          ));
+      }
 
-    return (
-        <>
-            <Search change={handleSearch} link="/criar-usuarios" />
-            <div className="box-list">
-                <Table className="table" size="sm">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Email</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {renderTableRows()}
-                    </tbody>
-                </Table>
-            </div>
-        </>
-    )
+      function handleDelete(id: number) {
+        axios.delete(`http://localhost:5000/user/deletarUsuario`, {
+          data: { id },
+        })
+        .then(() => {
+          // Atualiza a lista de usuários após a exclusão
+          axios.get("http://localhost:5000/user/pegarUsuarios").then((res)=>{
+            setUsers(res.data)
+            console.log("Usuário deletado com sucesso")
+          })
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      }
+      
+  return (
+    <>
+    <Search change={handleSearch} link="/criar-usuarios"/>
+    <div className="box-list">
+          <Table className="table" size="sm">
+              <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>Nome</th>
+                      <th>Email</th>
+                      <th></th>
+                  </tr>
+              </thead>
+              <tbody>
+                {renderTableRows()}
+              </tbody>
+          </Table>
+      </div>
+      </>
+  )
 }
