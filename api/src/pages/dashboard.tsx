@@ -58,6 +58,7 @@ export default function Dashboard() {
             estacaoParametros?.map(estacao=>{
                 if (estacao.parametro_id == paramId){
                     setParametroDisplay(estacao)
+                    console.log(parametroDisplay)
                 }
             })
         }
@@ -72,14 +73,16 @@ export default function Dashboard() {
                 <div className='buttons_dashboard'>
 
                     <Navigation variant="pills" default="1">
-                        <NavItem index={1} label="Todos" />
+                        <NavItem index={1} label="Todos" function={()=> {setParamId(0)}} />
                         {estacaoParametros?.map((parametro, index) =>
-                            <NavItem index={index + 2} label={parametro.nome} function={setParamId(parametro.parametro_id)}  />
+                            <NavItem index={index + 2} label={parametro.nome} function={()=> {setParamId(parametro.parametro_id)}}  />
                         )}
                     </Navigation>
                 </div>
                 <div className='container_dashboard'>
                     <Chart className='container_dashboard' options={options} />
+                    
+
                 </div>
             </div>
 
