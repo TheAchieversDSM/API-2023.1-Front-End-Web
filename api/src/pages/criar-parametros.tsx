@@ -4,7 +4,6 @@ import axios from 'axios'
 // components ✨
 import CreatableSelect from 'react-select/creatable';
 import Input from '../components/input';
-import SelectMulti from '../components/select';
 import Sidebar from '../components/sidebar';
 import TextareaInput from '../components/textarea';
 import Button from '../components/button'
@@ -55,6 +54,12 @@ export default function CriarParametros() {
                 };
             });
         }
+    };
+
+    const createTipoOption = (event: any) =>{
+        axios.post(`http://localhost:5000/tipoParametro/cadastro`, {nome: event}).then(res=>{
+            handleChangeSelectTipo({value: res.data.id, label: event})
+        })
     };
 
     const handleChangeSelectUnidade = (event: any) => {
@@ -181,6 +186,7 @@ export default function CriarParametros() {
                                     name="tipoParamentro"
                                     placeholder="Selecione o tipo correspondente do parâmetro."
                                     onChange={(e: any) => { handleChangeSelectTipo(e) }}
+                                    onCreateOption={(e:any) => { createTipoOption(e) }}
                                     options={tipos}
                                 />
                             </Col>
