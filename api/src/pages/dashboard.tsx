@@ -18,6 +18,8 @@ export default function Dashboard() {
     const { id } = useParams()
     const [estacaoNome, setEstacaoNome] = useState()
     const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>();
+    const [paramId, setParamId ] = useState(0)
+    const [parametroDisplay, setParametroDisplay] = useState<EstacaoParametro>();
     const [medidas, setMedidas] = useState<Array<MediasSeries>>();
     const [options, setOptions] = useState<Options>()
     useEffect(() => {
@@ -51,6 +53,17 @@ export default function Dashboard() {
 
     }, [estacaoParametros])
 
+    useEffect(()=>{
+        if (paramId != 0){
+            estacaoParametros?.map(estacao=>{
+                if (estacao.parametro_id == paramId){
+                    setParametroDisplay(estacao)
+                }
+            })
+        }
+    }, [paramId])
+
+
     return (
         <>
             <Sidebar />
@@ -61,8 +74,7 @@ export default function Dashboard() {
                     <Navigation variant="pills" default="1">
                         <NavItem index={1} label="Todos" />
                         {estacaoParametros?.map((parametro, index) =>
-
-                            <NavItem index={index + 2} label={parametro.nome} />
+                            <NavItem index={index + 2} label={parametro.nome} function={setParamId(parametro.parametro_id)}  />
                         )}
                     </Navigation>
                 </div>
