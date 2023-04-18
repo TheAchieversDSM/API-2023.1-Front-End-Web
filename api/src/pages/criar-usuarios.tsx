@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 // components ✨
+import { Col, Row, Form } from 'react-bootstrap';
 import Input from '../components/input';
 import SelectMulti from '../components/select';
 import Sidebar from '../components/sidebar';
 import Button from '../components/button'
+import Swal from 'sweetalert2'
 
 import '../styles/criar-usuarios.css'
-import { Col, Row, Form } from 'react-bootstrap';
 
-const options = [ {value: '1', label: 'Administrador'}, {value: '2', label: 'Comum'} ]
+const options = [{ value: '1', label: 'Administrador' }, { value: '2', label: 'Comum' }]
 
 export default function CriarUsuarios() {
 
@@ -36,21 +37,23 @@ export default function CriarUsuarios() {
     };
 
     // select's handleChange ✨
-    const handleChangeSelect = (event: any) => {       
+    const handleChangeSelect = (event: any) => {
         if (event.length != 0 && event) {
             setUsuario((prevState) => {
                 return {
                     ...prevState,
                     tipoUsuario: event[0].value,
                 };
-            });               
-        }  
+            });
+        }
     };
 
-    const handleSubmit = (event: any) => { 
+    const handleSubmit = (event: any) => {
         for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
             event.target.querySelectorAll("input")[index].value = ""
         }
+
+        event.preventDefault()
 
         axios.post(`http://localhost:5000/user/cadastro`, {
             // colocar o campo de tipo aqui
@@ -60,8 +63,13 @@ export default function CriarUsuarios() {
         }).then((res) => {
 
         })
-
-        alert('Usuário cadastrado!');   
+        
+        Swal.fire({
+            title: 'Usuário cadastrado!',
+            text: `O usuário ${usuario.nome} foi cadastrado com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })
     };
 
     return (
@@ -71,7 +79,7 @@ export default function CriarUsuarios() {
 
                 <div className="main-body">
                     <h1 className="TitImp">Cadastro de Usuários</h1>
-                
+
                     <div className="box-create-user">
 
                         <Row className="create-alert-content">
@@ -97,7 +105,7 @@ export default function CriarUsuarios() {
                                 />
                             </Col>
                         </Row>
-                
+
                         {/* <Row className="create-alert-content">
                             <Col md={11}>
                                 <SelectMulti
@@ -126,11 +134,10 @@ export default function CriarUsuarios() {
                         </Row>
 
                         <div className="create-alert-button">
-                            <Button 
-                                type="submit" 
-                                label="Criar!" 
-                                className="btnCriar" 
-                                /* onClick={handleSubmit} */ 
+                            <Button
+                                type=""
+                                label="Criar!"
+                                className="btnCriar"
                             />
                         </div>
                     </div>

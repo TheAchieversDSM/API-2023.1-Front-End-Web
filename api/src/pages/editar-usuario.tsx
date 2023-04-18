@@ -8,6 +8,7 @@ import Input from '../components/input';
 import SelectMulti from '../components/select';
 import Sidebar from '../components/sidebar';
 import Button from '../components/button'
+import Swal from 'sweetalert2'
 
 import '../styles/criar-usuarios.css'
 
@@ -40,8 +41,6 @@ export default function EditarUsuarios() {
                 [name]: value,
             };
         });
-
-        console.log(usuario);
     };
 
     // select's handleChange ✨
@@ -57,7 +56,7 @@ export default function EditarUsuarios() {
     };
 
     const handleSubmit = (event: any) => {
-        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
+        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {            
             event.target.querySelectorAll("input")[index].value = ""
         }
 
@@ -79,7 +78,12 @@ export default function EditarUsuarios() {
 
         })
 
-        alert('Usuário atualizado!');
+        Swal.fire({
+            title: 'Usuário atualizado!',
+            text: `O usuário ${usuario.nome} foi atualizado com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })
     };
 
     useEffect(() => {
