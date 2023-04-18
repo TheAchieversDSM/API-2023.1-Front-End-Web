@@ -77,6 +77,12 @@ export default function CriarParametros() {
         }
     };
 
+    const createMedidaOption = (event: any) =>{
+        axios.post(`http://localhost:5000/unidadeMedida/cadastro`, {nome: event}).then(res=>{
+            handleChangeSelectUnidade({value: res.data.id, label: event})
+        })
+    };
+
     const handleSubmit = (event: any) => {
         for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
             event.target.querySelectorAll("input")[index].value = ""
@@ -205,6 +211,7 @@ export default function CriarParametros() {
                                     name="unidade"
                                     placeholder="Selecione a unidade de medida do parâmetro."
                                     onChange={(e: any) => { handleChangeSelectUnidade(e) }}
+                                    onCreateOption={(e:any) => { createMedidaOption(e) }}
                                     options={unidadeMedidas}
                                 />
                             </Col>
