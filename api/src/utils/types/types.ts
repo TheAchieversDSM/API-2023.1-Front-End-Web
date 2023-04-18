@@ -10,11 +10,11 @@ export type Estacao = {
 
 export type Medida = {
     valorMedido: string;
-    unixtime: number;
+    unixtime: string;
 }
 
 export interface MedidasAgrupadas {
-    [unixtime: number]: Medida[];
+    [unixtime: string]: Medida[];
   }
 
 export type MedidaMedia = Medida[]
@@ -32,4 +32,3 @@ export type EstacaoParametro = {
     medidaMedia: MedidaMedia;
     
 }
-
