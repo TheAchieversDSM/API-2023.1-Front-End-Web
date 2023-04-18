@@ -21,6 +21,7 @@ const { Select } = Form;
 
 export default function CriarAlertas() {
     const nivel = { value: "", label: "" };
+    const [parametros, setParametros] = useState();
 
     const [alerta, setAlerta] = useState({
         nome: "",
@@ -37,11 +38,22 @@ export default function CriarAlertas() {
                 ...prevState,
                 [name]: value,
             };
-        });        
+        });
     };
 
     // select's handleChange ✨
     const handleChangeSelect = (event: any) => {
+        if (event.length != 0 && event) {
+            setAlerta((prevState) => {
+                return {
+                    ...prevState,
+                    nivel: event.target.value,
+                };
+            });
+        }
+    };
+
+    const handleChangeSelectParametro = (event: any) => {
         if (event.length != 0 && event) {
             setAlerta((prevState) => {
                 return {
@@ -73,8 +85,20 @@ export default function CriarAlertas() {
             text: `A alerta ${alerta.nome} foi cadastrado com sucesso!`,
             icon: 'success',
             confirmButtonText: 'OK!'
-        })    
+        })
     };
+
+    console.log(parametros);
+
+    useEffect(() => {
+        async function render() {
+            axios.get(`http://localhost:5000/parametro/pegarParametros`).then((res) => {
+                setParametros(res.data);                
+            })
+        }
+
+        render();
+    }, []);
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -123,7 +147,7 @@ export default function CriarAlertas() {
                     </Row>
 
                     <Row className="create-alert-content">
-                        <Col md={11}>
+                        <Col md={5}>
                             <Form.Label>Nível</Form.Label>
                             <Select onChange={handleChangeSelect}>
                                 {options.map((option) => (
@@ -132,6 +156,18 @@ export default function CriarAlertas() {
                                     </option>
                                 ))}
                             </Select>
+                        </Col>
+
+                        <Col md={6}>
+                            <SelectMulti
+                                label="Parâmetros"
+                                size="mb-3"
+                                name="parametro"
+                                placeholder="Selecione o parâmetro correspondente."
+                                options={parametros}
+                                onChange={(e: any) => { handleChangeSelectParametro(e); }}
+                                close={false}
+                            />
                         </Col>
                     </Row>
 
