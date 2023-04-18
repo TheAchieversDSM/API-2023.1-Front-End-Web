@@ -3,7 +3,7 @@ import { Medida, MedidasAgrupadas } from "../../types/types";
 
 export default function averageCalculator(medidasAgrupadas: MedidasAgrupadas) {
   const medias: Medida[] = [];
-  console.log(medidasAgrupadas);
+
   if (Object.keys(medidasAgrupadas).length > 1) {
     for (const unixtime in medidasAgrupadas) {
       const medidas = medidasAgrupadas[unixtime];
@@ -27,6 +27,5 @@ export default function averageCalculator(medidasAgrupadas: MedidasAgrupadas) {
       })
     }
   }
-  console.log(medias)
   return medias;
 }
