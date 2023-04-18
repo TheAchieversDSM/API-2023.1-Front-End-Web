@@ -9,6 +9,7 @@ import Input from "../components/input";
 import SelectMulti from "../components/select";
 import Sidebar from "../components/sidebar";
 import Button from "../components/button";
+import Swal from 'sweetalert2'
 
 import "../styles/criar-alertas.css";
 
@@ -50,11 +51,8 @@ export default function EditarAlertas() {
                 ...prevState,
                 [name]: value,
             };
-        });   
-        
-        console.log(alerta.nivel);
-        
-    };    
+        });
+    };
 
     // select's handleChange ✨
     const handleChangeSelect = (event: any) => {
@@ -72,7 +70,7 @@ export default function EditarAlertas() {
         for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
             event.target.querySelectorAll("input")[index].value = ""
         }
-        
+
         event.preventDefault();
 
         if (alerta.nome.length === 0) {
@@ -89,15 +87,21 @@ export default function EditarAlertas() {
         }
 
         axios.put(`http://localhost:5000/alerta/atualizarAlertaPorId/${id}`, {
-                nome: alerta.nome,
-                valorMinimo: alerta.valorMin,
-                valorMax: alerta.valorMax,
-                nivel: parseInt(alerta.nivel)
-            })
-            .then((res) => { });
+            nome: alerta.nome,
+            valorMinimo: alerta.valorMin,
+            valorMax: alerta.valorMax,
+            nivel: parseInt(alerta.nivel)
+        }).then((res) => {
 
-        alert("Alerta atualizado!")
-    };    
+        });
+
+        Swal.fire({
+            title: 'Alerta atualizado!',
+            text: `O alerta ${alerta.nome} foi atualizado com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })
+    };
 
     useEffect(() => {
         async function render() {
@@ -107,7 +111,7 @@ export default function EditarAlertas() {
         }
 
         render()
-    }, [])  
+    }, [])
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -175,7 +179,7 @@ export default function EditarAlertas() {
                             type="submit"
                             label="Criar!"
                             className="btnCriar"
-                            /* onClick={handleSubmit} */
+                        /* onClick={handleSubmit} */
                         />
                     </div>
                 </div>
