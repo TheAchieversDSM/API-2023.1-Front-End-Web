@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
 // components ✨
+import { Col, Form, Row } from 'react-bootstrap';
 import CreatableSelect from 'react-select/creatable';
 import Input from '../components/input';
 import Sidebar from '../components/sidebar';
 import TextareaInput from '../components/textarea';
 import Button from '../components/button'
+import Swal from 'sweetalert2'
 
 import '../styles/criar-parametros.css'
-import { Col, Form, Row } from 'react-bootstrap';
 
 const modelo = [{ value: '', label: '' }]
 
@@ -100,7 +101,12 @@ export default function CriarParametros() {
             console.log(err);
         })
 
-        alert('Parâmetro cadastrado!');
+        Swal.fire({
+            title: 'Parâmetro cadastrado!',
+            text: `O parâmetro ${parametros.nome} foi cadastrado com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })    
     };
 
     // get unidade de medidas & tipos de parâmetros ✨

@@ -10,6 +10,7 @@ import SelectMulti from '../components/select';
 import Sidebar from '../components/sidebar';
 import TextareaInput from '../components/textarea';
 import Button from '../components/button'
+import Swal from 'sweetalert2'
 
 import '../styles/criar-parametros.css'
 
@@ -60,9 +61,6 @@ export default function EditarParametro() {
                 [name]: value,
             };
         });
-
-        console.log(parametros);
-        
     };
 
     // select's handleChange ✨
@@ -137,7 +135,12 @@ export default function EditarParametro() {
             console.log(err);
         })
         
-        alert('Parâmetro atualizado!');
+        Swal.fire({
+            title: 'Parâmetro atualizado!',
+            text: `O parâmetro ${parametros.nome} foi atualizado com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })  
     };
 
     // get unidade de medidas & tipos de parâmetros ✨
