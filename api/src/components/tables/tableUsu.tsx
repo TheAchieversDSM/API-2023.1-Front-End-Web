@@ -84,7 +84,6 @@ export default function TableUsu() {
 				// Atualiza a lista de usuários após a exclusão
 				axios.get("http://localhost:5000/user/pegarUsuarios").then((res) => {
 					setUsers(res.data)
-					console.log("Usuário deletado com sucesso")
 				})
 			})
 			.catch((error) => {

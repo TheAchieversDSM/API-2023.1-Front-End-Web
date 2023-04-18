@@ -47,7 +47,6 @@ export default function TableAlert() {
     axios.put(`http://localhost:5000/alerta/atualizarEstado/${id}`, { ativo })
       .then((response) => {
         // fazer algo com a resposta, se necessário
-        console.log(response.data);
         window.location.reload();
       })
       .catch((error) => {

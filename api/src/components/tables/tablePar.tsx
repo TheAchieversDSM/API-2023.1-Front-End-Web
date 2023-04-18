@@ -72,7 +72,6 @@ export default function TablePar(props: any) {
       .then((response) => {
         // fazer algo com a resposta, se necessário
         window.location.reload();
-        console.log(response.data);
       })
       .catch((error) => {
         // tratar o erro, se necessário

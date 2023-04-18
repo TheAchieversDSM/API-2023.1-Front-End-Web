@@ -12,7 +12,6 @@ interface IReport
         alerta_nome?: string;
     }
 
-
 export default function TableReport() {
     const [report, setReports] = useState<IReport[]>([])
     const { id } = useParams();
