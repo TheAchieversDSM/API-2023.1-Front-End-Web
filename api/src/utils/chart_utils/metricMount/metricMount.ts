@@ -11,13 +11,14 @@ export default function metricMount(data: Array<MediasSeries>){
         newMetric.setName(metric.nome)
         metric.media.map(metrica =>{
           const datas: any[] = [];
-          var dateSplited = metrica.unixtime.split('/')
           datas.push(metrica.unixtime)
+          console.log(metrica.unixtime )
           datas.push(Number(metrica.valorMedido))
           series.push(datas)
         })
         newMetric.setData(series)
         metrics.push(newMetric) 
       });
+      
     return metrics;
 }

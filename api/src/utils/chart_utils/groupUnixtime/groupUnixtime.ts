@@ -23,7 +23,7 @@ export default function groupByUnixtime(medidas: Medida[]): any {
     medidasDoDia.forEach((medida: { unixtime: any; }) => {
       const { unixtime } = medida;
       const data = new Date(parseInt(unixtime) * 1000); // converte unixtime para uma data
-      medida.unixtime = exibirHora ? data.toLocaleTimeString() : data.toLocaleString();
+      medida.unixtime = exibirHora ? data.toLocaleString() : data.toLocaleString();
     });
   });
 
