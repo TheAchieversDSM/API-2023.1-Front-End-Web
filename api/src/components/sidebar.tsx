@@ -23,40 +23,45 @@ export default function Sidebar() {
   const { signOut } = useContext(AuthContext);
   const cookies = parseCookies();
 
-  return (
-    <>
-      <nav className="sidebar">
-        <header>
-          <div className="image-text">
-            <span className="image">
-              <img src={logo} alt="logo" />
-            </span>
-          </div>
-        </header>
+    return (
+        <>
+            <nav className="sidebar">
+                <header>
+                    <div className="image-text">
+                        <span className="image">
+                            <img src={logo} alt="logo" />
+                        </span>
+                    </div>
+                </header>
 
-        <div className="menu-bar">
-          <div className="menu">
-            <li className="search-box">
-              <BsSearch className="icon" />
-              <input type="text" placeholder="Buscar..." />
-            </li>
+                <div className="menu-bar">
+                    <div className="menu">
 
-            <ul className="menu-links">
-              <li className="nav-link">
-                <Link to="/home">
-                  <BsHouse className="icon" />
-                  <span className="text nav-text">Início</span>
-                </Link>
-              </li>
-              
-              {cookies["tecsus.token"] ? (
-                <li className="nav-link">
-                  <Link to="/parametros">
-                    <BsClipboard2Check className="icon" />
-                    <span className="text nav-text">Parâmetros</span>
-                  </Link>
-                </li>
-              ) : null}
+                        {/*<li className="search-box">
+                            <BsSearch className="icon" />
+                            <input type="text" placeholder="Buscar..." />
+                        </li>*/}
+
+                        <ul className="menu-links">
+                            <div className="menu-bar">
+                            <div className="menu">
+                              <ul className="menu-links">
+                                <li className="nav-link">
+                                  <Link to="/home">
+                                    <BsHouse className="icon" />
+                                    <span className="text nav-text">Início</span>
+                                  </Link>
+                                </li>
+
+                                {cookies["tecsus.token"] ? (
+                                  <li className="nav-link">
+                                    <Link to="/parametros">
+                                      <BsClipboard2Check className="icon" />
+                                      <span className="text nav-text">Parâmetros</span>
+                                    </Link>
+                                  </li>
+                                ) : null}
+
 
               {cookies["tecsus.token"] ? (
                 <li className="nav-link">
