@@ -74,7 +74,6 @@ export default function TableEst() {
       axios.put(`http://localhost:5000/estacao/atualizarEstado/${id}`, { ativo })
         .then((response) => {
           // fazer algo com a resposta, se necessário
-          console.log(response.data);
           window.location.reload();
         })
         .catch((error) => {

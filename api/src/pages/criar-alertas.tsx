@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 // components ✨
+import { Col, Row } from "react-bootstrap";
 import Input from "../components/input";
 import SelectMulti from "../components/select";
 import Sidebar from "../components/sidebar";
 import Button from "../components/button";
+import Swal from 'sweetalert2'
 
 import "../styles/criar-alertas.css";
-import { Col, Row } from "react-bootstrap";
 
 const options = [
     { value: 1, label: "Atenção" },
@@ -25,7 +26,7 @@ export default function CriarAlertas() {
         nome: "",
         valorMin: "",
         valorMax: "",
-        nivel: nivel,
+        nivel: nivel.value,
     });
 
     // inputs' handleChange ✨
@@ -36,7 +37,7 @@ export default function CriarAlertas() {
                 ...prevState,
                 [name]: value,
             };
-        });
+        });        
     };
 
     // select's handleChange ✨
@@ -55,18 +56,24 @@ export default function CriarAlertas() {
         for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
             event.target.querySelectorAll("input")[index].value = ""
         }
-        
-        event.preventDefault();
-        axios
-            .post(`http://localhost:5000/alerta/cadastro`, {
-                nome: alerta.nome,
-                valorMinimo: alerta.valorMin,
-                valorMax: alerta.valorMax,
-                nivel: alerta.nivel,
-            })
-            .then((res) => { });
 
-        alert("Alerta cadastrado!")
+        event.preventDefault();
+
+        axios.post(`http://localhost:5000/alerta/cadastro`, {
+            nome: alerta.nome,
+            valorMinimo: alerta.valorMin,
+            valorMax: alerta.valorMax,
+            nivel: alerta.nivel,
+        }).then((res) => {
+
+        });
+
+        Swal.fire({
+            title: 'Alerta cadastrado!',
+            text: `A alerta ${alerta.nome} foi cadastrado com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })    
     };
 
     return (
@@ -133,7 +140,7 @@ export default function CriarAlertas() {
                             type="submit"
                             label="Criar!"
                             className="btnCriar"
-                            /* onClick={handleSubmit} */
+                        /* onClick={handleSubmit} */
                         />
                     </div>
                 </div>

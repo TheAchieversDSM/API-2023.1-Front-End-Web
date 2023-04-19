@@ -8,6 +8,7 @@ import Input from "../components/input";
 import SelectMulti from "../components/select";
 import Sidebar from "../components/sidebar";
 import Button from "../components/button";
+import Swal from 'sweetalert2'
 
 import "../styles/criar-estacoes.css";
 
@@ -72,10 +73,13 @@ export default function EditarEstacoes() {
             console.log(err);
         });
 
-        alert("Estação atualizada!");
+        Swal.fire({
+            title: 'Estação atualizada!',
+            text: `A estação ${estacao.nome} foi atualizada com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })    
     };
-
-    console.log(estacao2);
     
     // get unidade de medidas & tipos de parâmetros ✨
     useEffect(() => {
