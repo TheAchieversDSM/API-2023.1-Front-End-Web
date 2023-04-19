@@ -8,11 +8,13 @@ export default function TextareaInput(props: any) {
             <Form.Label>{props.label}</Form.Label>
             
             <Form.Control
+                required
                 as="textarea"
                 name={props.name}
                 placeholder={props.placeholder}
                 style={{ height: props.height }}
                 onChange={props.onChange}
+                defaultValue={props.default}
             />
         </Form.Group>
     )

@@ -1,41 +1,42 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { parseCookies } from "nookies";
 // components ✨
+import { Col, Form, Row } from "react-bootstrap";
 import Input from "../components/input";
 import SelectMulti from "../components/select";
 import Sidebar from "../components/sidebar";
 import Button from "../components/button";
+import Swal from 'sweetalert2'
 
 import "../styles/criar-estacoes.css";
-import { Col, Form, Row } from "react-bootstrap";
 
 const modelo = [{ value: "", label: "" }];
 
 export default function CriarEstacoes() {
-    const parametro = [{ parametroParametroId: "" }];
-    const [parametros, setParametros] = useState(modelo);
+  const parametro = [{ parametroParametroId: "" }];
+  const [parametros, setParametros] = useState(modelo);
+  const cookies = parseCookies();
+  const [estacao, setEstacao] = useState({
+    nome: "",
+    latitude: "",
+    longitude: "",
+    parametro: parametro,
+    uid: "",
+    utc: "",
+  });
 
-    const [estacao, setEstacao] = useState({
-        nome: "",
-        latitude: "",
-        longitude: "",
-        parametro: parametro,
-        uid: "",
-        utc: "",
+  // inputs' handleChange ✨
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+
+    setEstacao((prevState: any) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
     });
-
-    // inputs' handleChange ✨
-    const handleChange = (event: any) => {
-        const { name, value } = event.target;
-
-        setEstacao((prevState: any) => {
-            return {
-                ...prevState,
-                [name]: value,
-            };
-        });
-    };
+  };
 
     // select's handleChange ✨
     const handleChangeSelect = (event: any) => {
@@ -53,52 +54,67 @@ export default function CriarEstacoes() {
         }
     };
 
-    const handleSubmit = (event: any) => {       
-        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
-            event.target.querySelectorAll("input")[index].value = ""
-        }
+  const handleSubmit = (event: any) => {
+    for (
+      let index = 0;
+      index < event.target.querySelectorAll("input").length;
+      index++
+    ) {
+      event.target.querySelectorAll("input")[index].value = "";
+    }
 
-        event.preventDefault();
-        axios
-            .post(`http://localhost:5000/estacao/cadastro`, {
-                nome_estacao: estacao.nome,
-                latitude: estacao.latitude,
-                longitude: estacao.longitude,
-                uid: estacao.uid,
-                utc: estacao.utc,
-                parametros: estacao.parametro,
-            })
-            .then((res) => { })
-            .catch((err) => {
-                console.log(err);
-            });
+    event.preventDefault();
+    axios
+      .post(
+        `http://localhost:5000/estacao/cadastro`,
+        {
+          nome_estacao: estacao.nome,
+          latitude: estacao.latitude,
+          longitude: estacao.longitude,
+          uid: estacao.uid,
+          utc: estacao.utc,
+          parametros: estacao.parametro,
+        },
+        { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+      )
+      .then((res) => {})
+      .catch((err) => {
+        console.log(err);
+      });
 
-        alert("Estação cadastrada!");
-    };
+        Swal.fire({
+            title: 'Estação cadastrada!',
+            text: `A estação ${estacao.nome} foi cadastrada com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })  
+   };
 
-    // get unidade de medidas & tipos de parâmetros ✨
-    useEffect(() => {
-        async function render() {
-            axios
-                .get(`http://localhost:5000/parametro/pegarParametros`)
-                .then((res) => {
-                    const parametro = [{ value: "", label: "" }];
+  // get unidade de medidas & tipos de parâmetros ✨
+  useEffect(() => {
+    async function render() {
+      axios
+        .get(`http://localhost:5000/parametro/pegarParametros`, {
+          headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+        })
+        .then((res) => {
+          const parametro = [{ value: "", label: "" }];
 
-                    for (let index = 0; index <= res.data.length - 1; index++) {
-                        let option = {
-                            value: res.data[index].parametro_id,
-                            label: res.data[index].nome,
-                        };
+          for (let index = 0; index <= res.data.length - 1; index++) {
+            let option = {
+              value: res.data[index].parametro_id,
+              label: res.data[index].nome,
+            };
 
-                        parametro.push(option);
-                    }
+            parametro.push(option);
+          }
 
-                    setParametros(parametro);
-                });
-        }
+          setParametros(parametro);
+        });
+     }
 
-        render();
-    }, []);
+    render();
+  }, []);
 
     return (
         <>
@@ -183,7 +199,7 @@ export default function CriarEstacoes() {
                                 type="submit"
                                 label="Criar!"
                                 className="btnCriar"
-                                /* onClick={handleSubmit} */
+                            /* onClick={handleSubmit} */
                             />
                         </div>
                     </div>

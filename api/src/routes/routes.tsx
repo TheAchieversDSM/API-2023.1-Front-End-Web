@@ -13,27 +13,32 @@ import CriarEstacoes from "../pages/criar-estacoes";
 import CriarUsuarios from "../pages/criar-usuarios";
 import CriarParametros from "../pages/criar-parametros";
 import Reports from "../pages/reports";
-
+import EditarParametro from "../pages/editar-parametros";
+import EditarUsuarios from "../pages/editar-usuario";
+import EditarAlertas from "../pages/editar-alertas";
+import EditarEstacoes from "../pages/editar-estacoes";
 
 const Routes = () => {
-    return (
-        <BrowserRouter>
-            <Switch>
-                <Route path="/home" element={<HOME />} />
-                <Route path="/usuarios" element={<Usuarios />} />
-                <Route path="/alertas" element={<Alertas />} />
-                <Route path="/reports/:id" element={<Reports />} />
-                <Route path="/dashboard/:id" element={<Dashboard />}/>
-                <Route path="/parametros" element={<Parametros />} />
-                <Route path="/estacoes" element={<Estacao />} />
-                <Route path="/" element={<Login />} />
-                <Route path="/criar-alertas" element={<CriarAlertas />} />
-                <Route path="/criar-estacoes" element={<CriarEstacoes />} />
-                <Route path="/criar-usuarios" element={<CriarUsuarios />} />
-                <Route path="/criar-parametros" element={<CriarParametros />} />
-            </Switch>
-        </BrowserRouter>
-    )
-}
+  return (
+    <Switch>
+      <Route path="/home" element={<HOME />} />
+      <Route path="/usuarios" element={<Usuarios />} />
+      <Route path="/alertas" element={<Alertas />} />
+      <Route path="/reports/:id" element={<Reports />} />
+      <Route path="/dashboard/:id" element={<Dashboard />} />
+      <Route path="/parametros" element={<Parametros />} />
+      <Route path="/estacoes" element={<Estacao />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/criar-alertas" element={<CriarAlertas />} />
+      <Route path="/criar-estacoes" element={<CriarEstacoes />} />
+      <Route path="/criar-usuarios" element={<CriarUsuarios />} />
+      <Route path="/criar-parametros" element={<CriarParametros />} />
+      <Route path="/editar-usuario/:id" element={<EditarUsuarios />} />
+      <Route path="/editar-parametro/:id" element={<EditarParametro />} />
+      <Route path="/editar-alerta/:id" element={<EditarAlertas />} />
+      <Route path="/editar-estacao/:id" element={<EditarEstacoes />} />
+    </Switch>
+  );
+};
 
-export default Routes
+export default Routes;
