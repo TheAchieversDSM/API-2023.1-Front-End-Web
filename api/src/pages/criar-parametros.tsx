@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { parseCookies } from "nookies";
 // components ✨
-import CreatableSelect from "react-select/creatable";
-import Input from "../components/input";
-import Sidebar from "../components/sidebar";
-import TextareaInput from "../components/textarea";
-import Button from "../components/button";
 
-import "../styles/criar-parametros.css";
-import { Col, Form, Row } from "react-bootstrap";
+import { Col, Form, Row } from 'react-bootstrap';
+import CreatableSelect from 'react-select/creatable';
+import Input from '../components/input';
+import Sidebar from '../components/sidebar';
+import TextareaInput from '../components/textarea';
+import Button from '../components/button'
+import Swal from 'sweetalert2'
+
+import '../styles/criar-parametros.css'
 
 const modelo = [{ value: "", label: "" }];
 
@@ -68,19 +70,27 @@ export default function CriarParametros() {
       });
   };
 
-  const handleChangeSelectUnidade = (event: any) => {
-    if (event.length != 0 && event) {
-      setParametros((prevState) => {
-        return {
-          ...prevState,
-          unidade: {
-            value: event.value,
-            label: event.label,
-          },
-        };
-      });
-    }
-  };
+    const handleChangeSelectUnidade = (event: any) => {
+        if (event.length != 0 && event) {           
+            setParametros((prevState) => {
+                return {
+                    ...prevState,
+                    unidade: {
+                        value: event.value,
+                        label: event.label,
+                    },
+                };
+            });
+        }
+    };
+
+    const createMedidaOption = (event: any) =>{
+        axios.post(`http://localhost:5000/unidadeMedida/cadastro`,
+        { nome: event },
+        { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }).then(res=>{
+            handleChangeSelectUnidade({value: res.data.id, label: event})
+        })
+    };
 
   const handleSubmit = (event: any) => {
     for (
@@ -105,12 +115,12 @@ export default function CriarParametros() {
       .post(
         `http://localhost:5000/parametro/cadastro`,
         {
-          tipo_parametro: parametros.tipoParametro.value,
-          formula_parametro: parametros.formula,
-          nome_parametro: parametros.nome,
-          unidadeDeMedida_parametro: parametros.unidade.value,
-          offset_parametro: parametros.offset,
-          fator_parametro: parametros.fator,
+            tipo_parametro: parametros.tipoParametro.value,
+            formula_parametro: parametros.formula,
+            nome_parametro: parametros.nome,
+            unidadeDeMedida_parametro: parametros.unidade.value,
+            offset_parametro: parametros.offset,
+            fator_parametro: parametros.fator
         },
         { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
       )
@@ -119,7 +129,13 @@ export default function CriarParametros() {
         console.log(err);
       });
 
-    alert("Parâmetro cadastrado!");
+        Swal.fire({
+            title: 'Parâmetro cadastrado!',
+            text: `O parâmetro ${parametros.nome} foi cadastrado com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })    
+    };  
   };
 
   // get unidade de medidas & tipos de parâmetros ✨
@@ -159,7 +175,6 @@ export default function CriarParametros() {
 
             parametrosTipos.push(option);
           }
-
           setTipos(parametrosTipos);
         });
     }
@@ -224,24 +239,19 @@ export default function CriarParametros() {
                 />
               </Col>
 
-              <Col md={5}>
-                <Form.Label className="label">Unidade de Medida</Form.Label>
-                <CreatableSelect
-                  isClearable
-                  value={[
-                    {
-                      value: parametros.unidade.value,
-                      label: parametros.unidade.label,
-                    },
-                  ]}
-                  name="unidade"
-                  placeholder="Selecione a unidade de medida do parâmetro."
-                  onChange={(e: any) => {
-                    handleChangeSelectUnidade(e);
-                  }}
-                  options={unidadeMedidas}
-                />
-              </Col>
+                            <Col md={5}>
+                                <Form.Label className="label">Unidade de Medida</Form.Label>
+                                <CreatableSelect
+                                    isClearable
+                                    value={[{ value: parametros.unidade.value, label: parametros.unidade.label }]}
+                                    name="unidade"
+                                    placeholder="Selecione a unidade de medida do parâmetro."
+                                    onChange={(e: any) => { handleChangeSelectUnidade(e) }}
+                                    onCreateOption={(e:any) => { createMedidaOption(e) }}
+                                    options={unidadeMedidas}
+                                />
+                            </Col>
+                        </Row>
             </Row>
 
             <Row className="create-parameters-content">

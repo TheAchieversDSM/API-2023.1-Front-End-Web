@@ -22,6 +22,7 @@ import { parseCookies } from "nookies";
 export default function Sidebar() {
   const { signOut } = useContext(AuthContext);
   const cookies = parseCookies();
+
   return (
     <>
       <nav className="sidebar">
@@ -47,12 +48,12 @@ export default function Sidebar() {
                   <span className="text nav-text">Início</span>
                 </Link>
               </li>
-
+              
               {cookies["tecsus.token"] ? (
                 <li className="nav-link">
-                  <Link to="/usuarios">
-                    <BsPerson className="icon" />
-                    <span className="text nav-text">Usuários</span>
+                  <Link to="/parametros">
+                    <BsClipboard2Check className="icon" />
+                    <span className="text nav-text">Parâmetros</span>
                   </Link>
                 </li>
               ) : null}
@@ -65,17 +66,8 @@ export default function Sidebar() {
                   </Link>
                 </li>
               ) : null}
-
-              {cookies["tecsus.token"] ? (
-                <li className="nav-link">
-                  <Link to="/parametros">
-                    <BsClipboard2Check className="icon" />
-                    <span className="text nav-text">Parâmetros</span>
-                  </Link>
-                </li>
-              ) : null}
-
-              <li className="nav-link">
+              
+             <li className="nav-link">
                 <Link to="/estacoes">
                   <BsSignpostSplit className="icon" />
                   <span className="text nav-text">Estações</span>

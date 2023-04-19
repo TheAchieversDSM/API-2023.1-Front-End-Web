@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { parseCookies } from "nookies";
 // components ✨
-import { Col, Row, Form } from "react-bootstrap";
-import Input from "../components/input";
-import SelectMulti from "../components/select";
-import Sidebar from "../components/sidebar";
-import Button from "../components/button";
+import { Col, Row, Form } from 'react-bootstrap';
+import Input from '../components/input';
+import SelectMulti from '../components/select';
+import Sidebar from '../components/sidebar';
+import Button from '../components/button'
+import Swal from 'sweetalert2'
 
 import "../styles/criar-usuarios.css";
 
@@ -87,8 +88,13 @@ export default function EditarUsuarios() {
       )
       .then((res) => {});
 
-    alert("Usuário atualizado!");
-  };
+        Swal.fire({
+            title: 'Usuário atualizado!',
+            text: `O usuário ${usuario.nome} foi atualizado com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })  
+   };
 
   useEffect(() => {
     async function render() {
@@ -139,20 +145,6 @@ export default function EditarUsuarios() {
                 />
               </Col>
             </Row>
-
-            {/* <Row className="create-alert-content">
-                            <Col md={11}>
-                                <SelectMulti
-                                    label="Nível de Acesso"
-                                    size="mb-3"
-                                    name="tipoUsuario"
-                                    placeholder="Selecione o nível de acesso do usuário."
-                                    options={options}
-                                    onChange={handleChangeSelect}
-                                    close={true}
-                                />
-                            </Col>
-                        </Row> */}
 
             <div className="create-alert-button">
               <Button

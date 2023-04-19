@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { parseCookies } from "nookies";
 // components ✨
+import { Col, Form, Row } from "react-bootstrap";
 import Input from "../components/input";
 import SelectMulti from "../components/select";
 import Sidebar from "../components/sidebar";
 import Button from "../components/button";
+import Swal from 'sweetalert2'
 
 import "../styles/criar-estacoes.css";
-import { Col, Form, Row } from "react-bootstrap";
 
 const modelo = [{ value: "", label: "" }];
 
@@ -37,21 +38,21 @@ export default function CriarEstacoes() {
     });
   };
 
-  // select's handleChange ✨
-  const handleChangeSelect = (event: any) => {
-    var parameters: any[] = [];
+    // select's handleChange ✨
+    const handleChangeSelect = (event: any) => {
+        var parameters: any[] = [];
 
-    if (event.length != 0 && event) {
-      for (let i = 0; i < event.length; i++) {
-        let option = { parametroParametroId: event[i].value };
-        parameters.push(option);
-      }
+        if (event.length != 0 && event) {
+            for (let i = 0; i < event.length; i++) {
+                let option = { parametroParametroId: event[i].value };
+                parameters.push(option);
+            }
 
-      estacao.parametro = parameters;
+            estacao.parametro = parameters;
 
-      setEstacao(estacao);
-    }
-  };
+            setEstacao(estacao);
+        }
+    };
 
   const handleSubmit = (event: any) => {
     for (
@@ -81,8 +82,13 @@ export default function CriarEstacoes() {
         console.log(err);
       });
 
-    alert("Estação cadastrada!");
-  };
+        Swal.fire({
+            title: 'Estação cadastrada!',
+            text: `A estação ${estacao.nome} foi cadastrada com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })  
+   };
 
   // get unidade de medidas & tipos de parâmetros ✨
   useEffect(() => {
@@ -105,100 +111,100 @@ export default function CriarEstacoes() {
 
           setParametros(parametro);
         });
-    }
+     }
 
     render();
   }, []);
 
-  return (
-    <>
-      <Form onSubmit={handleSubmit}>
-        <Sidebar />
-        <div className="main-body">
-          <h1 className="TitImp">Cadastro de Estações</h1>
-          <div className="box-create-station">
-            <Row className="create-station-content">
-              <Col md={11}>
-                <Input
-                  label="Nome da Estação"
-                  name="nome"
-                  size="mb-6"
-                  type="text"
-                  placeholder="Insira o nome da estação."
-                  onChange={handleChange}
-                />
-              </Col>
-            </Row>
-            <Row className="create-station-content">
-              <Col md={5}>
-                <Input
-                  label="Latitude"
-                  name="latitude"
-                  size="mb-6"
-                  type="number"
-                  placeholder="Insira a latitude da estação."
-                  onChange={handleChange}
-                />
-              </Col>
-              <Col md={6}>
-                <Input
-                  label="Longitude"
-                  name="longitude"
-                  size="mb-6"
-                  type="number"
-                  placeholder="Insira longitude da estação."
-                  onChange={handleChange}
-                />
-              </Col>
-            </Row>
-            <Row className="create-station-content">
-              <Col md={6}>
-                <Input
-                  label="UID"
-                  name="uid"
-                  size="mb-6"
-                  type="text"
-                  placeholder="Insira o UID da estação."
-                  onChange={handleChange}
-                />
-              </Col>
-              <Col md={5}>
-                <Input
-                  label="UTC"
-                  name="utc"
-                  size="mb-6"
-                  type="text"
-                  placeholder="Insira a UTC do local."
-                  onChange={handleChange}
-                />
-              </Col>
-            </Row>
-            <Row className="create-station-content">
-              <Col md={11}>
-                <SelectMulti
-                  label="Parâmetros"
-                  size="mb-3"
-                  name="parametro"
-                  placeholder="Selecione o(s) parâmetro(s) correspondente(s)."
-                  options={parametros}
-                  onChange={(e: any) => {
-                    handleChangeSelect(e);
-                  }}
-                  close={false}
-                />
-              </Col>
-            </Row>
-            <div className="create-station-button">
-              <Button
-                type="submit"
-                label="Criar!"
-                className="btnCriar"
-                /* onClick={handleSubmit} */
-              />
-            </div>
-          </div>
-        </div>
-      </Form>
-    </>
-  );
+    return (
+        <>
+            <Form onSubmit={handleSubmit}>
+                <Sidebar />
+                <div className="main-body">
+                    <h1 className="TitImp">Cadastro de Estações</h1>
+                    <div className="box-create-station">
+                        <Row className="create-station-content">
+                            <Col md={11}>
+                                <Input
+                                    label="Nome da Estação"
+                                    name="nome"
+                                    size="mb-6"
+                                    type="text"
+                                    placeholder="Insira o nome da estação."
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                        </Row>
+                        <Row className="create-station-content">
+                            <Col md={5}>
+                                <Input
+                                    label="Latitude"
+                                    name="latitude"
+                                    size="mb-6"
+                                    type="number"
+                                    placeholder="Insira a latitude da estação."
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                            <Col md={6}>
+                                <Input
+                                    label="Longitude"
+                                    name="longitude"
+                                    size="mb-6"
+                                    type="number"
+                                    placeholder="Insira longitude da estação."
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                        </Row>
+                        <Row className="create-station-content">
+                            <Col md={6}>
+                                <Input
+                                    label="UID"
+                                    name="uid"
+                                    size="mb-6"
+                                    type="text"
+                                    placeholder="Insira o UID da estação."
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                            <Col md={5}>
+                                <Input
+                                    label="UTC"
+                                    name="utc"
+                                    size="mb-6"
+                                    type="text"
+                                    placeholder="Insira a UTC do local."
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                        </Row>
+                        <Row className="create-station-content">
+                            <Col md={11}>
+                                <SelectMulti
+                                    label="Parâmetros"
+                                    size="mb-3"
+                                    name="parametro"
+                                    placeholder="Selecione o(s) parâmetro(s) correspondente(s)."
+                                    options={parametros}
+                                    onChange={(e: any) => {
+                                        handleChangeSelect(e);
+                                    }}
+                                    close={false}
+                                />
+                            </Col>
+                        </Row>
+                        <div className="create-station-button">
+                            <Button
+                                type="submit"
+                                label="Criar!"
+                                className="btnCriar"
+                            /* onClick={handleSubmit} */
+                            />
+                        </div>
+                    </div>
+                </div>
+            </Form>
+        </>
+    );
 }

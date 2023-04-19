@@ -3,13 +3,14 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { parseCookies } from "nookies";
 // components ✨
-import { Col, Form, Row } from "react-bootstrap";
-import CreatableSelect from "react-select/creatable";
-import Input from "../components/input";
-import SelectMulti from "../components/select";
-import Sidebar from "../components/sidebar";
-import TextareaInput from "../components/textarea";
-import Button from "../components/button";
+import { Col, Form, Row } from 'react-bootstrap';
+import CreatableSelect from 'react-select/creatable';
+import Input from '../components/input';
+import SelectMulti from '../components/select';
+import Sidebar from '../components/sidebar';
+import TextareaInput from '../components/textarea';
+import Button from '../components/button'
+import Swal from 'sweetalert2'
 
 import "../styles/criar-parametros.css";
 
@@ -137,12 +138,12 @@ export default function EditarParametro() {
       .put(
         `http://localhost:5000/parametro/atualizarParametro/${id}`,
         {
-          tipo_parametro: parseInt(parametros.tipoParametro.value),
-          formula_parametro: parametros.formula,
-          nome_parametro: parametros.nome,
-          unidadeDeMedida_parametro: parseInt(parametros.unidade.value),
-          offset_parametro: parametros.offset,
-          fator_parametro: parametros.fator,
+            tipo_parametro: parseInt(parametros.tipoParametro.value),
+            formula_parametro: parametros.formula,
+            nome_parametro: parametros.nome,
+            unidadeDeMedida_parametro: parseInt(parametros.unidade.value),
+            offset_parametro: parametros.offset,
+            fator_parametro: parametros.fator
         },
         { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
       )
@@ -151,8 +152,13 @@ export default function EditarParametro() {
         console.log(err);
       });
 
-    alert("Parâmetro atualizado!");
-  };
+        Swal.fire({
+            title: 'Parâmetro atualizado!',
+            text: `O parâmetro ${parametros.nome} foi atualizado com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })  
+   };
 
   // get unidade de medidas & tipos de parâmetros ✨
   useEffect(() => {
@@ -175,7 +181,8 @@ export default function EditarParametro() {
 
           setUnidadeMedidas(unidades);
         });
-
+        
+        
       axios
         .get(`http://localhost:5000/tipoParametro/pegarTiposParametro`, {
           headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
@@ -203,124 +210,113 @@ export default function EditarParametro() {
           setParametro(res.data);
         });
     }
-
+   
     render();
   }, []);
+  
+ return (
+        <>
+            <Form onSubmit={handleSubmit}>
 
-  return (
-    <>
-      <Form onSubmit={handleSubmit}>
-        <Sidebar />
+                <Sidebar />
 
-        <div className="main-body">
-          <h1 className="TitImp">Edição de Parâmetros</h1>
+                <div className="main-body">
+                    <h1 className="TitImp">Edição de Parâmetros</h1>
 
-          <div className="box-create-parameters">
-            <Row className="create-parameters-content">
-              <Col md={11}>
-                <Input
-                  label="Nome"
-                  name="nome"
-                  size="mb-6"
-                  type="text"
-                  placeholder="Insira o nome do parâmetro."
-                  onChange={handleChange}
-                  default={parametro?.nome}
-                />
-              </Col>
-            </Row>
+                    <div className="box-create-parameters">
 
-            <Row className="create-parameters-content">
-              <Col md={11}>
-                <TextareaInput
-                  label="Fórmula/Explicação"
-                  name="formula"
-                  placeholder="Insira a fórmula e, se necessário, explicação para chegar no valor ideal."
-                  height="100px"
-                  onChange={handleChange}
-                  default={parametro?.formula}
-                />
-              </Col>
-            </Row>
+                        <Row className="create-parameters-content">
+                            <Col md={11}>
+                                <Input
+                                    label="Nome"
+                                    name="nome"
+                                    size="mb-6"
+                                    type="text"
+                                    placeholder="Insira o nome do parâmetro."
+                                    onChange={handleChange}
+                                    default={parametro?.nome}
+                                />
+                            </Col>
+                        </Row>
 
-            <Row className="create-parameters-content">
-              <Col md={6}>
-                <Form.Label className="label">Tipo de Parâmetro</Form.Label>
-                <CreatableSelect
-                  isClearable
-                  value={[
-                    {
-                      value: parametros.tipoParametro.value,
-                      label: parametros.tipoParametro.label,
-                    },
-                  ]}
-                  defaultValue={{ value: "", label: "" }}
-                  name="tipoParamentro"
-                  placeholder="Selecione o tipo correspondente do parâmetro."
-                  onChange={(e: any) => {
-                    handleChangeSelectTipo(e);
-                  }}
-                  options={tipos}
-                />
-              </Col>
+                        <Row className="create-parameters-content">
+                            <Col md={11}>
+                                <TextareaInput
+                                    label="Fórmula/Explicação"
+                                    name="formula"
+                                    placeholder="Insira a fórmula e, se necessário, explicação para chegar no valor ideal."
+                                    height="100px"
+                                    onChange={handleChange}
+                                    default={parametro?.formula}
+                                />
+                            </Col>
+                        </Row>
 
-              <Col md={5}>
-                <Form.Label className="label">Unidade de Medida</Form.Label>
-                <CreatableSelect
-                  isClearable
-                  value={[
-                    {
-                      value: parametros.unidade.value,
-                      label: parametros.unidade.label,
-                    },
-                  ]}
-                  name="unidade"
-                  placeholder="Selecione a unidade de medida do parâmetro."
-                  onChange={(e: any) => {
-                    handleChangeSelectUnidade(e);
-                  }}
-                  options={unidadeMedidas}
-                />
-              </Col>
-            </Row>
+                        <Row className="create-parameters-content">
 
-            <Row className="create-parameters-content">
-              <Col md={5}>
-                <Input
-                  label="Fator"
-                  name="fator"
-                  size="mb-6"
-                  type="number"
-                  placeholder="Insira o fator do parâmetro."
-                  onChange={handleChange}
-                  default={parametro?.fator}
-                />
-              </Col>
+                            <Col md={6}>
+                                <Form.Label className="label">Tipo de Parâmetro</Form.Label>
+                                <CreatableSelect
+                                    isClearable
+                                    value={[{ value: parametros.tipoParametro.value,label: parametros.tipoParametro.label }]}
+                                    defaultValue={{value: "", label: ""}}
+                                    name="tipoParamentro"
+                                    placeholder="Selecione o tipo correspondente do parâmetro."
+                                    onChange={(e: any) => { handleChangeSelectTipo(e) }}
+                                    options={tipos}
+                                />
+                            </Col>
 
-              <Col md={6}>
-                <Input
-                  label="Offset"
-                  name="offset"
-                  size="mb-6"
-                  type="number"
-                  placeholder="Insira o offset do parâmetro."
-                  onChange={handleChange}
-                  default={parametro?.offset}
-                />
-              </Col>
-            </Row>
+                            <Col md={5}>
+                                <Form.Label className="label">Unidade de Medida</Form.Label>
+                                <CreatableSelect
+                                    isClearable
+                                    value={[{ value: parametros.unidade.value, label: parametros.unidade.label }]}
+                                    name="unidade"
+                                    placeholder="Selecione a unidade de medida do parâmetro."
+                                    onChange={(e: any) => { handleChangeSelectUnidade(e) }}
+                                    options={unidadeMedidas}
+                                />
+                            </Col>
+                        </Row>
 
-            <div className="create-alert-button">
-              <Button
-                type="submit"
-                label="Criar!"
-                className="btnCriar"
-                /* onClick={handleSubmit} */
-              />
-            </div>
-          </div>
-        </div>
-      </Form>
-    </>
-  );
+                        <Row className="create-parameters-content">
+                            <Col md={5}>
+                                <Input
+                                    label="Fator"
+                                    name="fator"
+                                    size="mb-6"
+                                    type="number"
+                                    placeholder="Insira o fator do parâmetro."
+                                    onChange={handleChange}
+                                    default={parametro?.fator}
+                                />
+                            </Col>
+
+                            <Col md={6}>
+                                <Input
+                                    label="Offset"
+                                    name="offset"
+                                    size="mb-6"
+                                    type="number"
+                                    placeholder="Insira o offset do parâmetro."
+                                    onChange={handleChange}
+                                    default={parametro?.offset}
+                                />
+                            </Col>
+                        </Row>
+
+                        <div className="create-alert-button">
+                            <Button 
+                                type="submit" 
+                                label="Criar!" 
+                                className="btnCriar" 
+                                /* onClick={handleSubmit} */ 
+                            />
+                        </div>
+                    </div>
+                </div>
+            </Form>
+        </>
+    )
 }

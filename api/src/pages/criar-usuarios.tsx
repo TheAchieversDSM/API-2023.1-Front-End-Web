@@ -71,8 +71,14 @@ export default function CriarUsuarios() {
       )
       .then((res) => {});
 
-    alert("Usuário cadastrado!");
-  };
+        Swal.fire({
+            title: 'Usuário cadastrado!',
+            text: `O usuário ${usuario.nome} foi cadastrado com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })
+    };  
+    };
 
   return (
     <>
@@ -121,30 +127,29 @@ export default function CriarUsuarios() {
                             </Col>
                         </Row> */}
 
-            <Row className="create-alert-content">
-              <Col md={11}>
-                <Input
-                  label="Senha"
-                  name="senha"
-                  size="mb-6"
-                  type="password"
-                  placeholder="Insira a primeira senha de acesso do usuário."
-                  onChange={handleChange}
-                />
-              </Col>
-            </Row>
+                        <Row className="create-alert-content">
+                            <Col md={11}>
+                                <Input
+                                    label="Senha"
+                                    name="senha"
+                                    size="mb-6"
+                                    type="password"
+                                    placeholder="Insira a primeira senha de acesso do usuário."
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                        </Row>
 
-            <div className="create-alert-button">
-              <Button
-                type="submit"
-                label="Criar!"
-                className="btnCriar"
-                /* onClick={handleSubmit} */
-              />
-            </div>
-          </div>
-        </div>
-      </Form>
-    </>
-  );
+                        <div className="create-alert-button">
+                            <Button
+                                type=""
+                                label="Criar!"
+                                className="btnCriar"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </Form>
+        </>
+    )
 }

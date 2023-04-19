@@ -9,6 +9,7 @@ import Input from "../components/input";
 import SelectMulti from "../components/select";
 import Sidebar from "../components/sidebar";
 import Button from "../components/button";
+import Swal from 'sweetalert2'
 
 import "../styles/criar-alertas.css";
 
@@ -23,12 +24,15 @@ interface IAlerta {
   valorMinimo?: string;
   valorMax?: string;
   nivel?: number;
+  parametro_id?: number;
 }
 
 export default function EditarAlertas() {
   const { Select } = Form;
   const cookies = parseCookies();
   const { id } = useParams();
+      
+  const [parametros, setParametros] = useState<{ label: any; value: any; }[]>([]);
 
   const nivel = { value: 0, label: "" };
 
@@ -39,6 +43,7 @@ export default function EditarAlertas() {
     valorMin: "",
     valorMax: "",
     nivel: "",
+    parametro_id: "";
   });
 
   // inputs' handleChange ✨
@@ -51,8 +56,6 @@ export default function EditarAlertas() {
         [name]: value,
       };
     });
-
-    console.log(alerta.nivel);
   };
 
   // select's handleChange ✨
@@ -66,6 +69,17 @@ export default function EditarAlertas() {
       });
     }
   };
+  
+      const handleChangeSelectParametro = (event: any) => {
+        if (event.length != 0 && event) {
+            setAlerta((prevState) => {
+                return {
+                    ...prevState,
+                    parametro_id: event[0].value,
+                };
+            });
+        }
+    };
 
   const handleSubmit = (event: any) => {
     for (
@@ -95,17 +109,23 @@ export default function EditarAlertas() {
       .put(
         `http://localhost:5000/alerta/atualizarAlertaPorId/${id}`,
         {
-          nome: alerta.nome,
-          valorMinimo: alerta.valorMin,
-          valorMax: alerta.valorMax,
-          nivel: parseInt(alerta.nivel),
+           nome: alerta.nome,
+            valorMinimo: alerta.valorMin,
+            valorMax: alerta.valorMax,
+            nivel: parseInt(alerta.nivel),
+            parametro_id: parseInt(alerta.parametro_id)
         },
         { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
       )
       .then((res) => {});
 
-    alert("Alerta atualizado!");
-  };
+        Swal.fire({
+            title: 'Alerta atualizado!',
+            text: `O alerta ${alerta.nome} foi atualizado com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
+        })  
+     };
 
   useEffect(() => {
     async function render() {
@@ -116,6 +136,18 @@ export default function EditarAlertas() {
         .then((res) => {
           setAlerta2(res.data);
         });
+        
+        axios.get(`http://localhost:5000/parametro/pegarParametros`).then((res) => {
+                var param = []
+
+                for (let index = 0; index < res.data.length; index++) {
+                    const opt = {label: res.data[index].nome, value: res.data[index].parametro_id}
+                    
+                    param.push(opt)
+                }
+
+                setParametros(param);                
+            })
     }
 
     render();
@@ -169,18 +201,30 @@ export default function EditarAlertas() {
             </Col>
           </Row>
 
-          <Row className="create-alert-content">
-            <Col md={11}>
-              <Form.Label>Nível</Form.Label>
-              <Select onChange={handleChangeSelect} value={alerta.nivel}>
-                {options.map((option) => (
-                  <option key={option?.value} value={option?.value}>
-                    {option?.label}
-                  </option>
-                ))}
-              </Select>
-            </Col>
-          </Row>
+                    <Row className="create-alert-content">
+                        <Col md={5}>
+                            <Form.Label>Nível</Form.Label>
+                            <Select onChange={handleChangeSelect} value={alerta.nivel}>
+                                {options.map((option) => (
+                                    <option key={option?.value} value={option?.value}>
+                                        {option?.label}
+                                    </option>
+                                ))}
+                            </Select>
+                        </Col>
+
+                        <Col md={6}>
+                            <SelectMulti
+                                label="Parâmetros"
+                                size="mb-3"
+                                name="parametro"
+                                placeholder="Selecione o parâmetro correspondente."
+                                options={parametros}
+                                onChange={(e: any) => { handleChangeSelectParametro(e); }}
+                                close={false}
+                            />
+                        </Col>
+                    </Row>
 
           <div className="create-alert-button">
             <Button

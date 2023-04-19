@@ -54,11 +54,32 @@ export default function TableEst() {
   };
   const cookies = parseCookies();
 
-  useEffect(() => {
-    function render() {
-      axios
-        .get("http://localhost:5000/estacao/pegarEstacoesAtivas", {
-          headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+    useEffect(() => {
+        function render(){
+            axios.get("http://localhost:5000/estacao/pegarEstacoesAtivas", {
+            headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },).then((res)=>{
+                setEstacoes(res.data)
+            })
+        }
+        render()
+    },[])
+
+    useEffect(() => {
+        function render(){
+            axios.get("http://localhost:5000/estacao/pegarEstacoesInativas").then((res)=>{
+                setInativos(res.data)
+            })
+        }
+        render()
+    },[])
+
+    function handleChange(estacoes : IEstacao) {
+      const id = estacoes.estacao_id;
+      const ativo = estacoes.ativo === 1 ? 0 : 1;
+      axios.put(`http://localhost:5000/estacao/atualizarEstado/${id}`, { ativo })
+        .then((response) => {
+          // fazer algo com a resposta, se necessário
+          window.location.reload();
         })
         .then((res) => {
           setEstacoes(res.data);
