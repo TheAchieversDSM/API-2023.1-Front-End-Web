@@ -84,7 +84,7 @@ export default function TableAlert() {
                 <td>{alerta.valorMax}</td>
                 <td>{alerta.valorMinimo}</td>
                 <td>
-                    <Link to={`/reports/${alerta.alerta_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
+                    
                     <Link to={`/editar-alerta/${alerta.alerta_id}`}>
                         <Button className="bt bt-edit">
                              <BsPencil className="icon" />
