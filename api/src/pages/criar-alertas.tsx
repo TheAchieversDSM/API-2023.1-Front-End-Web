@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
+import { parseCookies } from "nookies";
+
 // components ✨
 import { Col, Row } from "react-bootstrap";
 import Input from "../components/input";
@@ -11,15 +13,20 @@ import Swal from 'sweetalert2'
 
 import "../styles/criar-alertas.css";
 
+import { AuthContext } from "../hooks/useAuth";
+
 const options = [
-    { value: 1, label: "Atenção" },
-    { value: 2, label: "Perigo" },
-    { value: 3, label: "Crítico" },
+  { value: 1, label: "Atenção" },
+  { value: 2, label: "Perigo" },
+  { value: 3, label: "Crítico" },
 ];
 
 const { Select } = Form;
 
 export default function CriarAlertas() {
+  const cookies = parseCookies();
+  const { user } = useContext(AuthContext);
+  
     const nivel = { value: "", label: "" };
 
     const [parametros, setParametros] = useState<{ label: any; value: any; }[]>([]);
@@ -80,12 +87,20 @@ export default function CriarAlertas() {
             parametro_id: parseInt(alerta.parametro_id)
         })
 
-        axios.post(`http://localhost:5000/alerta/cadastro`, {
-            nome: alerta.nome,
-            valorMinimo: alerta.valorMin,
-            valorMax: alerta.valorMax,
-            nivel: alerta.nivel,
-            parametro_id: alerta.parametro_id
+        axios.post(
+        `http://localhost:5000/alerta/cadastro`,
+        {
+          nome: alerta.nome,
+          valorMinimo: alerta.valorMin,
+          valorMax: alerta.valorMax,
+          nivel: alerta.nivel,
+          parametro_id: alerta.parametro_id
+
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookies["tecsus.token"]}`,
+          },
         }).then((res) => {
 
         });
