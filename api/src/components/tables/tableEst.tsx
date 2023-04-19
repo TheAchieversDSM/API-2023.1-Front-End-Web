@@ -1,7 +1,7 @@
 import Table from 'react-bootstrap/Table';
 import "../../styles/table.css"
 import Button from 'react-bootstrap/Button';
-import { BsXOctagon, BsEye, BsPencil, BsCheckLg } from 'react-icons/bs'
+import { BsXOctagon, BsEye, BsPencil, BsCheckLg, BsClipboard2 } from 'react-icons/bs'
 import {FaChartLine} from 'react-icons/fa'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -109,7 +109,8 @@ export default function TableEst() {
             <td>{estacao.lati}</td>
             <td>{estacao.long}</td>
             <td>
-                <Link to={`/dashboard/${estacao.estacao_id}`}><Button className="bt bt-record"><FaChartLine  className="icon"/></Button></Link>
+                <Link to={`/dashboard/${estacao.estacao_id}`}><Button className="bt bt-dash"><FaChartLine  className="icon"/></Button></Link>
+                <Link to={`/reports/${estacao.estacao_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
                 <Button className="bt bt-view" onClick={() => handleShowModal(estacao)}><BsEye className="icon" /></Button>
                 <Link to={`/editar-estacao/${estacao.estacao_id}`}>
                   <Button className="bt bt-edit">
@@ -145,7 +146,8 @@ export default function TableEst() {
             <td>{inativo.lati}</td>
             <td>{inativo.long}</td>
             <td>
-                <Link to={`/dashboard/${inativo.estacao_id}`}><Button className="bt bt-record"><FaChartLine  className="icon"/></Button></Link>
+                <Link to={`/dashboard/${inativo.estacao_id}`}><Button className="bt bt-dash"><FaChartLine  className="icon"/></Button></Link>
+                <Link to={`/reports/${inativo.estacao_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
                 <Button className="bt bt-view" onClick={() => handleShowModal(inativo)}><BsEye className="icon" /></Button>
                 <Link to={`/editar-estacao/${inativo.estacao_id}`}>
                   <Button className="bt bt-edit">
