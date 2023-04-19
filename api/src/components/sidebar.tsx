@@ -22,7 +22,6 @@ export default function Sidebar() {
 
                 <div className="menu-bar">
                     <div className="menu">
-
                         <ul className="menu-links">
                             <li className="nav-link">
                                 <Link to="/home">
@@ -44,7 +43,7 @@ export default function Sidebar() {
                                     <span className="text nav-text">Alertas</span>
                                 </Link>
                             </li>
-
+                            
                             <li className="nav-link">
                                 <Link to="/estacoes">
                                     <BsSignpostSplit className="icon" />
