@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from 'react-router-dom';
 import axios from "axios";
 
 // components ✨
@@ -11,18 +12,21 @@ import Swal from 'sweetalert2'
 
 import "../styles/criar-estacoes.css";
 
-const modelo = [{ value: "", label: "" }];
+export default function EditarEstacoes() {
 
-export default function CriarEstacoes() {
-    const parametro = [{ parametroParametroId: "" }];
-    const [parametros, setParametros] = useState(modelo);
+    const { id } = useParams();
+
+    const [estacao2, setEstacao2] = useState({
+        nome: "",
+        lati: "",
+        long: "",
+        UTC: "",
+    })
 
     const [estacao, setEstacao] = useState({
         nome: "",
         latitude: "",
         longitude: "",
-        parametro: parametro,
-        uid: "",
         utc: "",
     });
 
@@ -37,23 +41,7 @@ export default function CriarEstacoes() {
             };
         });
     };
-
-    // select's handleChange ✨
-    const handleChangeSelect = (event: any) => {
-        var parameters: any[] = [];
-
-        if (event.length != 0 && event) {
-            for (let i = 0; i < event.length; i++) {
-                let option = { parametroParametroId: event[i].value };
-                parameters.push(option);
-            }
-
-            estacao.parametro = parameters;
-
-            setEstacao(estacao);
-        }
-    };
-
+    
     const handleSubmit = (event: any) => {
         for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
             event.target.querySelectorAll("input")[index].value = ""
@@ -61,46 +49,44 @@ export default function CriarEstacoes() {
 
         event.preventDefault();
 
-        axios.post(`http://localhost:5000/estacao/cadastro`, {
+        if (estacao.nome.length === 0) {
+            estacao.nome = estacao2?.nome ?? ''
+        }
+        if (estacao.latitude.length === 0) {
+            estacao.latitude = estacao2?.lati ?? ''
+        }
+        if (estacao.longitude.length === 0) {   
+            estacao.longitude = estacao2?.long ?? ''
+        }
+        if (estacao.utc.length === 0) {
+            estacao.utc = estacao2?.UTC ?? ''
+        }
+
+        axios.put(`http://localhost:5000/estacao/atualizarEstacao/${id}`, {
             nome_estacao: estacao.nome,
             latitude: estacao.latitude,
             longitude: estacao.longitude,
-            uid: estacao.uid,
             utc: estacao.utc,
-            parametros: estacao.parametro,
-        }).then((res) => {
+        }).then((res) => { 
 
         }).catch((err) => {
             console.log(err);
         });
 
         Swal.fire({
-            title: 'Estação cadastrada!',
-            text: `A estação ${estacao.nome} foi cadastrada com sucesso!`,
+            title: 'Estação atualizada!',
+            text: `A estação ${estacao.nome} foi atualizada com sucesso!`,
             icon: 'success',
             confirmButtonText: 'OK!'
         })    
     };
-
+    
     // get unidade de medidas & tipos de parâmetros ✨
     useEffect(() => {
         async function render() {
-            axios
-                .get(`http://localhost:5000/parametro/pegarParametros`)
-                .then((res) => {
-                    const parametro = [{ value: "", label: "" }];
-
-                    for (let index = 0; index <= res.data.length - 1; index++) {
-                        let option = {
-                            value: res.data[index].parametro_id,
-                            label: res.data[index].nome,
-                        };
-
-                        parametro.push(option);
-                    }
-
-                    setParametros(parametro);
-                });
+            axios.get(`http://localhost:5000/estacao/pegarEstacoesPorId/${id}`).then((res) => {
+                setEstacao2(res.data)               
+            })
         }
 
         render();
@@ -111,7 +97,7 @@ export default function CriarEstacoes() {
             <Form onSubmit={handleSubmit}>
                 <Sidebar />
                 <div className="main-body">
-                    <h1 className="TitImp">Cadastro de Estações</h1>
+                    <h1 className="TitImp">Edição de Estações</h1>
                     <div className="box-create-station">
                         <Row className="create-station-content">
                             <Col md={11}>
@@ -122,6 +108,7 @@ export default function CriarEstacoes() {
                                     type="text"
                                     placeholder="Insira o nome da estação."
                                     onChange={handleChange}
+                                    default={estacao2?.nome}
                                 />
                             </Col>
                         </Row>
@@ -134,6 +121,7 @@ export default function CriarEstacoes() {
                                     type="number"
                                     placeholder="Insira a latitude da estação."
                                     onChange={handleChange}
+                                    default={estacao2?.lati}
                                 />
                             </Col>
                             <Col md={6}>
@@ -144,21 +132,12 @@ export default function CriarEstacoes() {
                                     type="number"
                                     placeholder="Insira longitude da estação."
                                     onChange={handleChange}
+                                    default={estacao2?.long}
                                 />
                             </Col>
                         </Row>
                         <Row className="create-station-content">
-                            <Col md={6}>
-                                <Input
-                                    label="UID"
-                                    name="uid"
-                                    size="mb-6"
-                                    type="text"
-                                    placeholder="Insira o UID da estação."
-                                    onChange={handleChange}
-                                />
-                            </Col>
-                            <Col md={5}>
+                            <Col md={11}>
                                 <Input
                                     label="UTC"
                                     name="utc"
@@ -166,24 +145,11 @@ export default function CriarEstacoes() {
                                     type="text"
                                     placeholder="Insira a UTC do local."
                                     onChange={handleChange}
+                                    default={estacao2?.UTC}
                                 />
                             </Col>
                         </Row>
-                        <Row className="create-station-content">
-                            <Col md={11}>
-                                <SelectMulti
-                                    label="Parâmetros"
-                                    size="mb-3"
-                                    name="parametro"
-                                    placeholder="Selecione o(s) parâmetro(s) correspondente(s)."
-                                    options={parametros}
-                                    onChange={(e: any) => {
-                                        handleChangeSelect(e);
-                                    }}
-                                    close={false}
-                                />
-                            </Col>
-                        </Row>
+
                         <div className="create-station-button">
                             <Button
                                 type="submit"

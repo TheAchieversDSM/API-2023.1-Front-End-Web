@@ -40,6 +40,7 @@ export default function Dashboard() {
     render();
   }, []);
 
+
   useEffect(() => {
     const medidasseries: MediasSeries[] = [];
     estacaoParametros?.map((parametro: EstacaoParametro) => {
@@ -59,6 +60,7 @@ export default function Dashboard() {
       }
     });
     setMedidas(medidasseries);
+}
 
     if (medidas) {
       const metrics = metricMount(medidas);

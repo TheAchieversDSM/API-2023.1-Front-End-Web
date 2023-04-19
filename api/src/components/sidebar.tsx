@@ -22,12 +22,6 @@ export default function Sidebar() {
 
                 <div className="menu-bar">
                     <div className="menu">
-
-                        {/*<li className="search-box">
-                            <BsSearch className="icon" />
-                            <input type="text" placeholder="Buscar..." />
-                        </li>*/}
-
                         <ul className="menu-links">
                             <li className="nav-link">
                                 <Link to="/home">
@@ -49,7 +43,7 @@ export default function Sidebar() {
                                     <span className="text nav-text">Alertas</span>
                                 </Link>
                             </li>
-
+                            
                             <li className="nav-link">
                                 <Link to="/estacoes">
                                     <BsSignpostSplit className="icon" />
@@ -80,3 +74,4 @@ export default function Sidebar() {
         </>
     );
 }
+

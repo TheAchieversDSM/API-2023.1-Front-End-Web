@@ -66,11 +66,11 @@ tr{
 }
 
 .bt-record{
-    background: #b502e6 !important;
+    background: #e806b0 !important;
     transition: 0.3s;
 }
 .bt-record:hover{
-    background: #9a00c5 !important;
+    background: #d00099 !important;
     transition: 0.3s;
 }
 
@@ -80,6 +80,15 @@ tr{
 }
 .bt-dash:hover{
     background: #9a00c5 !important;
+    transition: 0.3s;
+}
+
+.bt-active{
+    background: #00dc07 !important;
+    transition: 0.3s;
+}
+.bt-active:hover{
+    background: #39b500 !important;
     transition: 0.3s;
 }
 

@@ -7,19 +7,19 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 let modelo = {
-        'alerta_id': '',
+        'estacao_id': '',
         'nome':''
 }
 
 
 export default function Reports() {
-    const [alerta, setAlerta] = useState(modelo)
+    const [estacao, setEstacao] = useState(modelo)
     const { id } = useParams();
 
     useEffect(() =>{
         function render(){
-            axios.get(`http://localhost:5000/alerta/pegarAlertasPorId/${id}`).then((res) =>{
-                setAlerta(res.data)
+            axios.get(`http://localhost:5000/estacao/pegarEstacoesPorId/${id}`).then((res) =>{
+                setEstacao(res.data)
             })
         }
         render()
@@ -28,8 +28,7 @@ export default function Reports() {
     return (
         <>
             <Sidebar />
-                <h1 className="TitImp">Reports do Alerta {alerta.nome} ({alerta.alerta_id})</h1>
-
+            <h1 className="TitImp">Reports da {estacao.nome} ({estacao.estacao_id})</h1>
             <TableReport/>
         </>
     )

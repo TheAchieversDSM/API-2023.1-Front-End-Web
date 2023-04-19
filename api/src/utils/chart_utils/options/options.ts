@@ -1,11 +1,10 @@
 import Metric from "../metric/metric";
 
 export default class Options {
-    chart = { type: "spline", width: 1200, height: 500 };
+    chart = { type: "spline", width: 900, height: 500 };
     title = { text: `Informações meteorológicas da estação` };
     series: Array<Metric>;
-    xAxis = {        minPadding: 0.05,
-        maxPadding: 0.05}
+    xAxis = { minPadding: 0.05, maxPadding: 0.05 }
     lang = { noData: "Não há dados disponíveis para exibição." };
     noData = { style: { fontWeight: 'bold', fontSize: '24px', color: '#5751D3' } };
 

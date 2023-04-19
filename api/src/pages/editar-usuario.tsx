@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 // components ✨
@@ -11,17 +12,23 @@ import Swal from 'sweetalert2'
 
 import '../styles/criar-usuarios.css'
 
-const options = [{ value: '1', label: 'Administrador' }, { value: '2', label: 'Comum' }]
+export default function EditarUsuarios() {
 
-export default function CriarUsuarios() {
+    const { id } = useParams();
 
     const tipoUsuario = { value: '', label: '' }
+
+    const [user, setUser] = useState({
+        nome: '',
+        email: '',
+        senha: '',
+        tipoUsuario: tipoUsuario,
+    })    
 
     const [usuario, setUsuario] = useState({
         nome: '',
         email: '',
         tipoUsuario: tipoUsuario,
-        senha: '',
     })
 
     // inputs' handleChange ✨
@@ -49,28 +56,44 @@ export default function CriarUsuarios() {
     };
 
     const handleSubmit = (event: any) => {
-        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
+        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {            
             event.target.querySelectorAll("input")[index].value = ""
         }
 
-        event.preventDefault()
+        event.preventDefault();
 
-        axios.post(`http://localhost:5000/user/cadastro`, {
+        if (usuario.nome.length === 0) {
+            usuario.nome = user?.nome ?? ''
+        }
+        if (usuario.email.length === 0) {
+            usuario.email = user?.email ?? ''
+        }
+
+        axios.put(`http://localhost:5000/user/atualizarUsuario/${id}`, {
             // colocar o campo de tipo aqui
             nome: usuario.nome,
             email: usuario.email,
-            senha: usuario.senha
+            senha: user.senha
         }).then((res) => {
 
         })
-        
+
         Swal.fire({
-            title: 'Usuário cadastrado!',
-            text: `O usuário ${usuario.nome} foi cadastrado com sucesso!`,
+            title: 'Usuário atualizado!',
+            text: `O usuário ${usuario.nome} foi atualizado com sucesso!`,
             icon: 'success',
             confirmButtonText: 'OK!'
         })
     };
+
+    useEffect(() => {
+        async function render() {
+            axios.get(`http://localhost:5000/user/pegarUsuariosPorId/${id}`).then((res) => {
+                setUser(res.data)
+            })
+        }
+        render()
+    }, [])
 
     return (
         <>
@@ -78,12 +101,12 @@ export default function CriarUsuarios() {
                 <Sidebar />
 
                 <div className="main-body">
-                    <h1 className="TitImp">Cadastro de Usuários</h1>
+                    <h1 className="TitImp">Edição de Usuário</h1>
 
                     <div className="box-create-user">
 
                         <Row className="create-alert-content">
-                            <Col md={6}>
+                            <Col md={11}>
                                 <Input
                                     label="Nome"
                                     name="nome"
@@ -91,10 +114,13 @@ export default function CriarUsuarios() {
                                     type="text"
                                     placeholder="Insira o nome do usuário."
                                     onChange={handleChange}
+                                    default={user?.nome}
                                 />
                             </Col>
+                        </Row>
 
-                            <Col md={5}>
+                        <Row className="create-alert-content">
+                            <Col md={11}>
                                 <Input
                                     label="E-mail"
                                     name="email"
@@ -102,6 +128,7 @@ export default function CriarUsuarios() {
                                     type="email"
                                     placeholder="Insira o e-mail do usuário."
                                     onChange={handleChange}
+                                    default={user?.email}
                                 />
                             </Col>
                         </Row>
@@ -120,24 +147,12 @@ export default function CriarUsuarios() {
                             </Col>
                         </Row> */}
 
-                        <Row className="create-alert-content">
-                            <Col md={11}>
-                                <Input
-                                    label="Senha"
-                                    name="senha"
-                                    size="mb-6"
-                                    type="password"
-                                    placeholder="Insira a primeira senha de acesso do usuário."
-                                    onChange={handleChange}
-                                />
-                            </Col>
-                        </Row>
-
                         <div className="create-alert-button">
                             <Button
-                                type=""
+                                type="submit"
                                 label="Criar!"
                                 className="btnCriar"
+                            /* onClick={handleSubmit} */
                             />
                         </div>
                     </div>
