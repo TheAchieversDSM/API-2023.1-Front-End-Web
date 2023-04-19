@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Search from "../search";
 import { Tab, Tabs } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 interface IParametro {
   parametro_id: number;
@@ -112,9 +113,11 @@ export default function TablePar(props: any) {
                     className="icon"
                   />
                 </Button>
-                <Button className="bt bt-edit">
-                  <BsPencil className="icon" />
-                </Button>
+                <Link to={`/editar-parametro/${parametro.parametro_id}`}>
+                  <Button className="bt bt-edit">
+                    <BsPencil className="icon" />
+                  </Button>
+                </Link>
                 <Button className="bt bt-delete" onClick={() => handleChange(parametro)}>
                   <BsXOctagon className="icon" />
                 </Button>
@@ -169,9 +172,11 @@ export default function TablePar(props: any) {
                     className="icon"
                   />
                 </Button>
-                <Button className="bt bt-edit">
-                  <BsPencil className="icon" />
-                </Button>
+                <Link to={`/editar-parametro/${inativo.parametro_id}`}>
+                    <Button className="bt bt-edit">
+                        <BsPencil className="icon" />
+                    </Button>
+                </Link>
                 <Button className="bt bt-active" onClick={() => handleChange(inativo)}>
                   <BsCheckLg className="icon" />
                 </Button>

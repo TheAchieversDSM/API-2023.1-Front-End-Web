@@ -1,26 +1,47 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import axios from 'axios'
 
 // components ✨
+import { Col, Form, Row } from 'react-bootstrap';
 import CreatableSelect from 'react-select/creatable';
 import Input from '../components/input';
+import SelectMulti from '../components/select';
 import Sidebar from '../components/sidebar';
 import TextareaInput from '../components/textarea';
 import Button from '../components/button'
 
 import '../styles/criar-parametros.css'
-import { Col, Form, Row } from 'react-bootstrap';
 
 const modelo = [{ value: '', label: '' }]
 
-export default function CriarParametros() {
+interface IParametro {
+    parametro_id: number;
+    nome?: string;
+    formula?: string;
+    tipo?: {
+        tipo_id: number;
+        nome: string;
+    };
+    unidadeDeMedida?: {
+        nome: string;
+        unidade_id: number;
+    };
+    fator?: string;
+    offset?: string;
+}
+
+export default function EditarParametro() {
+
+    const { id } = useParams();
 
     const tipoParametro = { value: '', label: '' }
     const unidade = { value: '', label: '' }
     const [unidadeMedidas, setUnidadeMedidas] = useState(modelo)
     const [tipos, setTipos] = useState(modelo)
+    const [parametro, setParametro] = useState<IParametro>()
 
-    const [parametros, setParametros] = useState({
+    const [ parametros, setParametros] = useState({
         nome: '',
         formula: '',
         tipoParametro: tipoParametro,
@@ -39,6 +60,9 @@ export default function CriarParametros() {
                 [name]: value,
             };
         });
+
+        console.log(parametros);
+        
     };
 
     // select's handleChange ✨
@@ -54,12 +78,6 @@ export default function CriarParametros() {
                 };
             });
         }
-    };
-
-    const createTipoOption = (event: any) =>{
-        axios.post(`http://localhost:5000/tipoParametro/cadastro`, {nome: event}).then(res=>{
-            handleChangeSelectTipo({value: res.data.id, label: event})
-        })
     };
 
     const handleChangeSelectUnidade = (event: any) => {
@@ -87,20 +105,39 @@ export default function CriarParametros() {
 
         event.preventDefault();
 
-        axios.post(`http://localhost:5000/parametro/cadastro`, {
-            tipo_parametro: parametros.tipoParametro.value,
+        if (parametros.nome.length === 0) {
+            parametros.nome = parametro?.nome ?? ''
+        }
+        if (parametros.formula.length === 0) {
+            parametros.formula = parametro?.formula ?? ''
+        }
+        if (parametros.tipoParametro.value.length === 0) {
+            parametros.tipoParametro.value = parametro?.tipo?.tipo_id.toString() ?? ''
+        }   
+        if (parametros.unidade.value.length === 0) {
+            parametros.unidade.value = parametro?.unidadeDeMedida?.unidade_id.toString() ?? ''
+        }   
+        if (parametros.fator.length === 0) {
+            parametros.fator = parametro?.fator ?? ''
+        }
+        if (parametros.offset.length === 0) {
+            parametros.offset = parametro?.offset ?? ''
+        }
+
+         axios.put(`http://localhost:5000/parametro/atualizarParametro/${id}`, {
+            tipo_parametro: parseInt(parametros.tipoParametro.value),
             formula_parametro: parametros.formula,
             nome_parametro: parametros.nome,
-            unidadeDeMedida_parametro: parametros.unidade.value,
+            unidadeDeMedida_parametro: parseInt(parametros.unidade.value),
             offset_parametro: parametros.offset,
             fator_parametro: parametros.fator
         }).then((res) => {
-
+        
         }).catch((err) => {
             console.log(err);
         })
-
-        alert('Parâmetro cadastrado!');
+        
+        alert('Parâmetro atualizado!');
     };
 
     // get unidade de medidas & tipos de parâmetros ✨
@@ -135,10 +172,14 @@ export default function CriarParametros() {
 
                 setTipos(parametrosTipos)
             })
+
+            axios.get(`http://localhost:5000/parametro/pegarParametrosPorId/${id}`).then((res) => {
+                setParametro(res.data)
+            })
         }
 
         render()
-    }, [])
+    }, [])    
 
     return (
         <>
@@ -147,7 +188,7 @@ export default function CriarParametros() {
                 <Sidebar />
 
                 <div className="main-body">
-                    <h1 className="TitImp">Cadastro de Parâmetros</h1>
+                    <h1 className="TitImp">Edição de Parâmetros</h1>
 
                     <div className="box-create-parameters">
 
@@ -160,6 +201,7 @@ export default function CriarParametros() {
                                     type="text"
                                     placeholder="Insira o nome do parâmetro."
                                     onChange={handleChange}
+                                    default={parametro?.nome}
                                 />
                             </Col>
                         </Row>
@@ -172,6 +214,7 @@ export default function CriarParametros() {
                                     placeholder="Insira a fórmula e, se necessário, explicação para chegar no valor ideal."
                                     height="100px"
                                     onChange={handleChange}
+                                    default={parametro?.formula}
                                 />
                             </Col>
                         </Row>
@@ -183,10 +226,10 @@ export default function CriarParametros() {
                                 <CreatableSelect
                                     isClearable
                                     value={[{ value: parametros.tipoParametro.value,label: parametros.tipoParametro.label }]}
+                                    defaultValue={{value: "", label: ""}}
                                     name="tipoParamentro"
                                     placeholder="Selecione o tipo correspondente do parâmetro."
                                     onChange={(e: any) => { handleChangeSelectTipo(e) }}
-                                    onCreateOption={(e:any) => { createTipoOption(e) }}
                                     options={tipos}
                                 />
                             </Col>
@@ -213,6 +256,7 @@ export default function CriarParametros() {
                                     type="number"
                                     placeholder="Insira o fator do parâmetro."
                                     onChange={handleChange}
+                                    default={parametro?.fator}
                                 />
                             </Col>
 
@@ -224,6 +268,7 @@ export default function CriarParametros() {
                                     type="number"
                                     placeholder="Insira o offset do parâmetro."
                                     onChange={handleChange}
+                                    default={parametro?.offset}
                                 />
                             </Col>
                         </Row>

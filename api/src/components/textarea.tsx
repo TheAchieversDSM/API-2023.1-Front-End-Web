@@ -13,6 +13,7 @@ export default function TextareaInput(props: any) {
                 placeholder={props.placeholder}
                 style={{ height: props.height }}
                 onChange={props.onChange}
+                defaultValue={props.default}
             />
         </Form.Group>
     )

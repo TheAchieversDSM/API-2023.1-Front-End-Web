@@ -13,7 +13,10 @@ import CriarEstacoes from "../pages/criar-estacoes";
 import CriarUsuarios from "../pages/criar-usuarios";
 import CriarParametros from "../pages/criar-parametros";
 import Reports from "../pages/reports";
-
+import EditarParametro from "../pages/editar-parametros";
+import EditarUsuarios from "../pages/editar-usuario";
+import EditarAlertas from "../pages/editar-alertas";
+import EditarEstacoes from "../pages/editar-estacoes";
 
 const Routes = () => {
     return (
@@ -31,6 +34,10 @@ const Routes = () => {
                 <Route path="/criar-estacoes" element={<CriarEstacoes />} />
                 <Route path="/criar-usuarios" element={<CriarUsuarios />} />
                 <Route path="/criar-parametros" element={<CriarParametros />} />
+                <Route path="/editar-usuario/:id" element={<EditarUsuarios />}/>
+                <Route path="/editar-parametro/:id" element={<EditarParametro />}/>
+                <Route path="/editar-alerta/:id" element={<EditarAlertas />}/>
+                <Route path="/editar-estacao/:id" element={<EditarEstacoes />}/>
             </Switch>
         </BrowserRouter>
     )

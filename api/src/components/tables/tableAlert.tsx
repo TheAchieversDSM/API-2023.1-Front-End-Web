@@ -84,8 +84,12 @@ export default function TableAlert() {
                 <td>{alerta.valorMax}</td>
                 <td>{alerta.valorMinimo}</td>
                 <td>
-                    <Link to={`/reports/${alerta.alerta_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
-                    <Button className="bt bt-edit"><BsPencil className="icon" /></Button>
+                    
+                    <Link to={`/editar-alerta/${alerta.alerta_id}`}>
+                        <Button className="bt bt-edit">
+                             <BsPencil className="icon" />
+                         </Button>
+                      </Link> 
                     <Button className="bt bt-delete" onClick={() => handleChange(alerta)}><BsXOctagon className="icon" /></Button>
 
                 </td>
@@ -118,7 +122,11 @@ export default function TableAlert() {
                 <td>{inativo.valorMinimo}</td>
                 <td>
                     <Link to={`/reports/${inativo.alerta_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
-                    <Button className="bt bt-edit"><BsPencil className="icon" /></Button>
+                    <Link to={`/editar-alerta/${inativo.alerta_id}`}>
+                        <Button className="bt bt-edit">
+                             <BsPencil className="icon" />
+                         </Button>
+                      </Link> 
                     <Button className="bt bt-active" onClick={() => handleChange(inativo)}><BsCheckLg className="icon" /></Button>
 
                 </td>

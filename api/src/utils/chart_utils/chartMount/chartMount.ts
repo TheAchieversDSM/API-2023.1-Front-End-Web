@@ -6,5 +6,6 @@ export default function chartMount(metrics: Array<Metric>){
     metrics.forEach(metrica => {
         opts.addSerie(metrica)
     }); 
+    console.log(opts)
     return opts
 }
