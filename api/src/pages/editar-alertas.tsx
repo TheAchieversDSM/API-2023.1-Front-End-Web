@@ -24,6 +24,7 @@ interface IAlerta {
     valorMinimo?: string;
     valorMax?: string;
     nivel?: number;
+    parametro_id?: number;
 }
 
 export default function EditarAlertas() {
@@ -33,6 +34,8 @@ export default function EditarAlertas() {
 
     const nivel = { value: 0, label: "" };
 
+    const [parametros, setParametros] = useState<{ label: any; value: any; }[]>([]);
+
     const [alerta2, setAlerta2] = useState<IAlerta>()
 
     const [alerta, setAlerta] = useState({
@@ -40,6 +43,7 @@ export default function EditarAlertas() {
         valorMin: "",
         valorMax: "",
         nivel: "",
+        parametro_id: ""
     });
 
     // inputs' handleChange ✨
@@ -61,6 +65,17 @@ export default function EditarAlertas() {
                 return {
                     ...prevState,
                     nivel: event.target.value,
+                };
+            });
+        }
+    };
+
+    const handleChangeSelectParametro = (event: any) => {
+        if (event.length != 0 && event) {
+            setAlerta((prevState) => {
+                return {
+                    ...prevState,
+                    parametro_id: event[0].value,
                 };
             });
         }
@@ -90,7 +105,8 @@ export default function EditarAlertas() {
             nome: alerta.nome,
             valorMinimo: alerta.valorMin,
             valorMax: alerta.valorMax,
-            nivel: parseInt(alerta.nivel)
+            nivel: parseInt(alerta.nivel),
+            parametro_id: parseInt(alerta.parametro_id)
         }).then((res) => {
 
         });
@@ -108,10 +124,22 @@ export default function EditarAlertas() {
             axios.get(`http://localhost:5000/alerta/pegarAlertasPorId/${id}`).then((res) => {
                 setAlerta2(res.data)
             })
-        }
 
+            axios.get(`http://localhost:5000/parametro/pegarParametros`).then((res) => {
+                var param = []
+
+                for (let index = 0; index < res.data.length; index++) {
+                    const opt = {label: res.data[index].nome, value: res.data[index].parametro_id}
+                    
+                    param.push(opt)
+                }
+
+                setParametros(param);                
+            })
+        }
         render()
     }, [])
+
 
     return (
         <Form onSubmit={handleSubmit}>
@@ -162,7 +190,7 @@ export default function EditarAlertas() {
                     </Row>
 
                     <Row className="create-alert-content">
-                        <Col md={11}>
+                        <Col md={5}>
                             <Form.Label>Nível</Form.Label>
                             <Select onChange={handleChangeSelect} value={alerta.nivel}>
                                 {options.map((option) => (
@@ -171,6 +199,18 @@ export default function EditarAlertas() {
                                     </option>
                                 ))}
                             </Select>
+                        </Col>
+
+                        <Col md={6}>
+                            <SelectMulti
+                                label="Parâmetros"
+                                size="mb-3"
+                                name="parametro"
+                                placeholder="Selecione o parâmetro correspondente."
+                                options={parametros}
+                                onChange={(e: any) => { handleChangeSelectParametro(e); }}
+                                close={false}
+                            />
                         </Col>
                     </Row>
 

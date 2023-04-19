@@ -21,13 +21,15 @@ const { Select } = Form;
 
 export default function CriarAlertas() {
     const nivel = { value: "", label: "" };
-    const [parametros, setParametros] = useState();
+
+    const [parametros, setParametros] = useState<{ label: any; value: any; }[]>([]);
 
     const [alerta, setAlerta] = useState({
         nome: "",
         valorMin: "",
         valorMax: "",
         nivel: nivel.value,
+        parametro_id: ""
     });
 
     // inputs' handleChange ✨
@@ -58,7 +60,7 @@ export default function CriarAlertas() {
             setAlerta((prevState) => {
                 return {
                     ...prevState,
-                    nivel: event.target.value,
+                    parametro_id: event[0].value,
                 };
             });
         }
@@ -70,12 +72,20 @@ export default function CriarAlertas() {
         }
 
         event.preventDefault();
+        console.log( {
+            nome: alerta.nome,
+            valorMinimo: alerta.valorMin,
+            valorMax: alerta.valorMax,
+            nivel: alerta.nivel,
+            parametro_id: parseInt(alerta.parametro_id)
+        })
 
         axios.post(`http://localhost:5000/alerta/cadastro`, {
             nome: alerta.nome,
             valorMinimo: alerta.valorMin,
             valorMax: alerta.valorMax,
             nivel: alerta.nivel,
+            parametro_id: alerta.parametro_id
         }).then((res) => {
 
         });
@@ -93,7 +103,19 @@ export default function CriarAlertas() {
     useEffect(() => {
         async function render() {
             axios.get(`http://localhost:5000/parametro/pegarParametros`).then((res) => {
-                setParametros(res.data);                
+                setParametros(res.data);
+            })
+
+            axios.get(`http://localhost:5000/parametro/pegarParametros`).then((res) => {
+                var param = []
+
+                for (let index = 0; index < res.data.length; index++) {
+                    const opt = { label: res.data[index].nome, value: res.data[index].parametro_id }
+
+                    param.push(opt)
+                }
+
+                setParametros(param);
             })
         }
 
@@ -166,7 +188,7 @@ export default function CriarAlertas() {
                                 placeholder="Selecione o parâmetro correspondente."
                                 options={parametros}
                                 onChange={(e: any) => { handleChangeSelectParametro(e); }}
-                                close={false}
+                                close={true}
                             />
                         </Col>
                     </Row>
