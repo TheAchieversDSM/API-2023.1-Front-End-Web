@@ -19,8 +19,7 @@ import groupByUnixtime from "../utils/chart_utils/groupUnixtime/groupUnixtime";
 export default function Dashboard() {
   const { id } = useParams();
   const [estacaoNome, setEstacaoNome] = useState();
-  const [estacaoParametros, setEstacaoParametros] =
-    useState<[EstacaoParametro]>();
+  const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>();
   const [paramId, setParamId] = useState(0);
   const [parametroDisplay, setParametroDisplay] = useState<EstacaoParametro>();
   const [medidas, setMedidas] = useState<Array<MediasSeries>>();
@@ -60,8 +59,6 @@ export default function Dashboard() {
       }
     });
     setMedidas(medidasseries);
-}
-
     if (medidas) {
       const metrics = metricMount(medidas);
       console.log(metrics)
