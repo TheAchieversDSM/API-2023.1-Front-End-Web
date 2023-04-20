@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 import "../styles/dashboard.css";
 import Chart from "../components/chart";
 import Sidebar from "../components/sidebar";
-import Navigation from "../components/nav/nav";
-import NavItem from "../components/nav/navItem";
 import Accordion from "react-bootstrap/Accordion";
 
 import { EstacaoParametro, MediasSeries } from "../utils/types/types";
@@ -18,7 +16,7 @@ import groupByUnixtime from "../utils/chart_utils/groupUnixtime/groupUnixtime";
 
 export default function Dashboard() {
   const { id } = useParams();
-  const [estacaoNome, setEstacaoNome] = useState();
+  const estacaoNome = localStorage.getItem("estacaoNome")
   const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>();
   const [paramId, setParamId] = useState(0);
   const [parametroDisplay, setParametroDisplay] = useState<EstacaoParametro>();
@@ -31,7 +29,6 @@ export default function Dashboard() {
           `http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${id}`
         )
         .then((res) => {
-          setEstacaoNome(res.data.nome);
           setEstacaoParametros(res.data);
         });
     }
@@ -81,7 +78,7 @@ export default function Dashboard() {
     <>
       <Sidebar />
       <div className="main-body">
-        <h1 className="TitImp">Estação {estacaoNome}</h1>
+        <h1 className="TitImp"> {estacaoNome} </h1>
         <div className="container_dashboard">
           <div className="box-dash">
             <Chart className="container_dashboard" options={options} />
