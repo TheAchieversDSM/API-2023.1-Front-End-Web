@@ -9,11 +9,15 @@ import Sidebar from "../components/sidebar";
 import Button from "../components/button";
 import Swal from 'sweetalert2'
 
+import { parseCookies } from "nookies";
+
 import "../styles/criar-estacoes.css";
 
 const modelo = [{ value: "", label: "" }];
 
 export default function CriarEstacoes() {
+    const cookies = parseCookies();
+
     const parametro = [{ parametroParametroId: "" }];
     const [parametros, setParametros] = useState(modelo);
 
@@ -61,32 +65,37 @@ export default function CriarEstacoes() {
 
         event.preventDefault();
 
-        axios.post(`http://localhost:5000/estacao/cadastro`, {
-            nome_estacao: estacao.nome,
-            latitude: estacao.latitude,
-            longitude: estacao.longitude,
-            uid: estacao.uid,
-            utc: estacao.utc,
-            parametros: estacao.parametro,
-        }).then((res) => {
+        axios.post(`http://localhost:5000/estacao/cadastro`,
+            {
+                nome_estacao: estacao.nome,
+                latitude: estacao.latitude,
+                longitude: estacao.longitude,
+                uid: estacao.uid,
+                utc: estacao.utc,
+                parametros: estacao.parametro,
+            },
+            {
+                headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` }
+            }).then((res) => {
 
-        }).catch((err) => {
-            console.log(err);
-        });
+            }).catch((err) => {
+                console.log(err);
+            });
 
         Swal.fire({
             title: 'Estação cadastrada!',
             text: `A estação ${estacao.nome} foi cadastrada com sucesso!`,
             icon: 'success',
             confirmButtonText: 'OK!'
-        })    
+        })
     };
 
     // get unidade de medidas & tipos de parâmetros ✨
     useEffect(() => {
         async function render() {
             axios
-                .get(`http://localhost:5000/parametro/pegarParametros`)
+                .get(`http://localhost:5000/parametro/pegarParametros`, {
+                    headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` }})
                 .then((res) => {
                     const parametro = [{ value: "", label: "" }];
 

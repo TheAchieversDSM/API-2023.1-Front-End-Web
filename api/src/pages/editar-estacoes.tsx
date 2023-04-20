@@ -10,9 +10,12 @@ import Sidebar from "../components/sidebar";
 import Button from "../components/button";
 import Swal from 'sweetalert2'
 
+import { parseCookies } from "nookies";
+
 import "../styles/criar-estacoes.css";
 
 export default function EditarEstacoes() {
+    const cookies = parseCookies();
 
     const { id } = useParams();
 
@@ -41,7 +44,7 @@ export default function EditarEstacoes() {
             };
         });
     };
-    
+
     const handleSubmit = (event: any) => {
         for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
             event.target.querySelectorAll("input")[index].value = ""
@@ -55,7 +58,7 @@ export default function EditarEstacoes() {
         if (estacao.latitude.length === 0) {
             estacao.latitude = estacao2?.lati ?? ''
         }
-        if (estacao.longitude.length === 0) {   
+        if (estacao.longitude.length === 0) {
             estacao.longitude = estacao2?.long ?? ''
         }
         if (estacao.utc.length === 0) {
@@ -67,7 +70,9 @@ export default function EditarEstacoes() {
             latitude: estacao.latitude,
             longitude: estacao.longitude,
             utc: estacao.utc,
-        }).then((res) => { 
+        },
+            { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+        ).then((res) => {
 
         }).catch((err) => {
             console.log(err);
@@ -78,14 +83,16 @@ export default function EditarEstacoes() {
             text: `A estação ${estacao.nome} foi atualizada com sucesso!`,
             icon: 'success',
             confirmButtonText: 'OK!'
-        })    
+        })
     };
-    
+
     // get unidade de medidas & tipos de parâmetros ✨
     useEffect(() => {
         async function render() {
-            axios.get(`http://localhost:5000/estacao/pegarEstacoesPorId/${id}`).then((res) => {
-                setEstacao2(res.data)               
+            axios.get(`http://localhost:5000/estacao/pegarEstacoesPorId/${id}`, {
+                headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+            }).then((res) => {
+                setEstacao2(res.data)
             })
         }
 

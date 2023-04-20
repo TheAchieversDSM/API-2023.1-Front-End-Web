@@ -16,19 +16,26 @@ import averageCalculator from "../utils/chart_utils/averageCalculator/averageCal
 import chartMount from "../utils/chart_utils/chartMount/chartMount";
 import groupByUnixtime from "../utils/chart_utils/groupUnixtime/groupUnixtime";
 
+import { parseCookies } from "nookies";
+
 export default function Dashboard() {
+  const cookies = parseCookies();
+
   const { id } = useParams();
+
   const [estacaoNome, setEstacaoNome] = useState();
   const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>();
   const [paramId, setParamId] = useState(0);
   const [parametroDisplay, setParametroDisplay] = useState<EstacaoParametro>();
   const [medidas, setMedidas] = useState<Array<MediasSeries>>();
   const [options, setOptions] = useState<Options>();
+
   useEffect(() => {
     function render() {
       axios
         .get(
-          `http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${id}`
+          `http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${id}`,
+          { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
         )
         .then((res) => {
           setEstacaoNome(res.data.nome);

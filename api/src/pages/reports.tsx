@@ -6,19 +6,24 @@ import TableReport from '../components/tables/tableReports';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
+import { parseCookies } from "nookies";
+
 let modelo = {
         'estacao_id': '',
         'nome':''
 }
 
-
 export default function Reports() {
+    const cookies = parseCookies();
+
     const [estacao, setEstacao] = useState(modelo)
     const { id } = useParams();
 
     useEffect(() =>{
         function render(){
-            axios.get(`http://localhost:5000/estacao/pegarEstacoesPorId/${id}`).then((res) =>{
+            axios.get(`http://localhost:5000/estacao/pegarEstacoesPorId/${id}`, {
+                headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+              }).then((res) =>{
                 setEstacao(res.data)
             })
         }

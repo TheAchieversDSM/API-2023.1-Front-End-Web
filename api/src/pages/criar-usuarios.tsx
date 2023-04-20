@@ -9,11 +9,14 @@ import Sidebar from '../components/sidebar';
 import Button from '../components/button'
 import Swal from 'sweetalert2'
 
+import { parseCookies } from "nookies";
+
 import '../styles/criar-usuarios.css'
 
 const options = [{ value: '1', label: 'Administrador' }, { value: '2', label: 'Comum' }]
 
 export default function CriarUsuarios() {
+    const cookies = parseCookies();
 
     const tipoUsuario = { value: '', label: '' }
 
@@ -60,10 +63,12 @@ export default function CriarUsuarios() {
             nome: usuario.nome,
             email: usuario.email,
             senha: usuario.senha
-        }).then((res) => {
+        },
+            { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+        ).then((res) => {
 
         })
-        
+
         Swal.fire({
             title: 'Usuário cadastrado!',
             text: `O usuário ${usuario.nome} foi cadastrado com sucesso!`,

@@ -8,6 +8,7 @@ import axios from 'axios';
 import Search from '../search';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { parseCookies } from "nookies";
 
 import '../../styles/modal.css';
 interface IUser {
@@ -22,6 +23,8 @@ export default function TableUsu() {
 	const [modalData, setModalData] = React.useState<IUser>();
 	const [searchTerm, setSearchTerm] = useState('');
 
+	const cookies = parseCookies();
+
 	const handleShowModal = (usuario: any) => {
 		setModalData(usuario);
 		setModalShow(true);
@@ -29,15 +32,41 @@ export default function TableUsu() {
 
 	useEffect(() => {
 		function render() {
-			axios.get("http://localhost:5000/user/pegarUsuarios").then((res) => {
-				setUsers(res.data)
-			})
+			axios
+				.get("http://localhost:5000/user/pegarUsuarios", {
+					headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+				})
+				.then((res) => {
+					setUsers(res.data);
+				});
 		}
-		render()
-	}, [])
+		render();
+	}, []);
 
 	function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
 		setSearchTerm(event.target.value);
+	}
+
+	function handleDelete(id: number) {
+		axios
+			.delete(`http://localhost:5000/user/deletarUsuario`, {
+				data: { id },
+				headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+			})
+			.then(() => {
+				// Atualiza a lista de usuários após a exclusão
+				axios
+					.get("http://localhost:5000/user/pegarUsuarios", {
+						headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+					})
+					.then((res) => {
+						setUsers(res.data);
+						console.log("Usuário deletado com sucesso");
+					});
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	}
 
 	function renderTableRows() {
@@ -74,21 +103,6 @@ export default function TableUsu() {
 					</td>
 				</tr>
 			));
-	}
-
-	function handleDelete(id: number) {
-		axios.delete(`http://localhost:5000/user/deletarUsuario`, {
-			data: { id },
-		})
-			.then(() => {
-				// Atualiza a lista de usuários após a exclusão
-				axios.get("http://localhost:5000/user/pegarUsuarios").then((res) => {
-					setUsers(res.data)
-				})
-			})
-			.catch((error) => {
-				console.error(error);
-			});
 	}
 
 	return (

@@ -10,9 +10,12 @@ import Sidebar from '../components/sidebar';
 import Button from '../components/button'
 import Swal from 'sweetalert2'
 
+import { parseCookies } from "nookies";
+
 import '../styles/criar-usuarios.css'
 
 export default function EditarUsuarios() {
+    const cookies = parseCookies();
 
     const { id } = useParams();
 
@@ -23,7 +26,7 @@ export default function EditarUsuarios() {
         email: '',
         senha: '',
         tipoUsuario: tipoUsuario,
-    })    
+    })
 
     const [usuario, setUsuario] = useState({
         nome: '',
@@ -56,7 +59,7 @@ export default function EditarUsuarios() {
     };
 
     const handleSubmit = (event: any) => {
-        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {            
+        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
             event.target.querySelectorAll("input")[index].value = ""
         }
 
@@ -74,7 +77,9 @@ export default function EditarUsuarios() {
             nome: usuario.nome,
             email: usuario.email,
             senha: user.senha
-        }).then((res) => {
+        },
+            { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+        ).then((res) => {
 
         })
 
@@ -88,7 +93,9 @@ export default function EditarUsuarios() {
 
     useEffect(() => {
         async function render() {
-            axios.get(`http://localhost:5000/user/pegarUsuariosPorId/${id}`).then((res) => {
+            axios.get(`http://localhost:5000/user/pegarUsuariosPorId/${id}`, {
+                headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+            }).then((res) => {
                 setUser(res.data)
             })
         }
