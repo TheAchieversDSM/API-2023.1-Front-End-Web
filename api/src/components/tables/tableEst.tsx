@@ -86,6 +86,10 @@ export default function TableEst() {
         setSearchTerm(event.target.value);
     }
 
+    function nomeEstacaoDashboard(nome: any){
+        localStorage.setItem("estacaoNome", nome)
+    }
+
     function renderTableRows() {
         return estacoes
           .filter((estacao) => {
@@ -109,7 +113,7 @@ export default function TableEst() {
             <td>{estacao.lati}</td>
             <td>{estacao.long}</td>
             <td>
-                <Link to={`/dashboard/${estacao.estacao_id}`}><Button className="bt bt-dash"><FaChartLine  className="icon"/></Button></Link>
+                <Link to={`/dashboard/${estacao.estacao_id}`} onClick={() => nomeEstacaoDashboard(estacao.nome)}><Button className="bt bt-dash"><FaChartLine  className="icon"/></Button></Link>
                 <Link to={`/reports/${estacao.estacao_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
                 <Button className="bt bt-view" onClick={() => handleShowModal(estacao)}><BsEye className="icon" /></Button>
                 <Link to={`/editar-estacao/${estacao.estacao_id}`}>
