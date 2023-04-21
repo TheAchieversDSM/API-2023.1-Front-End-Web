@@ -27,9 +27,9 @@ export default function Dashboard() {
   const [parametroDisplay, setParametroDisplay] = useState<EstacaoParametro>();
   const [medidas, setMedidas] = useState<Array<MediasSeries>>();
   const [options, setOptions] = useState<Options>();
-
+  var x = 0
   useEffect(() => {
-    function render() {
+    function fetchDataFirstTime() {
       axios
         .get(
           `http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${id}`,
@@ -39,8 +39,22 @@ export default function Dashboard() {
           setEstacaoParametros(res.data);
         });
     }
-
-    render();
+   
+    while (x <= 2) {
+      fetchDataFirstTime()
+      x += 1
+    }
+    const intervalId = setInterval(() => {
+      axios
+        .get(
+          `http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${id}`,
+          { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+        )
+        .then((res) => {
+          setEstacaoParametros(res.data);
+        });
+    }, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
 
@@ -66,7 +80,7 @@ export default function Dashboard() {
     if (medidas) {
       const metrics = metricMount(medidas);
       console.log(metrics)
-      setOptions(chartMount(metrics));
+      setOptions(chartMount(metrics, estacaoNome ? estacaoNome : ""));
     }
   }, [estacaoParametros]);
 
