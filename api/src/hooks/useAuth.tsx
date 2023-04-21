@@ -41,6 +41,8 @@ import {
   export function signOut() {
     Cookies.remove("tecsus.token");
     Cookies.remove("tecsus.user_id");
+
+	window.location.href = 'http://localhost:3000/home'
   }
   
   export function AuthProvider({ children }: AuthProviderProps) {
