@@ -33,7 +33,7 @@ export default function Reports() {
     return (
         <>
             <Sidebar />
-            <h1 className="TitImp">Reports da {estacao.nome} ({estacao.estacao_id})</h1>
+            <h1 className="TitImp">Reports</h1>
             <TableReport/>
         </>
     )

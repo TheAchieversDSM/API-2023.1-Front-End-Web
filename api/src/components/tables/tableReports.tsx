@@ -8,32 +8,32 @@ import { parseCookies } from "nookies";
 interface IReport {
     report_id: number;
     unixtime: number;
-    msg?: string;
+    valorEmitido: number;
+    tipoParametro: number;
     estacao_uid: number;
+    nivelAlerta?: number;
     alerta: [{
-        nome: number;
-        nivel?: number;
+        nome: string;
     }]
 }
 
 export default function TableReport() {
     const [report, setReports] = useState<IReport[]>([])
-    const { id } = useParams();
+    const { uid } = useParams();
 
     const cookies = parseCookies();
 
-    useEffect(() => {
-        function render() {
-            axios
-                .get(`http://localhost:5000/alerta/pegarReportsAtravesDoAlerta/${id}`, {
-                    headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
-                })
-                .then((res) => {
-                    setReports([res.data]);
-                });
-        }
-        render();
-    }, []);
+    axios
+        .get(`http://localhost:5000/report/pegarReportPelaEstacao/${uid}`, {
+            headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+        })
+        .then((res) => {
+            setReports([res.data]);
+        })
+        .catch((error) => {
+            console.error(error);
+    });
+
 
     return (
         <div className="box-list box-report">
@@ -53,13 +53,13 @@ export default function TableReport() {
                 <tbody>
                     {report?.map((reports: any) => (
                         <tr>
-                            <td>{reports.report_id}</td>
-                            <td>valor emitido</td>
-                            <td>{reports.unixtime}</td>
-                            <td>{reports.alerta.nome}</td>
-                            <td>{reports.alerta.nivel}</td>
-                            <td>parametro</td>
-                            <td>{reports.estacao_uid}</td>
+                            <td>{reports?.report_id}</td>
+                            <td>{reports?.valorEmitido}</td>
+                            <td>{reports?.unixtime}</td>
+                            <td></td>
+                            <td>{reports?.nivelAlerta}</td>
+                            <td>{reports?.tipoParametro}</td>
+                            <td>{reports?.estacao_uid}</td>
                         </tr>))}
                 </tbody>
             </Table>
