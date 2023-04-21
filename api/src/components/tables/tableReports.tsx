@@ -16,12 +16,13 @@ interface IReport {
         unixtime: string,
         report_id: number,
         valorEmitido: string,
-        nivelAlerta: number
+        nivelAlerta: number,
+        tipoParametro: string
     }]
 }
 
 export default function TableReport() {
-    const [report, setReports] = useState<IReport>()
+    const [report, setReports] = useState<IReport[]>([])
     const { id } = useParams();
 
     const cookies = parseCookies();
@@ -33,7 +34,7 @@ export default function TableReport() {
                     headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
                 })
                 .then((res) => {
-                    setReports(res.data);
+                    setReports([res.data]);
                     console.log(res.data)
                 });
         }
@@ -56,16 +57,18 @@ export default function TableReport() {
                     </tr>
                 </thead>
                 <tbody>
-                    {report?.reports?.map((reports: any) => (
-                        <tr>
-                            <td>{reports.report_id}</td>
-                            <td>{reports.valorEmitido}</td>
-                            <td>{reports?.unixtime}</td>
-                            <td>{reports?.alerta?.nome}</td>
-                            <td>{reports?.nivelAlerta}</td>
-                            <td>parametro</td>
-                            <td>{reports.estacao_uid}</td>
-                        </tr>))}
+                    {report?.map((rep: any)=>
+                        rep.reports?.map((reports: any) => (
+                            <tr>
+                                <td>{reports.report_id}</td>
+                                <td>{reports.valorEmitido}</td>
+                                <td>{reports?.unixtime}</td>
+                                <td>{rep?.nome}</td>
+                                <td>{reports?.nivelAlerta}</td>
+                                <td>{reports?.tipoParametro}</td>
+                                <td>{reports.estacao_uid}</td>
+                            </tr>))
+                    )}
                 </tbody>
             </Table>
         </div>
