@@ -43,9 +43,6 @@ export default function CriarParametros() {
                 [name]: value,
             };
         });
-
-        console.log(parametros);
-
     };
 
     // select's handleChange ✨
@@ -73,8 +70,6 @@ export default function CriarParametros() {
     };
 
     const handleChangeSelectUnidade = (event: any) => {
-        console.log(event);
-
         if (event.length != 0 && event) {
             setParametros((prevState) => {
                 return {
@@ -89,10 +84,13 @@ export default function CriarParametros() {
     };
 
     const createMedidaOption = (event: any) => {
-        axios.post(`http://localhost:5000/unidadeMedida/cadastro`,
+        console.log(event)
+        axios.post(`http://localhost:5000/unidadeMedida/cadastro`,            
             { nome: event },
             { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
         ).then(res => {
+            console.log(res.data);
+
             handleChangeSelectUnidade({ value: res.data.id, label: event })
         })
     };
@@ -116,11 +114,14 @@ export default function CriarParametros() {
             offset_parametro: parametros.offset,
             fator_parametro: parametros.fator
         },
-            { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }).then((res) => {
+            {
+                headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` }
+            }
+        ).then((res) => {
 
-            }).catch((err) => {
-                console.log(err);
-            })
+        }).catch((err) => {
+            console.log(err);
+        })
 
         Swal.fire({
             title: 'Parâmetro cadastrado!',
@@ -250,6 +251,7 @@ export default function CriarParametros() {
                                     name="unidade"
                                     placeholder="Selecione a unidade de medida do parâmetro."
                                     onChange={(e: any) => { handleChangeSelectUnidade(e) }}
+                                    onCreateOption={(e: any) => { createMedidaOption(e) }}
                                     options={unidadeMedidas}
                                 />
                             </Col>

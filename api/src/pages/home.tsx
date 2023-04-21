@@ -11,6 +11,8 @@ export default function HOME() {
     const navigate = useNavigate();
     const cookies = parseCookies();
 
+    console.log(window.location.href);
+
     return (
         <>
             <Sidebar />
