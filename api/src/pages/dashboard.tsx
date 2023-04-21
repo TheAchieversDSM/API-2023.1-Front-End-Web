@@ -53,7 +53,7 @@ export default function Dashboard() {
         .then((res) => {
           setEstacaoParametros(res.data);
         });
-    }, 5000);
+    }, 30000);
     return () => clearInterval(intervalId);
   }, []);
 
