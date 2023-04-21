@@ -8,13 +8,13 @@ import { parseCookies } from "nookies";
 interface IReport {
     report_id: number;
     unixtime: number;
+    estacao_uid: number;
     valorEmitido: number;
     tipoParametro: number;
-    estacao_uid: number;
     nivelAlerta?: number;
-    alerta: [{
-        nome: string;
-    }]
+    alerta: {
+        nome?: string;
+    }
 }
 
 export default function TableReport() {
@@ -23,27 +23,30 @@ export default function TableReport() {
 
     const cookies = parseCookies();
 
-    axios
-        .get(`http://localhost:5000/report/pegarReportPelaEstacao/${uid}`, {
-            headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
-        })
-        .then((res) => {
-            setReports([res.data]);
-        })
-        .catch((error) => {
+    useEffect(() => {
+        const fetchReports = async () => {
+          const cookies = parseCookies();
+          try {
+            const response = await axios.get(`http://localhost:5000/report/pegarReportPelaEstacao/${uid}`, {
+              headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+            });
+            setReports(response.data);
+          } catch (error) {
             console.error(error);
-    });
+          }
+        };
+        fetchReports();
+      }, [uid]);
 
 
     return (
         <div className="box-list box-report">
             <Table className="table" size="sm" >
-
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Valor</th>
-                        <th>UnixTime</th>
+                        <th>Unixtime</th>
                         <th>Alerta</th>
                         <th>Nível</th>
                         <th>Parâmetro</th>
@@ -51,12 +54,12 @@ export default function TableReport() {
                     </tr>
                 </thead>
                 <tbody>
-                    {report?.map((reports: any) => (
-                        <tr>
+                    {report?.map((reports) => (
+                        <tr key={reports?.report_id}>
                             <td>{reports?.report_id}</td>
                             <td>{reports?.valorEmitido}</td>
                             <td>{reports?.unixtime}</td>
-                            <td></td>
+                            <td>{reports?.alerta.nome}</td>
                             <td>{reports?.nivelAlerta}</td>
                             <td>{reports?.tipoParametro}</td>
                             <td>{reports?.estacao_uid}</td>
