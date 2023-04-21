@@ -6,7 +6,7 @@ import '../styles/sidebar.css';
 import logo from '../images/logo-3.png';
 
 // components & icons ✨
-import { BsSearch, BsHouse, BsSignpostSplit, BsPerson, BsExclamationTriangle, BsClipboard2Check, BsBarChart, BsBoxArrowInLeft } from 'react-icons/bs'
+import { BsSearch, BsHouse, BsSignpostSplit, BsPerson, BsExclamationTriangle, BsClipboard2Check, BsBarChart, BsBoxArrowInLeft, BsBoxArrowRight } from 'react-icons/bs'
 import { AuthContext } from "../hooks/useAuth";
 import { Button } from "react-bootstrap";
 import { parseCookies } from "nookies";
@@ -77,7 +77,7 @@ export default function Sidebar() {
                         {cookies["tecsus.token"] ? (
                             <li>
                                 <Button onClick={signOut}>
-                                    <BsBoxArrowInLeft className="icon" />
+                                    <BsBoxArrowRight className="icon" />
                                     <span className="text nav-text">Logout</span>
                                 </Button>
                             </li>
