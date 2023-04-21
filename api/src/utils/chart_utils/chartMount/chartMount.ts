@@ -1,8 +1,8 @@
 import Metric from "../metric/metric";
 import Options from "../options/options";
 
-export default function chartMount(metrics: Array<Metric>){
-    const opts = new Options("",[])
+export default function chartMount(metrics: Array<Metric>, nome: string){
+    const opts = new Options(nome,[])
     metrics.forEach(metrica => {
         opts.addSerie(metrica)
     }); 
