@@ -10,14 +10,18 @@ interface IReport {
     unixtime: number;
     msg?: string;
     estacao_uid: number;
-    alerta: [{
-        nome: number;
-        nivel?: number;
+    reports: [{
+        estacao_uid: string,
+        msg: string,
+        unixtime: string,
+        report_id: number,
+        valorEmitido: string,
+        nivelAlerta: number
     }]
 }
 
 export default function TableReport() {
-    const [report, setReports] = useState<IReport[]>([])
+    const [report, setReports] = useState<IReport>()
     const { id } = useParams();
 
     const cookies = parseCookies();
@@ -29,7 +33,8 @@ export default function TableReport() {
                     headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
                 })
                 .then((res) => {
-                    setReports([res.data]);
+                    setReports(res.data);
+                    console.log(res.data)
                 });
         }
         render();
@@ -51,13 +56,13 @@ export default function TableReport() {
                     </tr>
                 </thead>
                 <tbody>
-                    {report?.map((reports: any) => (
+                    {report?.reports?.map((reports: any) => (
                         <tr>
                             <td>{reports.report_id}</td>
-                            <td>valor emitido</td>
-                            <td>{reports.unixtime}</td>
-                            <td>{reports.alerta.nome}</td>
-                            <td>{reports.alerta.nivel}</td>
+                            <td>{reports.valorEmitido}</td>
+                            <td>{reports?.unixtime}</td>
+                            <td>{reports?.alerta?.nome}</td>
+                            <td>{reports?.nivelAlerta}</td>
                             <td>parametro</td>
                             <td>{reports.estacao_uid}</td>
                         </tr>))}
