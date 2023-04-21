@@ -8,32 +8,33 @@ import { useParams } from 'react-router-dom';
 
 import { parseCookies } from "nookies";
 
-let modelo = {
-        'estacao_id': '',
-        'nome':''
+interface modelo  {
+        'estacao_uid': '',
 }
 
 export default function Reports() {
     const cookies = parseCookies();
 
-    const [estacao, setEstacao] = useState(modelo)
-    const { id } = useParams();
+    const [estacao, setEstacao] = useState<modelo[]>([])
+    const { uid } = useParams();
 
     useEffect(() =>{
         function render(){
-            axios.get(`http://localhost:5000/estacao/pegarEstacoesPorId/${id}`, {
+            axios.get(`http://localhost:5000/report/pegarReportPelaEstacao/${uid}`, {
                 headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
               }).then((res) =>{
                 setEstacao(res.data)
             })
         }
         render()
-    },[])
+    },[uid])
 
     return (
         <>
             <Sidebar />
-            <h1 className="TitImp">Reports</h1>
+            {estacao?.map((estacoes:any) => (
+                <h1 className="TitImp">Reports (UID: {estacoes.estacao_uid})</h1>
+            ))}
             <TableReport/>
         </>
     )

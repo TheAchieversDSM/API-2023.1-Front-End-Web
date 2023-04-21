@@ -38,10 +38,21 @@ export default function TableReport() {
         fetchReports();
       }, [uid]);
 
+      function formatDate(unixtime: number): string {
+        const date = new Date(unixtime * 1000);
+        const year = date.getFullYear();
+        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        const day = ('0' + date.getDate()).slice(-2);
+        const hours = ('0' + date.getHours()).slice(-2);
+        const minutes = ('0' + date.getMinutes()).slice(-2);
+        const seconds = ('0' + date.getSeconds()).slice(-2);
+        return `${day}/${month}/${year} - ${hours}:${minutes}:${seconds}`;
+      }
 
     return (
         <div className="box-list box-report">
             <Table className="table" size="sm" >
+
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -50,7 +61,6 @@ export default function TableReport() {
                         <th>Alerta</th>
                         <th>Nível</th>
                         <th>Parâmetro</th>
-                        <th>Estação</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,11 +68,10 @@ export default function TableReport() {
                         <tr key={reports?.report_id}>
                             <td>{reports?.report_id}</td>
                             <td>{reports?.valorEmitido}</td>
-                            <td>{reports?.unixtime}</td>
+                            <td>{formatDate(reports?.unixtime)}</td>
                             <td>{reports?.alerta.nome}</td>
                             <td>{reports?.nivelAlerta}</td>
                             <td>{reports?.tipoParametro}</td>
-                            <td>{reports?.estacao_uid}</td>
                         </tr>))}
                 </tbody>
             </Table>
