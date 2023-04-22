@@ -26,7 +26,7 @@ interface IAlerta {
     valorMinimo?: string;
     valorMax?: string;
     nivel?: number;
-    parametro_id?: number;
+    parametro: {parametro_id?: number};
 }
 
 export default function EditarAlertas() {
@@ -110,7 +110,7 @@ export default function EditarAlertas() {
             valorMinimo: alerta.valorMin,
             valorMax: alerta.valorMax,
             nivel: parseInt(alerta.nivel),
-            parametro_id: parseInt(alerta.parametro_id)
+            parametro_id: Number(alerta2?.parametro.parametro_id)
         },
             { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
         ).then((res) => {
@@ -137,8 +137,7 @@ export default function EditarAlertas() {
             axios.get(`http://localhost:5000/parametro/pegarParametros`,
                 {
                     headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
-                }
-            ).then((res) => {
+                }).then((res) => {
                 var param = []
 
                 for (let index = 0; index < res.data.length; index++) {
@@ -177,17 +176,6 @@ export default function EditarAlertas() {
                     </Row>
 
                     <Row className="create-alert-content">
-                        <Col md={5}>
-                            <Input
-                                label="Valor Mínimo"
-                                name="valorMin"
-                                size="mb-6"
-                                type="number"
-                                placeholder="Insira o valor mínimo do alerta."
-                                onChange={handleChange}
-                                default={alerta2?.valorMinimo}
-                            />
-                        </Col>
 
                         <Col md={6}>
                             <Input
@@ -198,6 +186,18 @@ export default function EditarAlertas() {
                                 placeholder="Insira o valor máximo do alerta."
                                 onChange={handleChange}
                                 default={alerta2?.valorMax}
+                            />
+                        </Col>
+
+                        <Col md={5}>
+                            <Input
+                                label="Valor Mínimo"
+                                name="valorMin"
+                                size="mb-6"
+                                type="number"
+                                placeholder="Insira o valor mínimo do alerta."
+                                onChange={handleChange}
+                                default={alerta2?.valorMinimo}
                             />
                         </Col>
                     </Row>
@@ -230,7 +230,7 @@ export default function EditarAlertas() {
                     <div className="create-alert-button">
                         <Button
                             type="submit"
-                            label="Criar!"
+                            label="Editar!"
                             className="btnCriar"
                         /* onClick={handleSubmit} */
                         />

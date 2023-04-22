@@ -16,7 +16,7 @@ import '../styles/criar-usuarios.css'
 const options = [{ value: '1', label: 'Administrador' }, { value: '2', label: 'Comum' }]
 
 export default function CriarUsuarios() {
-    const cookies = parseCookies();
+    //const cookies = parseCookies();
 
     const tipoUsuario = { value: '', label: '' }
 
@@ -64,7 +64,7 @@ export default function CriarUsuarios() {
             email: usuario.email,
             senha: usuario.senha
         },
-            { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+            /* { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } } */
         ).then((res) => {
 
         })

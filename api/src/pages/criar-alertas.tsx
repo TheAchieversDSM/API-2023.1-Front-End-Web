@@ -150,17 +150,6 @@ export default function CriarAlertas() {
                     </Row>
 
                     <Row className="create-alert-content">
-                        <Col md={5}>
-                            <Input
-                                label="Valor Mínimo"
-                                name="valorMin"
-                                size="mb-6"
-                                type="number"
-                                placeholder="Insira o valor mínimo do alerta."
-                                onChange={handleChange}
-                            />
-                        </Col>
-
                         <Col md={6}>
                             <Input
                                 label="Valor Máximo"
@@ -168,6 +157,17 @@ export default function CriarAlertas() {
                                 size="mb-6"
                                 type="number"
                                 placeholder="Insira o valor máximo do alerta."
+                                onChange={handleChange}
+                            />
+                        </Col>
+
+                        <Col md={5}>
+                            <Input
+                                label="Valor Mínimo"
+                                name="valorMin"
+                                size="mb-6"
+                                type="number"
+                                placeholder="Insira o valor mínimo do alerta."
                                 onChange={handleChange}
                             />
                         </Col>

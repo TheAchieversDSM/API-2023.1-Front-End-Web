@@ -310,7 +310,7 @@ export default function EditarParametro() {
                         <div className="create-alert-button">
                             <Button
                                 type="submit"
-                                label="Criar!"
+                                label="Editar!"
                                 className="btnCriar"
                             /* onClick={handleSubmit} */
                             />

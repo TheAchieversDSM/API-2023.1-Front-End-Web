@@ -160,7 +160,7 @@ export default function EditarEstacoes() {
                         <div className="create-station-button">
                             <Button
                                 type="submit"
-                                label="Criar!"
+                                label="Editar!"
                                 className="btnCriar"
                             /* onClick={handleSubmit} */
                             />
