@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
-import { parseCookies } from "nookies";
 
 // components ✨
 import { Col, Row } from "react-bootstrap";
@@ -10,23 +9,24 @@ import SelectMulti from "../components/select";
 import Sidebar from "../components/sidebar";
 import Button from "../components/button";
 import Swal from 'sweetalert2'
-
-import "../styles/criar-alertas.css";
+import { parseCookies } from "nookies";
 
 import { AuthContext } from "../hooks/useAuth";
 
+import "../styles/criar-alertas.css";
+
 const options = [
-  { value: 1, label: "Atenção" },
-  { value: 2, label: "Perigo" },
-  { value: 3, label: "Crítico" },
+    { value: 1, label: "Atenção" },
+    { value: 2, label: "Perigo" },
+    { value: 3, label: "Crítico" },
 ];
 
 const { Select } = Form;
 
 export default function CriarAlertas() {
-  const cookies = parseCookies();
-  const { user } = useContext(AuthContext);
-  
+    const cookies = parseCookies();
+    const { user } = useContext(AuthContext);
+
     const nivel = { value: "", label: "" };
 
     const [parametros, setParametros] = useState<{ label: any; value: any; }[]>([]);
@@ -79,31 +79,22 @@ export default function CriarAlertas() {
         }
 
         event.preventDefault();
-        console.log( {
-            nome: alerta.nome,
-            valorMinimo: alerta.valorMin,
-            valorMax: alerta.valorMax,
-            nivel: alerta.nivel,
-            parametro_id: parseInt(alerta.parametro_id)
-        })
 
-        axios.post(
-        `http://localhost:5000/alerta/cadastro`,
-        {
-          nome: alerta.nome,
-          valorMinimo: alerta.valorMin,
-          valorMax: alerta.valorMax,
-          nivel: alerta.nivel,
-          parametro_id: alerta.parametro_id
+        axios.post(`http://localhost:5000/alerta/cadastro`,
+            {
+                nome: alerta.nome,
+                valorMinimo: alerta.valorMin,
+                valorMax: alerta.valorMax,
+                nivel: alerta.nivel,
+                parametro_id: alerta.parametro_id
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${cookies["tecsus.token"]}`,
+                },
+            }).then((res) => {
 
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookies["tecsus.token"]}`,
-          },
-        }).then((res) => {
-
-        });
+            });
 
         Swal.fire({
             title: 'Alerta cadastrado!',
@@ -113,25 +104,24 @@ export default function CriarAlertas() {
         })
     };
 
-    console.log(parametros);
-
     useEffect(() => {
         async function render() {
-            axios.get(`http://localhost:5000/parametro/pegarParametros`).then((res) => {
-                setParametros(res.data);
-            })
+            axios.get(`http://localhost:5000/parametro/pegarParametros`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${cookies["tecsus.token"]}`,
+                    },
+                }).then((res) => {
+                    var param = []
 
-            axios.get(`http://localhost:5000/parametro/pegarParametros`).then((res) => {
-                var param = []
+                    for (let index = 0; index < res.data.length; index++) {
+                        const opt = { label: res.data[index].nome, value: res.data[index].parametro_id }
 
-                for (let index = 0; index < res.data.length; index++) {
-                    const opt = { label: res.data[index].nome, value: res.data[index].parametro_id }
+                        param.push(opt)
+                    }
 
-                    param.push(opt)
-                }
-
-                setParametros(param);
-            })
+                    setParametros(param);
+                })
         }
 
         render();
@@ -160,17 +150,6 @@ export default function CriarAlertas() {
                     </Row>
 
                     <Row className="create-alert-content">
-                        <Col md={5}>
-                            <Input
-                                label="Valor Mínimo"
-                                name="valorMin"
-                                size="mb-6"
-                                type="number"
-                                placeholder="Insira o valor mínimo do alerta."
-                                onChange={handleChange}
-                            />
-                        </Col>
-
                         <Col md={6}>
                             <Input
                                 label="Valor Máximo"
@@ -178,6 +157,17 @@ export default function CriarAlertas() {
                                 size="mb-6"
                                 type="number"
                                 placeholder="Insira o valor máximo do alerta."
+                                onChange={handleChange}
+                            />
+                        </Col>
+
+                        <Col md={5}>
+                            <Input
+                                label="Valor Mínimo"
+                                name="valorMin"
+                                size="mb-6"
+                                type="number"
+                                placeholder="Insira o valor mínimo do alerta."
                                 onChange={handleChange}
                             />
                         </Col>

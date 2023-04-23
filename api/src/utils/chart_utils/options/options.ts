@@ -4,7 +4,7 @@ export default class Options {
     chart = { type: "spline", width: 900, height: 500 };
     title = { text: `Informações meteorológicas da estação` };
     series: Array<Metric>;
-    xAxis = {type: 'datetime'}
+    xAxis = { minPadding: 0.05, maxPadding: 0.05 }
     lang = { noData: "Não há dados disponíveis para exibição." };
     noData = { style: { fontWeight: 'bold', fontSize: '24px', color: '#5751D3' } };
 
@@ -25,6 +25,5 @@ export default class Options {
 
 
 }
-
 
 

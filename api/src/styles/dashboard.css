@@ -1,28 +1,47 @@
-.buttons_dashboard > div{
-    position: relative;
-    margin-top: 6%;
-    left: 25%;
-}
-
-.buttons_dashboard > div.nav.nav-pills > div.nav-item {
-    margin-right: 12px;
-}
-
-
-.buttons_dashboard > div.nav.nav-pills > div.nav-item > a.nav-link.active{
-    background-color:#5751D3 !important;
-    color: #2BF400;
-}
-
-.buttons_dashboard > div.nav.nav-pills > div.nav-item > a.nav-link{
-    background-color:#9894EA     !important;
-    color: #ffff;
-}
-
-
 .container_dashboard{
     position: absolute;
-    top: 25%;
+    top: 12%;
     left: 25%;
-    padding-bottom: 40px;
+}
+.parametrosTitulo{
+    font-style: normal !important;
+    font-weight: 600 !important;
+    font-size: 32px;
+    color: #3E3579;
+    margin: 40px 0px 10px 0px;
+}
+
+.box-par{
+    background: #FFFFFF;
+    box-shadow: 10px 10px 24px rgba(151, 149, 195, 0.5);
+    border-radius: 10px;
+    height: fit-content;
+    padding: 15px 10px 10px 10px;
+    margin-bottom: 50px;
+}
+
+.box-dash{
+    background: #FFFFFF;
+    box-shadow: 10px 10px 24px rgba(151, 149, 195, 0.5);
+    border-radius: 10px;
+    height: fit-content;
+    padding:  10px;
+}
+
+.accordion{
+    margin-bottom: 10px;
+}
+
+.accordion > .accordion-item{
+    margin-bottom: 1%;
+}
+
+.accordion-button:focus{
+    border: #5751D3 !important;
+}
+
+.accordion-button:not(.collapsed){
+    background-color: #9894EA;
+    color: white;
+
 }

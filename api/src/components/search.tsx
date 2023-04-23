@@ -4,8 +4,12 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import { InputGroup, Form } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
+import { parseCookies } from "nookies";
+import { AuthContext } from "../hooks/useAuth";
 
 export default function Search(props: any){
+    const cookies = parseCookies();
+
     return(
         <div className="box-search ">
             <InputGroup className="mb-1">
@@ -16,7 +20,11 @@ export default function Search(props: any){
                 />
                 <InputGroup.Text id="basic-addon2" className="lupa"><BsSearch className="icon"/></InputGroup.Text>
             </InputGroup>
+
+            {cookies["tecsus.token"] ? (
             <Button variant="primary" className="button-new" size="lg" ><Link to={props.link}><p>+ Novo</p></Link></Button>
+            ) : null}
+
         </div>
     )
 }

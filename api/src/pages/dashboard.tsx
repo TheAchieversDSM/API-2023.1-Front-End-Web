@@ -1,42 +1,62 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import Sidebar from "../components/sidebar";
 import { useEffect, useState } from "react";
-import { parseCookies } from "nookies";
+
 import "../styles/dashboard.css";
 import Chart from "../components/chart";
+import Sidebar from "../components/sidebar";
+import Accordion from "react-bootstrap/Accordion";
+
 import { EstacaoParametro, MediasSeries } from "../utils/types/types";
-import Navigation from "../components/nav/nav";
-import NavItem from "../components/nav/navItem";
 import metricMount from "../utils/chart_utils/metricMount/metricMount";
 import Options from "../utils/chart_utils/options/options";
 import averageCalculator from "../utils/chart_utils/averageCalculator/averageCalculator";
 import chartMount from "../utils/chart_utils/chartMount/chartMount";
 import groupByUnixtime from "../utils/chart_utils/groupUnixtime/groupUnixtime";
 
+import { parseCookies } from "nookies";
+
 export default function Dashboard() {
   const cookies = parseCookies();
+
   const { id } = useParams();
-  const [estacaoNome, setEstacaoNome] = useState();
-  const [estacaoParametros, setEstacaoParametros] =
-    useState<[EstacaoParametro]>();
+
+  const estacaoNome = localStorage.getItem("estacaoNome")
+  const [estacaoParametros, setEstacaoParametros] = useState<[EstacaoParametro]>();
+  const [paramId, setParamId] = useState(0);
+  const [parametroDisplay, setParametroDisplay] = useState<EstacaoParametro>();
   const [medidas, setMedidas] = useState<Array<MediasSeries>>();
   const [options, setOptions] = useState<Options>();
+  var x = 0
   useEffect(() => {
-    function render() {
+    function fetchDataFirstTime() {
       axios
         .get(
           `http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${id}`,
           { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
         )
         .then((res) => {
-          setEstacaoNome(res.data.nome);
           setEstacaoParametros(res.data);
         });
     }
-
-    render();
+   
+    while (x <= 2) {
+      fetchDataFirstTime()
+      x += 1
+    }
+    const intervalId = setInterval(() => {
+      axios
+        .get(
+          `http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${id}`,
+          { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+        )
+        .then((res) => {
+          setEstacaoParametros(res.data);
+        });
+    }, 30000);
+    return () => clearInterval(intervalId);
   }, []);
+
 
   useEffect(() => {
     const medidasseries: MediasSeries[] = [];
@@ -54,32 +74,50 @@ export default function Dashboard() {
           media: parametro.medidaMedia,
         };
         medidasseries.push(med);
-        console.log(medidasseries);
       }
     });
     setMedidas(medidasseries);
-
     if (medidas) {
       const metrics = metricMount(medidas);
-      setOptions(chartMount(metrics));
+      console.log(metrics)
+      setOptions(chartMount(metrics, estacaoNome ? estacaoNome : ""));
     }
   }, [estacaoParametros]);
+
+  useEffect(() => {
+    if (paramId != 0) {
+      estacaoParametros?.map((estacao) => {
+        if (estacao.parametro_id == paramId) {
+          setParametroDisplay(estacao);
+          console.log(parametroDisplay);
+        }
+      });
+    }
+  }, [paramId]);
 
   return (
     <>
       <Sidebar />
       <div className="main-body">
-        <h1 className="TitImp">Estação {estacaoNome}</h1>
-        <div className="buttons_dashboard">
-          <Navigation variant="pills" default="1">
-            <NavItem index={1} label="Todos" />
-            {estacaoParametros?.map((parametro, index) => (
-              <NavItem index={index + 2} label={parametro.nome} />
-            ))}
-          </Navigation>
-        </div>
+        <h1 className="TitImp"> {estacaoNome} </h1>
         <div className="container_dashboard">
-          <Chart className="container_dashboard" options={options} />
+          <div className="box-dash">
+            <Chart className="container_dashboard" options={options} />
+          </div>
+          <h4 className="parametrosTitulo">Parâmetros</h4>
+          <div className="box-par">
+            <Accordion className="accordion">
+              {estacaoParametros?.map((param, index) => (
+                <Accordion.Item
+                  eventKey={index.toString()}
+                  className="accordion-item"
+                >
+                  <Accordion.Header>{param.nome}</Accordion.Header>
+                  <Accordion.Body>{param.formula}</Accordion.Body>
+                </Accordion.Item>
+              ))}
+            </Accordion>
+          </div>
         </div>
       </div>
     </>

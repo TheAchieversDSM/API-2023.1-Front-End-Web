@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { parseCookies } from "nookies";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
 // components ✨
 import { Col, Row, Form } from 'react-bootstrap';
 import Input from '../components/input';
@@ -10,153 +10,161 @@ import Sidebar from '../components/sidebar';
 import Button from '../components/button'
 import Swal from 'sweetalert2'
 
-import "../styles/criar-usuarios.css";
+import { parseCookies } from "nookies";
+
+import '../styles/criar-usuarios.css'
 
 export default function EditarUsuarios() {
-  const cookies = parseCookies();
-  const { id } = useParams();
+    const cookies = parseCookies();
 
-  const tipoUsuario = { value: "", label: "" };
+    const { id } = useParams();
 
-  const [user, setUser] = useState({
-    nome: "",
-    email: "",
-    senha: "",
-    tipoUsuario: tipoUsuario,
-  });
+    const tipoUsuario = { value: '', label: '' }
 
-  const [usuario, setUsuario] = useState({
-    nome: "",
-    email: "",
-    tipoUsuario: tipoUsuario,
-  });
+    const [user, setUser] = useState({
+        nome: '',
+        email: '',
+        senha: '',
+        tipoUsuario: tipoUsuario,
+    })
 
-  // inputs' handleChange ✨
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
+    const [usuario, setUsuario] = useState({
+        nome: '',
+        email: '',
+        tipoUsuario: tipoUsuario,
+    })
 
-    setUsuario((prevState: any) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
+    // inputs' handleChange ✨
+    const handleChange = (event: any) => {
+        const { name, value } = event.target;
 
-    console.log(usuario);
-  };
+        setUsuario((prevState: any) => {
+            return {
+                ...prevState,
+                [name]: value,
+            };
+        });
+    };
 
-  // select's handleChange ✨
-  const handleChangeSelect = (event: any) => {
-    if (event.length != 0 && event) {
-      setUsuario((prevState) => {
-        return {
-          ...prevState,
-          tipoUsuario: event[0].value,
-        };
-      });
-    }
-  };
+    // select's handleChange ✨
+    const handleChangeSelect = (event: any) => {
+        if (event.length != 0 && event) {
+            setUsuario((prevState) => {
+                return {
+                    ...prevState,
+                    tipoUsuario: event[0].value,
+                };
+            });
+        }
+    };
 
-  const handleSubmit = (event: any) => {
-    for (
-      let index = 0;
-      index < event.target.querySelectorAll("input").length;
-      index++
-    ) {
-      event.target.querySelectorAll("input")[index].value = "";
-    }
+    const handleSubmit = (event: any) => {
+        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
+            event.target.querySelectorAll("input")[index].value = ""
+        }
 
-    event.preventDefault();
+        event.preventDefault();
 
-    if (usuario.nome.length === 0) {
-      usuario.nome = user?.nome ?? "";
-    }
-    if (usuario.email.length === 0) {
-      usuario.email = user?.email ?? "";
-    }
+        if (usuario.nome.length === 0) {
+            usuario.nome = user?.nome ?? ''
+        }
+        if (usuario.email.length === 0) {
+            usuario.email = user?.email ?? ''
+        }
 
-    axios
-      .put(
-        `http://localhost:5000/user/atualizarUsuario/${id}`,
-        {
-          // colocar o campo de tipo aqui
-          nome: usuario.nome,
-          email: usuario.email,
-          senha: user.senha,
+        axios.put(`http://localhost:5000/user/atualizarUsuario/${id}`, {
+            // colocar o campo de tipo aqui
+            nome: usuario.nome,
+            email: usuario.email,
+            senha: user.senha
         },
-        { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
-      )
-      .then((res) => {});
+            { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+        ).then((res) => {
+
+        })
 
         Swal.fire({
             title: 'Usuário atualizado!',
             text: `O usuário ${usuario.nome} foi atualizado com sucesso!`,
             icon: 'success',
             confirmButtonText: 'OK!'
-        })  
-   };
-
-  useEffect(() => {
-    async function render() {
-      axios
-        .get(`http://localhost:5000/user/pegarUsuariosPorId/${id}`, {
-          headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
         })
-        .then((res) => {
-          setUser(res.data);
-        });
-    }
-    render();
-  }, []);
+    };
 
-  return (
-    <>
-      <Form onSubmit={handleSubmit}>
-        <Sidebar />
+    useEffect(() => {
+        async function render() {
+            axios.get(`http://localhost:5000/user/pegarUsuariosPorId/${id}`, {
+                headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+            }).then((res) => {
+                setUser(res.data)
+            })
+        }
+        render()
+    }, [])
 
-        <div className="main-body">
-          <h1 className="TitImp">Edição de Usuário</h1>
+    return (
+        <>
+            <Form onSubmit={handleSubmit}>
+                <Sidebar />
 
-          <div className="box-create-user">
-            <Row className="create-alert-content">
-              <Col md={11}>
-                <Input
-                  label="Nome"
-                  name="nome"
-                  size="mb-6"
-                  type="text"
-                  placeholder="Insira o nome do usuário."
-                  onChange={handleChange}
-                  default={user?.nome}
-                />
-              </Col>
-            </Row>
+                <div className="main-body">
+                    <h1 className="TitImp">Edição de Usuário</h1>
 
-            <Row className="create-alert-content">
-              <Col md={11}>
-                <Input
-                  label="E-mail"
-                  name="email"
-                  size="mb-6"
-                  type="email"
-                  placeholder="Insira o e-mail do usuário."
-                  onChange={handleChange}
-                  default={user?.email}
-                />
-              </Col>
-            </Row>
+                    <div className="box-create-user">
 
-            <div className="create-alert-button">
-              <Button
-                type="submit"
-                label="Criar!"
-                className="btnCriar"
-                /* onClick={handleSubmit} */
-              />
-            </div>
-          </div>
-        </div>
-      </Form>
-    </>
-  );
+                        <Row className="create-alert-content">
+                            <Col md={11}>
+                                <Input
+                                    label="Nome"
+                                    name="nome"
+                                    size="mb-6"
+                                    type="text"
+                                    placeholder="Insira o nome do usuário."
+                                    onChange={handleChange}
+                                    default={user?.nome}
+                                />
+                            </Col>
+                        </Row>
+
+                        <Row className="create-alert-content">
+                            <Col md={11}>
+                                <Input
+                                    label="E-mail"
+                                    name="email"
+                                    size="mb-6"
+                                    type="email"
+                                    placeholder="Insira o e-mail do usuário."
+                                    onChange={handleChange}
+                                    default={user?.email}
+                                />
+                            </Col>
+                        </Row>
+
+                        {/* <Row className="create-alert-content">
+                            <Col md={11}>
+                                <SelectMulti
+                                    label="Nível de Acesso"
+                                    size="mb-3"
+                                    name="tipoUsuario"
+                                    placeholder="Selecione o nível de acesso do usuário."
+                                    options={options}
+                                    onChange={handleChangeSelect}
+                                    close={true}
+                                />
+                            </Col>
+                        </Row> */}
+
+                        <div className="create-alert-button">
+                            <Button
+                                type="submit"
+                                label="Editar!"
+                                className="btnCriar"
+                            /* onClick={handleSubmit} */
+                            />
+                        </div>
+                    </div>
+                </div>
+            </Form>
+        </>
+    )
 }

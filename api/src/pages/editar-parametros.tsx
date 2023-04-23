@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { parseCookies } from "nookies";
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
+import axios from 'axios'
+
 // components ✨
 import { Col, Form, Row } from 'react-bootstrap';
 import CreatableSelect from 'react-select/creatable';
@@ -12,132 +12,138 @@ import TextareaInput from '../components/textarea';
 import Button from '../components/button'
 import Swal from 'sweetalert2'
 
-import "../styles/criar-parametros.css";
+import { parseCookies } from "nookies";
 
-const modelo = [{ value: "", label: "" }];
+import '../styles/criar-parametros.css'
+
+const modelo = [{ value: '', label: '' }]
 
 interface IParametro {
-  parametro_id: number;
-  nome?: string;
-  formula?: string;
-  tipo?: {
-    tipo_id: number;
-    nome: string;
-  };
-  unidadeDeMedida?: {
-    nome: string;
-    unidade_id: number;
-  };
-  fator?: string;
-  offset?: string;
+    parametro_id: number;
+    nome?: string;
+    formula?: string;
+    tipo?: {
+        tipo_id: number;
+        nome: string;
+    };
+    unidadeDeMedida?: {
+        nome: string;
+        unidade_id: number;
+    };
+    fator?: string;
+    offset?: string;
 }
 
 export default function EditarParametro() {
-  const cookies = parseCookies();
-  const { id } = useParams();
+    const cookies = parseCookies();
 
-  const tipoParametro = { value: "", label: "" };
-  const unidade = { value: "", label: "" };
-  const [unidadeMedidas, setUnidadeMedidas] = useState(modelo);
-  const [tipos, setTipos] = useState(modelo);
-  const [parametro, setParametro] = useState<IParametro>();
+    const { id } = useParams();
 
-  const [parametros, setParametros] = useState({
-    nome: "",
-    formula: "",
-    tipoParametro: tipoParametro,
-    unidade: unidade,
-    fator: "",
-    offset: "",
-  });
+    const tipoParametro = { value: '', label: '' }
+    const unidade = { value: '', label: '' }
+    const [unidadeMedidas, setUnidadeMedidas] = useState(modelo)
+    const [tipos, setTipos] = useState(modelo)
+    const [parametro, setParametro] = useState<IParametro>()
 
-  // inputs' handleChange ✨
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
+    const [parametros, setParametros] = useState({
+        nome: '',
+        formula: '',
+        tipoParametro: tipoParametro,
+        unidade: unidade,
+        fator: '',
+        offset: ''
+    })
 
-    setParametros((prevState: any) => {
-      return {
-        ...prevState,
-        [name]: value,
+    // inputs' handleChange ✨
+    const handleChange = (event: any) => {
+        const { name, value } = event.target;
+
+        setParametros((prevState: any) => {
+            return {
+                ...prevState,
+                [name]: value,
+            };
+        });
+    };
+
+    // select's handleChange ✨
+    const handleChangeSelectTipo = (event: any) => {
+        if (event.length != 0 && event) {
+            setParametros((prevState) => {
+                return {
+                    ...prevState,
+                    tipoParametro: {
+                        value: event.value,
+                        label: event.label,
+                    },
+                };
+            });
+        }
+    };
+
+    const createTipoOption = (event: any) => {
+        axios.post(`http://localhost:5000/tipoParametro/cadastro`,
+            { nome: event },
+            { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+          )
+          .then((res) => {
+            handleChangeSelectTipo({ value: res.data.id, label: event });
+          });
       };
-    });
 
-    console.log(parametros);
-  };
+    const handleChangeSelectUnidade = (event: any) => {
+        if (event.length != 0 && event) {
+            setParametros((prevState) => {
+                return {
+                    ...prevState,
+                    unidade: {
+                        value: event.value,
+                        label: event.label,
+                    },
+                };
+            });
+        }
+    };
 
-  // select's handleChange ✨
-  const handleChangeSelectTipo = (event: any) => {
-    if (event.length != 0 && event) {
-      setParametros((prevState) => {
-        return {
-          ...prevState,
-          tipoParametro: {
-            value: event.value,
-            label: event.label,
-          },
-        };
-      });
-    }
-  };
+    const createMedidaOption = (event: any) => {
+        axios.post(`http://localhost:5000/unidadeMedida/cadastro`,
+            { nome: event },
+            { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }).then(res => {
+                handleChangeSelectUnidade({ value: res.data.id, label: event })
+            })
+    };
 
-  const handleChangeSelectUnidade = (event: any) => {
-    if (event.length != 0 && event) {
-      setParametros((prevState) => {
-        return {
-          ...prevState,
-          unidade: {
-            value: event.value,
-            label: event.label,
-          },
-        };
-      });
-    }
-  };
+    const handleSubmit = (event: any) => {
+        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
+            event.target.querySelectorAll("input")[index].value = ""
+        }
 
-  const handleSubmit = (event: any) => {
-    for (
-      let index = 0;
-      index < event.target.querySelectorAll("input").length;
-      index++
-    ) {
-      event.target.querySelectorAll("input")[index].value = "";
-    }
+        for (let index = 0; index < event.target.querySelectorAll("textarea").length; index++) {
+            event.target.querySelectorAll("textarea")[index].value = ""
+        }
 
-    for (
-      let index = 0;
-      index < event.target.querySelectorAll("textarea").length;
-      index++
-    ) {
-      event.target.querySelectorAll("textarea")[index].value = "";
-    }
+        event.preventDefault();
 
-    event.preventDefault();
+        if (parametros.nome.length === 0) {
+            parametros.nome = parametro?.nome ?? ''
+        }
+        if (parametros.formula.length === 0) {
+            parametros.formula = parametro?.formula ?? ''
+        }
+        if (parametros.tipoParametro.value.length === 0) {
+            parametros.tipoParametro.value = parametro?.tipo?.tipo_id.toString() ?? ''
+        }
+        if (parametros.unidade.value.length === 0) {
+            parametros.unidade.value = parametro?.unidadeDeMedida?.unidade_id.toString() ?? ''
+        }
+        if (parametros.fator.length === 0) {
+            parametros.fator = parametro?.fator ?? ''
+        }
+        if (parametros.offset.length === 0) {
+            parametros.offset = parametro?.offset ?? ''
+        }
 
-    if (parametros.nome.length === 0) {
-      parametros.nome = parametro?.nome ?? "";
-    }
-    if (parametros.formula.length === 0) {
-      parametros.formula = parametro?.formula ?? "";
-    }
-    if (parametros.tipoParametro.value.length === 0) {
-      parametros.tipoParametro.value =
-        parametro?.tipo?.tipo_id.toString() ?? "";
-    }
-    if (parametros.unidade.value.length === 0) {
-      parametros.unidade.value =
-        parametro?.unidadeDeMedida?.unidade_id.toString() ?? "";
-    }
-    if (parametros.fator.length === 0) {
-      parametros.fator = parametro?.fator ?? "";
-    }
-    if (parametros.offset.length === 0) {
-      parametros.offset = parametro?.offset ?? "";
-    }
-
-    axios
-      .put(
-        `http://localhost:5000/parametro/atualizarParametro/${id}`,
-        {
+        axios.put(`http://localhost:5000/parametro/atualizarParametro/${id}`, {
             tipo_parametro: parseInt(parametros.tipoParametro.value),
             formula_parametro: parametros.formula,
             nome_parametro: parametros.nome,
@@ -145,76 +151,69 @@ export default function EditarParametro() {
             offset_parametro: parametros.offset,
             fator_parametro: parametros.fator
         },
-        { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
-      )
-      .then((res) => {})
-      .catch((err) => {
-        console.log(err);
-      });
+            { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+        ).then((res) => {
+
+        }).catch((err) => {
+            console.log(err);
+        })
 
         Swal.fire({
             title: 'Parâmetro atualizado!',
             text: `O parâmetro ${parametros.nome} foi atualizado com sucesso!`,
             icon: 'success',
             confirmButtonText: 'OK!'
-        })  
-   };
-
-  // get unidade de medidas & tipos de parâmetros ✨
-  useEffect(() => {
-    async function render() {
-      axios
-        .get(`http://localhost:5000/unidadeMedida/pegarUnidadeDeMedidas`, {
-          headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
         })
-        .then((res) => {
-          const unidades = [{ value: "", label: "" }];
+    };
 
-          for (let index = 0; index <= res.data.length - 1; index++) {
-            let option = {
-              value: res.data[index].unidade_id,
-              label: res.data[index].nome,
-            };
+    // get unidade de medidas & tipos de parâmetros ✨
+    useEffect(() => {
+        async function render() {
+            axios.get(`http://localhost:5000/unidadeMedida/pegarUnidadeDeMedidas`,
+                {
+                    headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+                }).then((res) => {
+                    const unidades = [{ value: '', label: '' }]
 
-            unidades.push(option);
-          }
+                    for (let index = 0; index <= res.data.length - 1; index++) {
+                        let option = {
+                            value: res.data[index].unidade_id,
+                            label: res.data[index].nome
+                        }
 
-          setUnidadeMedidas(unidades);
-        });
-        
-        
-      axios
-        .get(`http://localhost:5000/tipoParametro/pegarTiposParametro`, {
-          headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
-        })
-        .then((res) => {
-          const parametrosTipos = [{ value: "", label: "" }];
+                        unidades.push(option)
+                    }
 
-          for (let index = 0; index <= res.data.length - 1; index++) {
-            let option = {
-              value: res.data[index].tipo_id,
-              label: res.data[index].nome,
-            };
+                    setUnidadeMedidas(unidades)
+                });
 
-            parametrosTipos.push(option);
-          }
+            axios.get(`http://localhost:5000/tipoParametro/pegarTiposParametro`,
+                {
+                    headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+                }).then((res) => {
+                    const parametrosTipos = [{ value: '', label: '' }]
 
-          setTipos(parametrosTipos);
-        });
+                    for (let index = 0; index <= res.data.length - 1; index++) {
+                        let option = {
+                            value: res.data[index].tipo_id,
+                            label: res.data[index].nome
+                        }
 
-      axios
-        .get(`http://localhost:5000/parametro/pegarParametrosPorId/${id}`, {
-          headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
-        })
-        .then((res) => {
-          setParametro(res.data);
-        });
-    }
-   
-    render();
-  }, []);
-  
- return (
+                        parametrosTipos.push(option)
+                    }
+
+                    setTipos(parametrosTipos)
+                })
+
+            axios.get(`http://localhost:5000/parametro/pegarParametrosPorId/${id}`).then((res) => {
+                setParametro(res.data)
+            })
+        }
+
+        render()
+    }, [])
+
+    return (
         <>
             <Form onSubmit={handleSubmit}>
 
@@ -258,11 +257,12 @@ export default function EditarParametro() {
                                 <Form.Label className="label">Tipo de Parâmetro</Form.Label>
                                 <CreatableSelect
                                     isClearable
-                                    value={[{ value: parametros.tipoParametro.value,label: parametros.tipoParametro.label }]}
-                                    defaultValue={{value: "", label: ""}}
+                                    value={[{ value: parametros.tipoParametro.value, label: parametros.tipoParametro.label }]}
+                                    defaultValue={{ value: "", label: "" }}
                                     name="tipoParamentro"
                                     placeholder="Selecione o tipo correspondente do parâmetro."
                                     onChange={(e: any) => { handleChangeSelectTipo(e) }}
+                                    onCreateOption={(e: any) => { createTipoOption(e); }}
                                     options={tipos}
                                 />
                             </Col>
@@ -275,6 +275,7 @@ export default function EditarParametro() {
                                     name="unidade"
                                     placeholder="Selecione a unidade de medida do parâmetro."
                                     onChange={(e: any) => { handleChangeSelectUnidade(e) }}
+                                    onCreateOption={(e: any) => { createMedidaOption(e); }}
                                     options={unidadeMedidas}
                                 />
                             </Col>
@@ -307,11 +308,11 @@ export default function EditarParametro() {
                         </Row>
 
                         <div className="create-alert-button">
-                            <Button 
-                                type="submit" 
-                                label="Criar!" 
-                                className="btnCriar" 
-                                /* onClick={handleSubmit} */ 
+                            <Button
+                                type="submit"
+                                label="Editar!"
+                                className="btnCriar"
+                            /* onClick={handleSubmit} */
                             />
                         </div>
                     </div>

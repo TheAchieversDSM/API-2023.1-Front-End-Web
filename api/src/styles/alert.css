@@ -1,0 +1,16 @@
+.btn-alert{
+    margin-left: 800px;
+}
+
+.alert-container{
+position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  margin: 20px;
+  width: 70%;
+}
+
+.alerta{
+    margin-left:10%;
+}

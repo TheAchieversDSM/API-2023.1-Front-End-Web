@@ -1,75 +1,73 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 
 // components ✨
-import Input from "../components/input";
-import SelectMulti from "../components/select";
-import Sidebar from "../components/sidebar";
-import Button from "../components/button";
-import { parseCookies } from "nookies";
-import "../styles/criar-usuarios.css";
-import { Col, Row, Form } from "react-bootstrap";
+import { Col, Row, Form } from 'react-bootstrap';
+import Input from '../components/input';
+import SelectMulti from '../components/select';
+import Sidebar from '../components/sidebar';
+import Button from '../components/button'
+import Swal from 'sweetalert2'
 
-const options = [
-  { value: "1", label: "Administrador" },
-  { value: "2", label: "Comum" },
-];
+import { parseCookies } from "nookies";
+
+import '../styles/criar-usuarios.css'
+
+const options = [{ value: '1', label: 'Administrador' }, { value: '2', label: 'Comum' }]
 
 export default function CriarUsuarios() {
-  const tipoUsuario = { value: "", label: "" };
-  const cookies = parseCookies();
-  const [usuario, setUsuario] = useState({
-    nome: "",
-    email: "",
-    tipoUsuario: tipoUsuario,
-    senha: "",
-  });
+    const cookies = parseCookies();
 
-  // inputs' handleChange ✨
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
+    const tipoUsuario = { value: '', label: '' }
 
-    setUsuario((prevState: any) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
-  };
+    const [usuario, setUsuario] = useState({
+        nome: '',
+        email: '',
+        tipoUsuario: tipoUsuario,
+        senha: '',
+    })
 
-  // select's handleChange ✨
-  const handleChangeSelect = (event: any) => {
-    if (event.length != 0 && event) {
-      setUsuario((prevState) => {
-        return {
-          ...prevState,
-          tipoUsuario: event[0].value,
-        };
-      });
-    }
-  };
+    // inputs' handleChange ✨
+    const handleChange = (event: any) => {
+        const { name, value } = event.target;
 
-  const handleSubmit = (event: any) => {
-    for (
-      let index = 0;
-      index < event.target.querySelectorAll("input").length;
-      index++
-    ) {
-      event.target.querySelectorAll("input")[index].value = "";
-    }
+        setUsuario((prevState: any) => {
+            return {
+                ...prevState,
+                [name]: value,
+            };
+        });
+    };
 
-    axios
-      .post(
-        `http://localhost:5000/user/cadastro`,
-        {
-          // colocar o campo de tipo aqui
-          nome: usuario.nome,
-          email: usuario.email,
-          senha: usuario.senha,
+    // select's handleChange ✨
+    const handleChangeSelect = (event: any) => {
+        if (event.length != 0 && event) {
+            setUsuario((prevState) => {
+                return {
+                    ...prevState,
+                    tipoUsuario: event[0].value,
+                };
+            });
+        }
+    };
+
+    const handleSubmit = (event: any) => {
+        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
+            event.target.querySelectorAll("input")[index].value = ""
+        }
+
+        event.preventDefault()
+
+        axios.post(`http://localhost:5000/user/cadastro`, {
+            // colocar o campo de tipo aqui
+            nome: usuario.nome,
+            email: usuario.email,
+            senha: usuario.senha
         },
-        { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
-      )
-      .then((res) => {});
+             { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } } 
+        ).then((res) => {
+
+        })
 
         Swal.fire({
             title: 'Usuário cadastrado!',
@@ -77,43 +75,43 @@ export default function CriarUsuarios() {
             icon: 'success',
             confirmButtonText: 'OK!'
         })
-    };  
     };
 
-  return (
-    <>
-      <Form onSubmit={handleSubmit}>
-        <Sidebar />
+    return (
+        <>
+            <Form onSubmit={handleSubmit}>
+                <Sidebar />
 
-        <div className="main-body">
-          <h1 className="TitImp">Cadastro de Usuários</h1>
+                <div className="main-body">
+                    <h1 className="TitImp">Cadastro de Usuários</h1>
 
-          <div className="box-create-user">
-            <Row className="create-alert-content">
-              <Col md={6}>
-                <Input
-                  label="Nome"
-                  name="nome"
-                  size="mb-6"
-                  type="text"
-                  placeholder="Insira o nome do usuário."
-                  onChange={handleChange}
-                />
-              </Col>
+                    <div className="box-create-user">
 
-              <Col md={5}>
-                <Input
-                  label="E-mail"
-                  name="email"
-                  size="mb-6"
-                  type="email"
-                  placeholder="Insira o e-mail do usuário."
-                  onChange={handleChange}
-                />
-              </Col>
-            </Row>
+                        <Row className="create-alert-content">
+                            <Col md={6}>
+                                <Input
+                                    label="Nome"
+                                    name="nome"
+                                    size="mb-6"
+                                    type="text"
+                                    placeholder="Insira o nome do usuário."
+                                    onChange={handleChange}
+                                />
+                            </Col>
 
-            {/* <Row className="create-alert-content">
+                            <Col md={5}>
+                                <Input
+                                    label="E-mail"
+                                    name="email"
+                                    size="mb-6"
+                                    type="email"
+                                    placeholder="Insira o e-mail do usuário."
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                        </Row>
+
+                        {/* <Row className="create-alert-content">
                             <Col md={11}>
                                 <SelectMulti
                                     label="Nível de Acesso"

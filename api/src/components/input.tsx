@@ -1,13 +1,21 @@
 import React from 'react'
 
-import { FloatingLabel, Form } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 
 export default function Input(props: any) {
     return (
         <Form.Group className={props.size}>
             <Form.Label>{props.label}</Form.Label>
 
-            <Form.Control required defaultValue={props.default} name={props.name} type={props.type} placeholder={props.placeholder} onChange={props.onChange}/>
+            <Form.Control 
+                defaultValue={props.default} 
+                name={props.name} 
+                type={props.type} 
+                placeholder={props.placeholder} 
+                onChange={props.onChange}  
+                step="any"
+            />
+
         </Form.Group>
     )
 }

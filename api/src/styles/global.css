@@ -7,13 +7,13 @@
     box-sizing: border-box;
 }
 
-body{
+body {
     background-color: #EDF0F9 !important;
 }
 
-.TitImp{
+.TitImp {
     position: absolute;
-    left: 25% ;
+    left: 25%;
     top: 47px !important;
 
     font-style: normal !important;
@@ -39,4 +39,16 @@ body{
     --trans-03: all 0.3s ease;
     --trans-04: all 0.4s ease;
     --trans-05: all 0.5s ease;
+}
+
+.colored-toast.swal2-icon-info {
+    background-color: #dfdb16 !important;
+}
+
+.colored-toast.swal2-icon-warning {
+    background-color: #ec9a00 !important;
+}
+
+.colored-toast.swal2-icon-error {
+    background-color: #df1616 !important;
 }

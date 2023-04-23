@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { parseCookies } from "nookies";
+
 // components ✨
 import { Col, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
@@ -11,66 +11,70 @@ import Sidebar from "../components/sidebar";
 import Button from "../components/button";
 import Swal from 'sweetalert2'
 
+import { parseCookies } from "nookies";
+
 import "../styles/criar-alertas.css";
 
 const options = [
-  { value: 1, label: "Atenção" },
-  { value: 2, label: "Perigo" },
-  { value: 3, label: "Crítico" },
+    { value: 1, label: "Atenção" },
+    { value: 2, label: "Perigo" },
+    { value: 3, label: "Crítico" },
 ];
 
 interface IAlerta {
-  nome?: string;
-  valorMinimo?: string;
-  valorMax?: string;
-  nivel?: number;
-  parametro_id?: number;
+    nome?: string;
+    valorMinimo?: string;
+    valorMax?: string;
+    nivel?: number;
+    parametro: {parametro_id?: number};
 }
 
 export default function EditarAlertas() {
-  const { Select } = Form;
-  const cookies = parseCookies();
-  const { id } = useParams();
-      
-  const [parametros, setParametros] = useState<{ label: any; value: any; }[]>([]);
+    const cookies = parseCookies();
 
-  const nivel = { value: 0, label: "" };
+    const { Select } = Form;
 
-  const [alerta2, setAlerta2] = useState<IAlerta>();
+    const { id } = useParams();
 
-  const [alerta, setAlerta] = useState({
-    nome: "",
-    valorMin: "",
-    valorMax: "",
-    nivel: "",
-    parametro_id: "";
-  });
+    const nivel = { value: 0, label: "" };
 
-  // inputs' handleChange ✨
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
+    const [parametros, setParametros] = useState<{ label: any; value: any; }[]>([]);
 
-    setAlerta((prevState: any) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
+    const [alerta2, setAlerta2] = useState<IAlerta>()
+
+    const [alerta, setAlerta] = useState({
+        nome: "",
+        valorMin: "",
+        valorMax: "",
+        nivel: "",
+        parametro_id: ""
     });
-  };
 
-  // select's handleChange ✨
-  const handleChangeSelect = (event: any) => {
-    if (event.length != 0 && event) {
-      setAlerta((prevState) => {
-        return {
-          ...prevState,
-          nivel: event.target.value,
-        };
-      });
-    }
-  };
-  
-      const handleChangeSelectParametro = (event: any) => {
+    // inputs' handleChange ✨
+    const handleChange = (event: any) => {
+        const { name, value } = event.target;
+
+        setAlerta((prevState: any) => {
+            return {
+                ...prevState,
+                [name]: value,
+            };
+        });
+    };
+
+    // select's handleChange ✨
+    const handleChangeSelect = (event: any) => {
+        if (event.length != 0 && event) {
+            setAlerta((prevState) => {
+                return {
+                    ...prevState,
+                    nivel: event.target.value,
+                };
+            });
+        }
+    };
+
+    const handleChangeSelectParametro = (event: any) => {
         if (event.length != 0 && event) {
             setAlerta((prevState) => {
                 return {
@@ -81,128 +85,125 @@ export default function EditarAlertas() {
         }
     };
 
-  const handleSubmit = (event: any) => {
-    for (
-      let index = 0;
-      index < event.target.querySelectorAll("input").length;
-      index++
-    ) {
-      event.target.querySelectorAll("input")[index].value = "";
-    }
+    const handleSubmit = (event: any) => {
+        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
+            event.target.querySelectorAll("input")[index].value = ""
+        }
 
-    event.preventDefault();
+        event.preventDefault();
 
-    if (alerta.nome.length === 0) {
-      alerta.nome = alerta2?.nome ?? "";
-    }
-    if (alerta.valorMin.length === 0) {
-      alerta.valorMin = alerta2?.valorMinimo ?? "";
-    }
-    if (alerta.valorMax.length === 0) {
-      alerta.valorMax = alerta2?.valorMax ?? "";
-    }
-    if (alerta.nivel.length === 0) {
-      alerta.nivel = alerta2?.nivel?.toString() ?? "";
-    }
+        if (alerta.nome.length === 0) {
+            alerta.nome = alerta2?.nome ?? ''
+        }
+        if (alerta.valorMin.length === 0) {
+            alerta.valorMin = alerta2?.valorMinimo ?? ''
+        }
+        if (alerta.valorMax.length === 0) {
+            alerta.valorMax = alerta2?.valorMax ?? ''
+        }
+        if (alerta.nivel.length === 0) {
+            alerta.nivel = alerta2?.nivel?.toString() ?? ''
+        }
 
-    axios
-      .put(
-        `http://localhost:5000/alerta/atualizarAlertaPorId/${id}`,
-        {
-           nome: alerta.nome,
+        axios.put(`http://localhost:5000/alerta/atualizarAlertaPorId/${id}`, {
+            nome: alerta.nome,
             valorMinimo: alerta.valorMin,
             valorMax: alerta.valorMax,
             nivel: parseInt(alerta.nivel),
-            parametro_id: parseInt(alerta.parametro_id)
+            parametro_id: Number(alerta2?.parametro.parametro_id)
         },
-        { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
-      )
-      .then((res) => {});
+            { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+        ).then((res) => {
+
+        });
 
         Swal.fire({
             title: 'Alerta atualizado!',
             text: `O alerta ${alerta.nome} foi atualizado com sucesso!`,
             icon: 'success',
             confirmButtonText: 'OK!'
-        })  
-     };
-
-  useEffect(() => {
-    async function render() {
-      axios
-        .get(`http://localhost:5000/alerta/pegarAlertasPorId/${id}`, {
-          headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
         })
-        .then((res) => {
-          setAlerta2(res.data);
-        });
-        
-        axios.get(`http://localhost:5000/parametro/pegarParametros`).then((res) => {
+    };
+
+    useEffect(() => {
+        async function render() {
+            axios.get(`http://localhost:5000/alerta/pegarAlertasPorId/${id}`,
+                {
+                    headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+                }).then((res) => {
+                    setAlerta2(res.data)
+                })
+
+            axios.get(`http://localhost:5000/parametro/pegarParametros`,
+                {
+                    headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+                }).then((res) => {
                 var param = []
 
                 for (let index = 0; index < res.data.length; index++) {
-                    const opt = {label: res.data[index].nome, value: res.data[index].parametro_id}
-                    
+                    const opt = { label: res.data[index].nome, value: res.data[index].parametro_id }
+
                     param.push(opt)
                 }
 
-                setParametros(param);                
+                setParametros(param);
             })
-    }
+        }
 
-    render();
-  }, []);
+        render()
+    }, [])
 
-  return (
-    <Form onSubmit={handleSubmit}>
-      <Sidebar />
+    return (
+        <Form onSubmit={handleSubmit}>
+            <Sidebar />
 
-      <div className="main-body">
-        <h1 className="TitImp">Edição de Alertas</h1>
+            <div className="main-body">
+                <h1 className="TitImp">Edição de Alertas</h1>
 
-        <div className="box-create">
-          <Row className="create-alert-content">
-            <Col md={11}>
-              <Input
-                label="Nome do alerta"
-                name="nome"
-                size="mb-6"
-                type="text"
-                placeholder="Insira o nome do alerta."
-                onChange={handleChange}
-                default={alerta2?.nome}
-              />
-            </Col>
-          </Row>
-
-          <Row className="create-alert-content">
-            <Col md={5}>
-              <Input
-                label="Valor Mínimo"
-                name="valorMin"
-                size="mb-6"
-                type="number"
-                placeholder="Insira o valor mínimo do alerta."
-                onChange={handleChange}
-                default={alerta2?.valorMinimo}
-              />
-            </Col>
-
-            <Col md={6}>
-              <Input
-                label="Valor Máximo"
-                name="valorMax"
-                size="mb-6"
-                type="number"
-                placeholder="Insira o valor máximo do alerta."
-                onChange={handleChange}
-                default={alerta2?.valorMax}
-              />
-            </Col>
-          </Row>
+                <div className="box-create">
+                    <Row className="create-alert-content">
+                        <Col md={11}>
+                            <Input
+                                label="Nome do alerta"
+                                name="nome"
+                                size="mb-6"
+                                type="text"
+                                placeholder="Insira o nome do alerta."
+                                onChange={handleChange}
+                                default={alerta2?.nome}
+                            />
+                        </Col>
+                    </Row>
 
                     <Row className="create-alert-content">
+
+                        <Col md={6}>
+                            <Input
+                                label="Valor Máximo"
+                                name="valorMax"
+                                size="mb-6"
+                                type="number"
+                                placeholder="Insira o valor máximo do alerta."
+                                onChange={handleChange}
+                                default={alerta2?.valorMax}
+                            />
+                        </Col>
+
                         <Col md={5}>
+                            <Input
+                                label="Valor Mínimo"
+                                name="valorMin"
+                                size="mb-6"
+                                type="number"
+                                placeholder="Insira o valor mínimo do alerta."
+                                onChange={handleChange}
+                                default={alerta2?.valorMinimo}
+                            />
+                        </Col>
+                    </Row>
+
+                    <Row className="create-alert-content">
+                        <Col md={11}>
                             <Form.Label>Nível</Form.Label>
                             <Select onChange={handleChangeSelect} value={alerta.nivel}>
                                 {options.map((option) => (
@@ -213,7 +214,7 @@ export default function EditarAlertas() {
                             </Select>
                         </Col>
 
-                        <Col md={6}>
+                        {/* <Col md={6}>
                             <SelectMulti
                                 label="Parâmetros"
                                 size="mb-3"
@@ -223,19 +224,19 @@ export default function EditarAlertas() {
                                 onChange={(e: any) => { handleChangeSelectParametro(e); }}
                                 close={false}
                             />
-                        </Col>
+                        </Col> */}
                     </Row>
 
-          <div className="create-alert-button">
-            <Button
-              type="submit"
-              label="Criar!"
-              className="btnCriar"
-              /* onClick={handleSubmit} */
-            />
-          </div>
-        </div>
-      </div>
-    </Form>
-  );
+                    <div className="create-alert-button">
+                        <Button
+                            type="submit"
+                            label="Editar!"
+                            className="btnCriar"
+                        /* onClick={handleSubmit} */
+                        />
+                    </div>
+                </div>
+            </div>
+        </Form>
+    );
 }

@@ -1,17 +1,18 @@
-import Table from "react-bootstrap/Table";
-import "../../styles/table.css";
-import Button from "react-bootstrap/Button";
-import { BsXOctagon, BsEye, BsPencil, BsCheckLg } from "react-icons/bs";
-import { FaChartLine } from "react-icons/fa";
-import { useEffect, useState, useContext } from "react";
-import axios from "axios";
-import MyVerticallyCenteredModal from "../modal";
-import React from "react";
-import { Link } from "react-router-dom";
-import Search from "../search";
-import { Tab, Tabs } from "react-bootstrap";
-import { AuthContext } from "../../hooks/useAuth";
-import { parseCookies } from "nookies";
+import Table from 'react-bootstrap/Table';
+import "../../styles/table.css"
+import Button from 'react-bootstrap/Button';
+import { BsXOctagon, BsEye, BsPencil, BsCheckLg, BsClipboard2 } from 'react-icons/bs'
+import { FaChartLine } from 'react-icons/fa'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import MyVerticallyCenteredModal from '../modal';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Search from '../search';
+import { Tab, Tabs } from 'react-bootstrap';
+import { parseCookies } from 'nookies';
+import Swal from 'sweetalert2'
+
 interface IEstacao {
   estacao_parametro: any;
   ativo?: number;
@@ -45,84 +46,68 @@ export default function TableEst() {
   const [inativos, setInativos] = useState<IEstacao[]>([]);
   const [modalShow, setModalShow] = React.useState(false);
   const [modalData, setModalData] = React.useState<IEstacao>();
-  const [searchTerm, setSearchTerm] = useState("");
-  const { isAuthenticated, user } = useContext(AuthContext);
-  console.log(isAuthenticated);
+  const [searchTerm, setSearchTerm] = useState('');
+  const cookies = parseCookies();
+
   const handleShowModal = (estacao: IEstacao) => {
     setModalData(estacao);
     setModalShow(true);
   };
-  const cookies = parseCookies();
-
-    useEffect(() => {
-        function render(){
-            axios.get("http://localhost:5000/estacao/pegarEstacoesAtivas", {
-            headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },).then((res)=>{
-                setEstacoes(res.data)
-            })
-        }
-        render()
-    },[])
-
-    useEffect(() => {
-        function render(){
-            axios.get("http://localhost:5000/estacao/pegarEstacoesInativas").then((res)=>{
-                setInativos(res.data)
-            })
-        }
-        render()
-    },[])
-
-    function handleChange(estacoes : IEstacao) {
-      const id = estacoes.estacao_id;
-      const ativo = estacoes.ativo === 1 ? 0 : 1;
-      axios.put(`http://localhost:5000/estacao/atualizarEstado/${id}`, { ativo })
-        .then((response) => {
-          // fazer algo com a resposta, se necessário
-          window.location.reload();
-        })
-        .then((res) => {
-          setEstacoes(res.data);
-        });
-    }
-    render();
-  }, []);
 
   useEffect(() => {
     function render() {
-      axios
-        .get("http://localhost:5000/estacao/pegarEstacoesInativas", {
-          headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
-        })
-        .then((res) => {
-          setInativos(res.data);
-        });
+      axios.get("http://localhost:5000/estacao/pegarEstacoesAtivas").then((res) => {
+        setEstacoes(res.data)
+      })
     }
-    render();
-  }, []);
+    render()
+  }, [])
+
+  useEffect(() => {
+    function render() {
+      axios.get("http://localhost:5000/estacao/pegarEstacoesInativas").then((res) => {
+        setInativos(res.data)
+      })
+    }
+    render()
+  }, [])
 
   function handleChange(estacoes: IEstacao) {
     const id = estacoes.estacao_id;
     const ativo = estacoes.ativo === 1 ? 0 : 1;
-    axios
-      .put(
-        `http://localhost:5000/estacao/atualizarEstado/${id}`,
-        { ativo },
-        { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
-      )
-      .then((response) => {
-        // fazer algo com a resposta, se necessário
-        console.log(response.data);
-        window.location.reload();
-      })
-      .catch((error) => {
-        // tratar o erro, se necessário
-        console.error(error);
-      });
+
+    Swal.fire({
+      title: 'Alterar status da estação?',
+      text: `Deseja alterar o status da estação ${estacoes.nome}?`,
+      icon: 'warning',
+      showDenyButton: true,
+      confirmButtonText: 'Alterar!',
+      denyButtonText: `Não alterar`,
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        Swal.fire('Atualizado!', '', 'success')
+
+        axios.put(`http://localhost:5000/estacao/atualizarEstado/${id}`, { ativo },
+          { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+        )
+          .then((response) => {
+            // fazer algo com a resposta, se necessário
+            window.location.reload();
+          })
+          .catch((error) => {
+            // tratar o erro, se necessário
+            console.error(error);
+          });
+      }
+    })
   }
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(event.target.value);
+  }
+
+  function nomeEstacaoDashboard(nome: any) {
+    localStorage.setItem("estacaoNome", nome)
   }
 
   function renderTableRows() {
@@ -134,10 +119,7 @@ export default function TableEst() {
 
         if (
           estacao.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          estacao.estacao_id
-            .toString()
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
+          estacao.estacao_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
         ) {
           return true;
         }
@@ -151,17 +133,10 @@ export default function TableEst() {
           <td>{estacao.lati}</td>
           <td>{estacao.long}</td>
           <td>
-            <Link to={`/dashboard/${estacao.estacao_id}`}>
-              <Button className="bt bt-record">
-                <FaChartLine className="icon" />
-              </Button>
-            </Link>
-            <Button
-              className="bt bt-view"
-              onClick={() => handleShowModal(estacao)}
-            >
-              <BsEye className="icon" />
-            </Button>
+            <Link to={`/dashboard/${estacao.estacao_id}`} onClick={() => nomeEstacaoDashboard(estacao.nome)}><Button className="bt bt-dash"><FaChartLine className="icon" /></Button></Link>
+            <Link to={`/reports/${estacao.uid}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
+            <Button className="bt bt-view" onClick={() => handleShowModal(estacao)}><BsEye className="icon" /></Button>
+
             {cookies["tecsus.token"] ? (
               <>
                 <Link to={`/editar-estacao/${estacao.estacao_id}`}>
@@ -169,12 +144,7 @@ export default function TableEst() {
                     <BsPencil className="icon" />
                   </Button>
                 </Link>
-                <Button className="bt bt-delete">
-                  <BsXOctagon
-                    className="icon"
-                    onClick={() => handleChange(estacao)}
-                  />
-                </Button>
+                <Button className="bt bt-delete"><BsXOctagon className="icon" onClick={() => handleChange(estacao)} /></Button>
               </>
             ) : null}
           </td>
@@ -191,10 +161,7 @@ export default function TableEst() {
 
         if (
           inativo.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          inativo.estacao_id
-            .toString()
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
+          inativo.estacao_id.toString().toLowerCase().includes(searchTerm.toLowerCase())
         ) {
           return true;
         }
@@ -208,32 +175,15 @@ export default function TableEst() {
           <td>{inativo.lati}</td>
           <td>{inativo.long}</td>
           <td>
-            <Link to={`/dashboard/${inativo.estacao_id}`}>
-              <Button className="bt bt-record">
-                <FaChartLine className="icon" />
+            <Link to={`/dashboard/${inativo.estacao_id}`}><Button className="bt bt-dash"><FaChartLine className="icon" /></Button></Link>
+            <Link to={`/reports/${inativo.uid}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
+            <Button className="bt bt-view" onClick={() => handleShowModal(inativo)}><BsEye className="icon" /></Button>
+            <Link to={`/editar-estacao/${inativo.estacao_id}`}>
+              <Button className="bt bt-edit">
+                <BsPencil className="icon" />
               </Button>
             </Link>
-            <Button
-              className="bt bt-view"
-              onClick={() => handleShowModal(inativo)}
-            >
-              <BsEye className="icon" />
-            </Button>
-            {cookies["tecsus.token"] ? (
-              <>
-                <Link to={`/editar-estacao/${inativo.estacao_id}`}>
-                  <Button className="bt bt-edit">
-                    <BsPencil className="icon" />
-                  </Button>
-                </Link>
-                <Button
-                  className="bt bt-active"
-                  onClick={() => handleChange(inativo)}
-                >
-                  <BsCheckLg className="icon" />
-                </Button>
-              </>
-            ) : null}
+            <Button className="bt bt-active" onClick={() => handleChange(inativo)}><BsCheckLg className="icon" /></Button>
           </td>
         </tr>
       ));
@@ -262,28 +212,17 @@ export default function TableEst() {
                   {...modalData}
                   onHide={() => setModalShow(false)}
                   titulo={modalData?.nome}
-                  coluna1="ID: "
-                  resp1={modalData?.estacao_id}
-                  coluna2="Latitude: "
-                  resp2={modalData?.lati}
-                  coluna3="Longitude: "
-                  resp3={modalData?.long}
-                  coluna4="UID: "
-                  resp4={modalData?.uid}
-                  coluna5="UTC: "
-                  resp5={modalData?.UTC}
-                  coluna6="UnixTime: "
-                  resp6={modalData?.unixtime}
-                  coluna7="Parâmetros: "
-                  resp7={modalData?.parametros?.map((itens) => {
+                  coluna1="ID: " resp1={modalData?.estacao_id}
+                  coluna2="Latitude: " resp2={modalData?.lati}
+                  coluna3="Longitude: " resp3={modalData?.long}
+                  coluna4="UID: " resp4={modalData?.uid}
+                  coluna5="UTC: " resp5={modalData?.UTC}
+                  coluna6="UnixTime: " resp6={modalData?.unixtime}
+                  coluna7="Parâmetros: " resp7={modalData?.parametros?.map((itens) => {
                     return (
                       <div key={itens.parametro_id}>
                         <ul>
-                          <li>
-                            <b>Nome:</b> {itens?.nome} <b>Tipo: </b>
-                            {itens?.tipo?.nome} <b>Unidade de medida: </b>
-                            {itens?.unidadeDeMedida?.nome}
-                          </li>
+                          <li><b>Nome:</b> {itens?.nome}  <b>Tipo: </b>{itens?.tipo?.nome}  <b>Unidade de medida: </b>{itens?.unidadeDeMedida?.nome}</li>
                         </ul>
                       </div>
                     );
@@ -292,22 +231,26 @@ export default function TableEst() {
               </tbody>
             </Table>
           </Tab>
-          <Tab eventKey="inativo" title="Inativos">
-            <Table className="table" size="sm">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nome</th>
-                  <th>Latitude</th>
-                  <th>Longitude</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>{renderTableRowsInativos()}</tbody>
-            </Table>
-          </Tab>
+          {cookies["tecsus.token"] ? (
+            <Tab eventKey="inativo" title="Inativos">
+              <Table className="table" size="sm">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {renderTableRowsInativos()}
+                </tbody>
+              </Table>
+            </Tab>
+          ) : null}
         </Tabs>
       </div>
     </>
-  );
+  )
 }
