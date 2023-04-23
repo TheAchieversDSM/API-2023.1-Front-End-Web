@@ -17,15 +17,6 @@ export default function HOME() {
             <h1 className="tituloHome">Bem-vindo à Tecsus!</h1>
 
             <div className="row pack">
-                <div className="boxRotas col-3">
-                    <Link to="/estacoes">
-                        <button className="btn-rotas">
-                            <BsSignpostSplit className="icon" />
-                            <p>Estações</p>
-                        </button>
-                    </Link>
-                </div>
-
                 {cookies["tecsus.token"] ? (
                     <>
                         <div className="boxRotas col-3">
@@ -46,20 +37,29 @@ export default function HOME() {
                                 <p>Alertas</p>
                             </button>
                         </div>
-
-                        <div className="boxRotas col-3">
-                            <Link to="/usuarios">
-                                <button className="btn-rotas">
-                                    <BsPerson className="icon" />
-                                    <p>Usuários</p>
-                                </button>
-                            </Link>
-                        </div>
                     </>
                 ) : null}
 
+                <div className="boxRotas col-3">
+                    <Link to="/estacoes">
+                        <button className="btn-rotas">
+                            <BsSignpostSplit className="icon" />
+                            <p>Estações</p>
+                        </button>
+                    </Link>
+                </div>
 
-            </div>
+                {cookies["tecsus.token"] ? (
+                    <div className="boxRotas col-3">
+                        <Link to="/usuarios">
+                            <button className="btn-rotas">
+                                <BsPerson className="icon" />
+                                <p>Usuários</p>
+                            </button>
+                        </Link>
+                    </div>
+                ) : null}
+        </div >
         </>
     )
 }

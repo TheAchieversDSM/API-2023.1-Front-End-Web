@@ -66,28 +66,32 @@ tr{
 }
 
 .bt-record{
-    background: #e806b0 !important;
+    background: #2BF400 !important;
     transition: 0.3s;
 }
 .bt-record:hover{
-    background: #d00099 !important;
+    background: #21b101 !important;
     transition: 0.3s;
 }
 
 .bt-dash{
-    background: #b502e6 !important;
+    background: #655ef0 !important;
     transition: 0.3s;
 }
 .bt-dash:hover{
-    background: #9a00c5 !important;
+    background: #5b54d6 !important;
     transition: 0.3s;
 }
 
-.bt-active{
+.bt-active,
+.swal2-styled.swal2-confirm {
     background: #00dc07 !important;
     transition: 0.3s;
+    border: none !important;
 }
-.bt-active:hover{
+
+.bt-active:hover,
+.swal2-styled.swal2-confirm:hover {
     background: #39b500 !important;
     transition: 0.3s;
 }

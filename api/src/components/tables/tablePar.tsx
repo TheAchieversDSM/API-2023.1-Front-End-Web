@@ -9,6 +9,7 @@ import Search from "../search";
 import { Tab, Tabs } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { parseCookies } from "nookies";
+import Swal from 'sweetalert2'
 
 interface IParametro {
 	parametro_id: number;
@@ -75,20 +76,31 @@ export default function TablePar(props: any) {
 	function handleChange(parametros: IParametro) {
 		const id = parametros.parametro_id;
 		const ativo = parametros.ativo === 1 ? 0 : 1;
-		axios
-			.put(
-				`http://localhost:5000/parametro/atualizarEstado/${id}`,
-				{ ativo },
+
+		Swal.fire({
+			title: 'Alterar status do parâmetro?',
+			text: `Deseja alterar o status do parâmetro ${parametros.nome}?`,
+            icon: 'warning',
+			showDenyButton: true,
+			confirmButtonText: 'Alterar!',
+			denyButtonText: `Não alterar`,
+		}).then((result: any) => {
+			if (result.isConfirmed) {
+				Swal.fire('Atualizado!', '', 'success')
+
+				axios.put(`http://localhost:5000/parametro/atualizarEstado/${id}`,{ ativo },
 				{ headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
-			)
-			.then((response) => {
-				// fazer algo com a resposta, se necessário
-				window.location.reload();
-			})
-			.catch((error) => {
-				// tratar o erro, se necessário
-				console.error(error);
-			});
+				)
+				.then((response) => {
+					// fazer algo com a resposta, se necessário
+					window.location.reload();
+				})
+				.catch((error) => {
+					// tratar o erro, se necessário
+					console.error(error);
+				});
+			}
+		})
 	}
 
 	function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {

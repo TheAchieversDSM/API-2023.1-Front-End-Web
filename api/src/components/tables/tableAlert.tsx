@@ -10,6 +10,7 @@ import Search from '../search';
 import { Tab, Tabs } from 'react-bootstrap';
 import { AuthContext } from "../../hooks/useAuth";
 import { parseCookies } from "nookies";
+import Swal from 'sweetalert2'
 
 interface IAlerta {
 	alerta_id: number;
@@ -64,24 +65,31 @@ export default function TableAlert() {
 	function handleChange(alertas: IAlerta) {
 		const id = alertas.alerta_id;
 		const ativo = alertas.ativo === 1 ? 0 : 1;
-		axios
-			.put(
-				`http://localhost:5000/alerta/atualizarEstado/${id}`,
-				{ ativo },
-				{
-					headers: {
-						Authorization: `Bearer ${cookies["tecsus.token"]}`,
-					},
-				}
-			)
-			.then((response) => {
-				// fazer algo com a resposta, se necessário
-				window.location.reload();
-			})
-			.catch((error) => {
-				// tratar o erro, se necessário
-				console.error(error);
-			});
+
+		Swal.fire({
+			title: 'Alterar status do alerta?',
+			text: `Deseja alterar o status do alerta ${alertas.nome}?`,
+            icon: 'warning',
+			showDenyButton: true,
+			confirmButtonText: 'Alterar!',
+			denyButtonText: `Não alterar`,
+		}).then((result: any) => {
+			if (result.isConfirmed) {
+				Swal.fire('Atualizado!', '', 'success')
+
+				axios.put(`http://localhost:5000/alerta/atualizarEstado/${id}`,{ ativo },
+				{ headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+				)
+				.then((response) => {
+					// fazer algo com a resposta, se necessário
+					window.location.reload();
+				})
+				.catch((error) => {
+					// tratar o erro, se necessário
+					console.error(error);
+				});
+			}
+		})
 	}
 	
 	function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {

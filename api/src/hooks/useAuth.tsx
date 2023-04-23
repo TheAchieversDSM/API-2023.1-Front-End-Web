@@ -8,6 +8,7 @@ import {
     SetStateAction,
   } from "react";
   import Cookies from "js-cookie";
+  import Swal from 'sweetalert2'
   
   import { useNavigate } from "react-router-dom";
   
@@ -42,7 +43,7 @@ import {
     Cookies.remove("tecsus.token");
     Cookies.remove("tecsus.user_id");
 
-	window.location.href = 'http://localhost:3000/home'
+	  window.location.href = 'http://localhost:3000/home'
   }
   
   export function AuthProvider({ children }: AuthProviderProps) {
@@ -69,7 +70,12 @@ import {
   
         setUser(data);
       } catch (error) {
-        alert("Parece que o usuário ou senha está incorreta.");
+        Swal.fire({
+          title: 'Usuário e/ou senha incorretos!',
+          text: `Parece que o usuário ou senha está incorreta.`,
+          icon: 'error',
+          confirmButtonText: 'Tentar novamente!'
+        })
         console.log(error);
       }
     }

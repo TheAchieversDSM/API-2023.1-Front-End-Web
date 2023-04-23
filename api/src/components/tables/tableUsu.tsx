@@ -9,6 +9,7 @@ import Search from '../search';
 import { Form, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { parseCookies } from "nookies";
+import Swal from 'sweetalert2'
 
 import '../../styles/modal.css';
 interface IUser {
@@ -48,25 +49,35 @@ export default function TableUsu() {
 	}
 
 	function handleDelete(id: number) {
-		axios
-			.delete(`http://localhost:5000/user/deletarUsuario`, {
-				data: { id },
-				headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
-			})
-			.then(() => {
-				// Atualiza a lista de usuários após a exclusão
-				axios
-					.get("http://localhost:5000/user/pegarUsuarios", {
+		Swal.fire({
+			title: 'Deletar usuário?',
+			text: `Deseja deletar o usuário?`,
+			icon: 'warning',
+			showDenyButton: true,
+			confirmButtonText: 'Deletar!',
+			denyButtonText: `Não deletar`,
+		}).then((result: any) => {
+			if (result.isConfirmed) {
+				Swal.fire('Deletado!', '', 'success')
+
+				axios.delete(`http://localhost:5000/user/deletarUsuario`, {
+					data: { id },
+					headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
+				}).then(() => {
+					// Atualiza a lista de usuários após a exclusão
+					axios.get("http://localhost:5000/user/pegarUsuarios", {
 						headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
-					})
-					.then((res) => {
+					}).then((res) => {
 						setUsers(res.data);
 						console.log("Usuário deletado com sucesso");
 					});
-			})
-			.catch((error) => {
-				console.error(error);
-			});
+				}).catch((error) => {
+					console.error(error);
+				});
+			}
+		})
+
+
 	}
 
 	function renderTableRows() {

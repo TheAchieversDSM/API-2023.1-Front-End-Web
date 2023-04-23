@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import Search from '../search';
 import { Tab, Tabs } from 'react-bootstrap';
 import { parseCookies } from 'nookies';
+import Swal from 'sweetalert2'
 
 interface IEstacao {
   estacao_parametro: any;
@@ -74,19 +75,31 @@ export default function TableEst() {
   function handleChange(estacoes: IEstacao) {
     const id = estacoes.estacao_id;
     const ativo = estacoes.ativo === 1 ? 0 : 1;
-    axios.put(`http://localhost:5000/estacao/atualizarEstado/${id}`, { ativo }, {
-      headers: {
-        Authorization: `Bearer ${cookies["tecsus.token"]}`,
-      },
+
+    Swal.fire({
+      title: 'Alterar status da estação?',
+      text: `Deseja alterar o status da estação ${estacoes.nome}?`,
+      icon: 'warning',
+      showDenyButton: true,
+      confirmButtonText: 'Alterar!',
+      denyButtonText: `Não alterar`,
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        Swal.fire('Atualizado!', '', 'success')
+
+        axios.put(`http://localhost:5000/estacao/atualizarEstado/${id}`, { ativo },
+          { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+        )
+          .then((response) => {
+            // fazer algo com a resposta, se necessário
+            window.location.reload();
+          })
+          .catch((error) => {
+            // tratar o erro, se necessário
+            console.error(error);
+          });
+      }
     })
-      .then((response) => {
-        // fazer algo com a resposta, se necessário
-        window.location.reload();
-      })
-      .catch((error) => {
-        // tratar o erro, se necessário
-        console.error(error);
-      });
   }
 
   function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
@@ -219,22 +232,22 @@ export default function TableEst() {
             </Table>
           </Tab>
           {cookies["tecsus.token"] ? (
-          <Tab eventKey="inativo" title="Inativos">
-            <Table className="table" size="sm">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nome</th>
-                  <th>Latitude</th>
-                  <th>Longitude</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {renderTableRowsInativos()}
-              </tbody>
-            </Table>
-          </Tab>
+            <Tab eventKey="inativo" title="Inativos">
+              <Table className="table" size="sm">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {renderTableRowsInativos()}
+                </tbody>
+              </Table>
+            </Tab>
           ) : null}
         </Tabs>
       </div>
