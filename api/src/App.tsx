@@ -7,10 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 // components ✨
 import Routes from './routes/routes';
-import Alerts from './components/alerts';
 import { AuthProvider } from "./hooks/useAuth";
 import { BrowserRouter, Link } from 'react-router-dom';
-import Swal from 'sweetalert2';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,6 +18,7 @@ export default function App() {
 
     const attention = () => toast.info("Alerta: Atenção!", {
         autoClose: 10000,
+        closeButton: false,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -30,6 +29,7 @@ export default function App() {
 
     const perigo = () => toast.warn("Alerta: Perigo!", {
         autoClose: 10000,
+        closeButton: false,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -40,6 +40,7 @@ export default function App() {
 
     const critico = () => toast.error("Alerta: Crítico!", {
         autoClose: 10000,
+        closeButton: false,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -71,11 +72,10 @@ export default function App() {
         }
 
     }, []);
-
     return (
         <BrowserRouter>
             <AuthProvider>
-                <Link to={`/reports/${dados[0].value.estacao}`}><ToastContainer /></Link>
+                <Link to={`/reports/${dados[0]?.value?.estacao}`}><ToastContainer /></Link>
                 <Routes />
             </AuthProvider>
         </BrowserRouter>
