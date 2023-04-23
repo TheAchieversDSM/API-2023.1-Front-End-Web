@@ -203,7 +203,7 @@ export default function EditarAlertas() {
                     </Row>
 
                     <Row className="create-alert-content">
-                        <Col md={5}>
+                        <Col md={11}>
                             <Form.Label>Nível</Form.Label>
                             <Select onChange={handleChangeSelect} value={alerta.nivel}>
                                 {options.map((option) => (
@@ -214,7 +214,7 @@ export default function EditarAlertas() {
                             </Select>
                         </Col>
 
-                        <Col md={6}>
+                        {/* <Col md={6}>
                             <SelectMulti
                                 label="Parâmetros"
                                 size="mb-3"
@@ -224,7 +224,7 @@ export default function EditarAlertas() {
                                 onChange={(e: any) => { handleChangeSelectParametro(e); }}
                                 close={false}
                             />
-                        </Col>
+                        </Col> */}
                     </Row>
 
                     <div className="create-alert-button">
