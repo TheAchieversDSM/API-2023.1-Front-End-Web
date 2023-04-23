@@ -50,7 +50,7 @@ export default function TableReport() {
       }
 
     return (
-        <div className="box-list box-report">
+        <div className="box-list box-report report-caixa">
             <Table className="table" size="sm" >
 
                 <thead>

@@ -10,6 +10,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Search from '../search';
 import { Tab, Tabs } from 'react-bootstrap';
+import { parseCookies } from 'nookies';
 interface IEstacao {
   estacao_parametro: any;
   ativo?: number;
@@ -44,6 +45,7 @@ export default function TableEst() {
   const [modalShow, setModalShow] = React.useState(false);
   const [modalData, setModalData] = React.useState<IEstacao>();
   const [searchTerm, setSearchTerm] = useState('');
+  const cookies = parseCookies();
 
   const handleShowModal = (estacao: IEstacao) => {
     setModalData(estacao);
@@ -71,7 +73,11 @@ export default function TableEst() {
     function handleChange(estacoes : IEstacao) {
       const id = estacoes.estacao_id;
       const ativo = estacoes.ativo === 1 ? 0 : 1;
-      axios.put(`http://localhost:5000/estacao/atualizarEstado/${id}`, { ativo })
+      axios.put(`http://localhost:5000/estacao/atualizarEstado/${id}`, { ativo },{
+        headers: {
+          Authorization: `Bearer ${cookies["tecsus.token"]}`,
+        },
+      })
         .then((response) => {
           // fazer algo com a resposta, se necessário
           window.location.reload();
