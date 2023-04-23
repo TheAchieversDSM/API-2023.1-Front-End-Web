@@ -18,6 +18,10 @@ interface IAlerta {
 	valorMinimo?: string;
 	nivel?: number;
 	ativo?: number;
+	parametro?: {
+		parametro_id: number;
+		nome?: string;
+	}
 }
 
 export default function TableAlert() {
@@ -36,6 +40,7 @@ export default function TableAlert() {
 				})
 				.then((res) => {
 					setAlertas(res.data);
+					console.log(res.data)
 				});
 		}
 		render();
@@ -106,8 +111,9 @@ export default function TableAlert() {
 					<td>{alerta.nivel}</td>
 					<td>{alerta.valorMax}</td>
 					<td>{alerta.valorMinimo}</td>
+					<td>{alerta.parametro?.nome}</td>
 					<td>
-
+					
 						<Link to={`/editar-alerta/${alerta.alerta_id}`}>
 							<Button className="bt bt-edit">
 								<BsPencil className="icon" />
@@ -143,8 +149,8 @@ export default function TableAlert() {
 					<td>{inativo.nivel}</td>
 					<td>{inativo.valorMax}</td>
 					<td>{inativo.valorMinimo}</td>
+					<td>{inativo.parametro?.nome}</td>
 					<td>
-						<Link to={`/reports/${inativo.alerta_id}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
 						<Link to={`/editar-alerta/${inativo.alerta_id}`}>
 							<Button className="bt bt-edit">
 								<BsPencil className="icon" />
@@ -171,6 +177,7 @@ export default function TableAlert() {
 									<th>Nível</th>
 									<th>Valor Máximo</th>
 									<th>Valor Minimo</th>
+									<th>Parâmetro vinculado</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -188,6 +195,7 @@ export default function TableAlert() {
 									<th>Nível</th>
 									<th>Valor Máximo</th>
 									<th>Valor Minimo</th>
+									<th>Parâmetro vinculado</th>
 									<th></th>
 								</tr>
 							</thead>

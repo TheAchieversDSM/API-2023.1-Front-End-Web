@@ -75,7 +75,7 @@ export default function App() {
     return (
         <BrowserRouter>
             <AuthProvider>
-                <Link to={`/reports/${dados[0].value.estacao}`}><ToastContainer /></Link>
+                <Link to={`/reports/${dados[0]?.value?.estacao}`}><ToastContainer /></Link>
                 <Routes />
             </AuthProvider>
         </BrowserRouter>
