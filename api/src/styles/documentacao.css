@@ -1,0 +1,28 @@
+.box-doc{
+    position: fixed;
+    left: 25% !important;
+    top: 15% !important;
+}
+
+.doc-txt{
+    width: 90%;
+}
+
+.doc-txt > b{
+    border-radius: 10px;
+    padding: 1px 10px 1px 10px;
+    color: #FFFF;
+    font-weight: 500;
+}
+
+.txt1 > b{
+    background-color: #3498D9;
+}
+
+.txt2 > b{
+    background-color: #F1C30B;
+}
+
+.txt3 > b{
+    background-color: #E74B3C;
+}
