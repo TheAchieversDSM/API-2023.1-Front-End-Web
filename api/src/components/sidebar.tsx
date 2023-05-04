@@ -8,7 +8,7 @@ import logo from '../images/logo-3.png';
 // components & icons ✨
 import { BsSearch, BsHouse, BsSignpostSplit, BsPerson, BsExclamationTriangle, BsClipboard2Check, BsBarChart, BsBoxArrowInLeft, BsBoxArrowRight } from 'react-icons/bs'
 import { AuthContext } from "../hooks/useAuth";
-import { Button } from "react-bootstrap";
+import { Button, Dropdown, DropdownButton } from "react-bootstrap";
 import { parseCookies } from "nookies";
 
 export default function Sidebar() {
@@ -70,6 +70,18 @@ export default function Sidebar() {
                                 </li>
                             ) : null}
 
+                            <li className="nav-link">
+                                <Dropdown>
+                                    <Dropdown.Toggle>
+                                        <BsHouse className="icon" />
+                                        <span className="text nav-text">Documentação</span>
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item href="/doc-parametro">Parâmetro</Dropdown.Item>
+                                        <Dropdown.Item href="/doc-alerta">Alerta</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </li>
                         </ul>
                     </div>
 
