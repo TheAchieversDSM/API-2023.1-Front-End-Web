@@ -77,7 +77,7 @@ export default function Sidebar() {
                                         <span className="text nav-text">Documentação</span>
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
-                                        <Dropdown.Item href="/doc-parametro">Parâmetro</Dropdown.Item>
+                                        <Dropdown.Item href="/doc-parametro">Sensores e Parâmetro</Dropdown.Item>
                                         <Dropdown.Item href="/doc-alerta">Alerta</Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
