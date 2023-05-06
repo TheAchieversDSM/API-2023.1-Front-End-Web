@@ -25,11 +25,12 @@ export default function TableReport() {
 
     useEffect(() => {
         const fetchReports = async () => {
-          const cookies = parseCookies();
           try {
             const response = await axios.get(`http://localhost:5000/report/pegarReportPelaEstacao/${uid}`, {
               headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
             });
+            console.log(response.data);
+            
             setReports(response.data);
           } catch (error) {
             console.error(error);

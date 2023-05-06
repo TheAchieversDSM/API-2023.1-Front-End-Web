@@ -48,6 +48,8 @@ export default function CriarAlertas() {
                 [name]: value,
             };
         });
+
+        console.log(alerta);
     };
 
     // select's handleChange ✨
@@ -177,6 +179,7 @@ export default function CriarAlertas() {
                         <Col md={5}>
                             <Form.Label>Nível</Form.Label>
                             <Select onChange={handleChangeSelect}>
+                                <option value="" disabled selected hidden>Selecione o nível.</option>
                                 {options.map((option) => (
                                     <option key={option?.value} value={option?.value}>
                                         {option?.label}
