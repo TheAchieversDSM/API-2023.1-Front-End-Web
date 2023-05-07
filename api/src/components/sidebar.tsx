@@ -71,9 +71,9 @@ export default function Sidebar() {
                             ) : null}
 
                             <li className="nav-link">
-                                <Dropdown>
-                                    <Dropdown.Toggle>
-                                        <BsHouse className="icon" />
+                                <Dropdown className="dropdown-sidebar">
+                                    <Dropdown.Toggle className="drop-sidebar">
+                                        <BsHouse className="icon drop-icon" />
                                         <span className="text nav-text">Documentação</span>
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>

@@ -181,3 +181,80 @@ header .header-text .name {
 .menu-bar::-webkit-scrollbar {
     display: none;
 }
+
+.drop-sidebar{
+    padding-left: 0px !important;
+    background:transparent; 
+    border:none; 
+    outline:none; 
+    display:block; 
+    cursor:pointer;
+    transition: var(--trans-05) !important;
+}
+
+.drop-sidebar:hover{
+    background:transparent; 
+    border:none; 
+    outline:none; 
+    display:block; 
+    cursor:pointer;
+    transition: var(--trans-05) !important;
+}
+
+.drop-sidebar:hover > span, .drop-icon{
+    color: var(--purple) !important;
+    transition: var(--trans-05) !important;
+}
+
+.drop-sidebar > .drop-icon{
+    color: #FFFF !important;
+    transition: var(--trans-05) !important;
+}
+
+
+.drop-sidebar:hover > .drop-icon{
+    color: var(--purple) !important;
+    transition: var(--trans-05) !important;
+}
+
+
+.drop-sidebar:active{
+    background:transparent; 
+    border:none; 
+    outline:none; 
+    display:block; 
+    cursor:pointer;
+    transition: var(--trans-05) !important;
+}
+
+.drop-sidebar:checked{
+    background:transparent !important; 
+    border:none !important; 
+    outline:none !important; 
+    display:block !important; 
+    cursor:pointer !important;
+    transition: var(--trans-05) !important;
+}
+
+.drop-sidebar:active{
+    background:transparent !important; 
+    border:none !important; 
+    outline:none !important; 
+    display:block !important; 
+    cursor:pointer !important;
+    transition: var(--trans-05) !important;
+    background-color: #5751D3 !important;
+    border-color: #5751D3 !important;
+}
+
+.dropdown-sidebar{
+    width: 100%;
+    padding: 5px 0px 5px 0px;
+    border-radius: 6px;
+    transition: var(--trans-05) !important;
+}
+
+.dropdown-sidebar:hover{
+    background-color: var(--light-purple) !important;
+    transition: var(--trans-05) !important;
+}
