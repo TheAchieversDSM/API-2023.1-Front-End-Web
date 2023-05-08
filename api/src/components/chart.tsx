@@ -10,5 +10,5 @@ NoDataToDisplay(Highcharts)
 HC_more(Highcharts);
 
 export default function Chart(props: any){
-    return <HighchartsReact highcharts={Highcharts} options={props.options} />;
+    return <HighchartsReact  highcharts={Highcharts} options={props.options} />;
 }

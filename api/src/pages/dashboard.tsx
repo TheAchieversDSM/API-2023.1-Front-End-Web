@@ -79,7 +79,6 @@ export default function Dashboard() {
     setMedidas(medidasseries);
     if (medidas) {
       const metrics = metricMount(medidas);
-      console.log(metrics)
       setOptions(chartMount(metrics, estacaoNome ? estacaoNome : ""));
     }
   }, [estacaoParametros]);
