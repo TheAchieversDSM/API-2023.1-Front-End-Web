@@ -6,7 +6,7 @@ import '../styles/sidebar.css';
 import logo from '../images/logo-3.png';
 
 // components & icons ✨
-import { BsSearch, BsHouse, BsSignpostSplit, BsPerson, BsExclamationTriangle, BsClipboard2Check, BsBarChart, BsBoxArrowInLeft, BsBoxArrowRight } from 'react-icons/bs'
+import { BsSearch, BsHouse, BsSignpostSplit, BsPerson, BsExclamationTriangle, BsClipboard2Check, BsBarChart, BsBoxArrowInLeft, BsBoxArrowRight, BsFileText } from 'react-icons/bs'
 import { AuthContext } from "../hooks/useAuth";
 import { Button, Dropdown, DropdownButton } from "react-bootstrap";
 import { parseCookies } from "nookies";
@@ -34,6 +34,19 @@ export default function Sidebar() {
                                     <BsHouse className="icon" />
                                     <span className="text nav-text">Início</span>
                                 </Link>
+                            </li>
+
+                            <li className="nav-link">
+                                <Dropdown className="dropdown-sidebar">
+                                    <Dropdown.Toggle className="drop-sidebar">
+                                        <BsFileText className="icon drop-icon" />
+                                        <span className="text nav-text">Documentação</span>
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item href="/doc-parametro">Sensores e Parâmetro</Dropdown.Item>
+                                        <Dropdown.Item href="/doc-alerta">Alerta</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </li>
 
                             {cookies["tecsus.token"] ? (
@@ -70,18 +83,7 @@ export default function Sidebar() {
                                 </li>
                             ) : null}
 
-                            <li className="nav-link">
-                                <Dropdown className="dropdown-sidebar">
-                                    <Dropdown.Toggle className="drop-sidebar">
-                                        <BsHouse className="icon drop-icon" />
-                                        <span className="text nav-text">Documentação</span>
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item href="/doc-parametro">Sensores e Parâmetro</Dropdown.Item>
-                                        <Dropdown.Item href="/doc-alerta">Alerta</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </li>
+                            
                         </ul>
                     </div>
 
