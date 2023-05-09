@@ -16,6 +16,7 @@ interface IUser {
 	user_id: number;
 	nome?: string;
 	email?: string;
+	tipoUsuario: number;
 }
 
 export default function TableUsu() {
@@ -102,6 +103,7 @@ export default function TableUsu() {
 					<td>{user.user_id}</td>
 					<td>{user.nome}</td>
 					<td>{user.email}</td>
+					<td>{user.tipoUsuario}</td>
 					<td>
 						<Link to={`/editar-usuario/${user.user_id}`}>
 							<Button className="bt bt-edit">
@@ -126,6 +128,7 @@ export default function TableUsu() {
 							<th>ID</th>
 							<th>Nome</th>
 							<th>Email</th>
+							<th>Nível</th>
 							<th></th>
 						</tr>
 					</thead>
