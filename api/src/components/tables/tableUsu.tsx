@@ -24,6 +24,7 @@ export default function TableUsu() {
 	const [modalShow, setModalShow] = React.useState(false);
 	const [modalData, setModalData] = React.useState<IUser>();
 	const [searchTerm, setSearchTerm] = useState('');
+	const [nivelUser, setNivelUser] = useState("");
 
 	const cookies = parseCookies();
 
@@ -43,6 +44,22 @@ export default function TableUsu() {
 				});
 		}
 		render();
+	
+		axios
+        .get(`http://localhost:5000/user/pegarUsuarios`, {
+          headers: {
+            Authorization: `Bearer ${cookies["tecsus.token"]}`,
+          },
+        })
+        .then((re) => {
+          re.data.map((user: any) => {
+            if (user.user_id == cookies["tecsus.user_id"]) {			
+              setNivelUser(user.tipoUsuario);
+			  console.log(nivelUser);
+            }
+          });
+        });
+	
 	}, []);
 
 	function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
@@ -105,6 +122,8 @@ export default function TableUsu() {
 					<td>{user.email}</td>
 					<td>{user.tipoUsuario}</td>
 					<td>
+					{ !nivelUser && Number(nivelUser) == 1 ? 
+						<>
 						<Link to={`/editar-usuario/${user.user_id}`}>
 							<Button className="bt bt-edit">
 								<BsPencil className="icon" />
@@ -112,7 +131,10 @@ export default function TableUsu() {
 						</Link>
 						<Button className="bt bt-delete" onClick={() => handleDelete(user.user_id)}>
 							<BsTrash3 className="icon" />
-						</Button>
+						</Button></>
+						: <></>
+					} 
+						
 					</td>
 				</tr>
 			));
