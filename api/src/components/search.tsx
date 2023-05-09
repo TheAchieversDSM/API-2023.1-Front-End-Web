@@ -44,14 +44,14 @@ export default function Search(props: any){
                 <InputGroup.Text id="basic-addon2" className="lupa"><BsSearch className="icon"/></InputGroup.Text>
             </InputGroup>
 
-            { !nivelUser && Number(nivelUser) == 1 ? 
-				<>
-                    {cookies["tecsus.token"] ? (
-                        <Button variant="primary" className="button-new" size="lg" ><Link to={props.link}><p>+ Novo</p></Link></Button>
-                    ) : null}
-                </>	
-				: <></>
-			} 
+            { Number(nivelUser) == 1 ? 
+				      <>
+                {cookies["tecsus.token"] ? (
+                  <Button variant="primary" className="button-new" size="lg" ><Link to={props.link}><p>+ Novo</p></Link></Button>
+                ) : null}
+              </>	
+			        : null
+			      } 
             
 
         </div>

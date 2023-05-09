@@ -48,6 +48,7 @@ export default function TableEst() {
   const [modalData, setModalData] = React.useState<IEstacao>();
   const [searchTerm, setSearchTerm] = useState('');
   const cookies = parseCookies();
+  const [nivelUser, setNivelUser] = useState("");
 
   const handleShowModal = (estacao: IEstacao) => {
     setModalData(estacao);
@@ -61,6 +62,21 @@ export default function TableEst() {
       })
     }
     render()
+
+    axios
+        .get(`http://localhost:5000/user/pegarUsuarios`, {
+          headers: {
+            Authorization: `Bearer ${cookies["tecsus.token"]}`,
+          },
+        })
+        .then((re) => {
+          re.data.map((user: any) => {
+            if (user.user_id == cookies["tecsus.user_id"]) {			
+              setNivelUser(user.tipoUsuario);
+			  console.log(nivelUser);
+            }
+          });
+        });
   }, [])
 
   useEffect(() => {
@@ -137,7 +153,7 @@ export default function TableEst() {
             <Link to={`/reports/${estacao.uid}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
             <Button className="bt bt-view" onClick={() => handleShowModal(estacao)}><BsEye className="icon" /></Button>
 
-            {cookies["tecsus.token"] ? (
+            {cookies["tecsus.token"] && Number(nivelUser) == 1 ? (
               <>
                 <Link to={`/editar-estacao/${estacao.estacao_id}`}>
                   <Button className="bt bt-edit">
@@ -178,12 +194,17 @@ export default function TableEst() {
             <Link to={`/dashboard/${inativo.estacao_id}`}><Button className="bt bt-dash"><FaChartLine className="icon" /></Button></Link>
             <Link to={`/reports/${inativo.uid}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
             <Button className="bt bt-view" onClick={() => handleShowModal(inativo)}><BsEye className="icon" /></Button>
-            <Link to={`/editar-estacao/${inativo.estacao_id}`}>
-              <Button className="bt bt-edit">
-                <BsPencil className="icon" />
-              </Button>
-            </Link>
-            <Button className="bt bt-active" onClick={() => handleChange(inativo)}><BsCheckLg className="icon" /></Button>
+            { Number(nivelUser) == 1 ?
+              <>
+                <Link to={`/editar-estacao/${inativo.estacao_id}`}>
+                  <Button className="bt bt-edit">
+                    <BsPencil className="icon" />
+                  </Button>
+                </Link>
+                <Button className="bt bt-active" onClick={() => handleChange(inativo)}><BsCheckLg className="icon" /></Button>
+              </>
+              :null
+            }
           </td>
         </tr>
       ));

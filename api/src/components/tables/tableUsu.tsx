@@ -122,7 +122,7 @@ export default function TableUsu() {
 					<td>{user.email}</td>
 					<td>{user.tipoUsuario}</td>
 					<td>
-					{ !nivelUser && Number(nivelUser) == 1 ? 
+					{ Number(nivelUser) == 1 ? 
 						<>
 						<Link to={`/editar-usuario/${user.user_id}`}>
 							<Button className="bt bt-edit">
@@ -132,7 +132,7 @@ export default function TableUsu() {
 						<Button className="bt bt-delete" onClick={() => handleDelete(user.user_id)}>
 							<BsTrash3 className="icon" />
 						</Button></>
-						: <></>
+						: null
 					} 
 						
 					</td>
