@@ -11,5 +11,7 @@ export default function chartMount(metrics: Array<Metric>, nome: string){
         opts.addSerie(metrica)
     }); 
     opts.addCategories(categories)
+    
+    console.log(opts)
     return opts
 }
