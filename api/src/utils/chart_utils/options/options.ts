@@ -14,18 +14,34 @@ export default class Options {
         zoomType: 'x', // Adiciona a opção de zoom no eixo x
         panning: true, // Habilita o panning no eixo x
       };
+
       xAxis = {categories: [], range: 5 }
       title = { text: `Informações meteorológicas da estação` };
       rangeSelector!: {
-        enabled: false
+        selected: 1,
+        inputDateFormat: '%Y-%d-%m',
+        inputEditDateFormat: '%Y-%d-%m'
     }
       series: Array<Metric>;
       lang = { noData: "Não há dados disponíveis para exibição." };
       noData = { style: { fontWeight: 'bold', fontSize: '24px', color: '#5751D3' } };
+      plotOptions = {
+        series: {
+            cursor: 'pointer',
+            events: {
+                click: (event: any) => 
+                {
+                    this.funcao(event)
+                }
+            }
+        }
+    }
+    funcao: Function
 
     constructor(title: string, series: Array<Metric>) {
         this.title = { text: `Informações meteorológicas da estação ${title}` };
         this.series = series;
+        this.funcao = (event: any)=>{}
 
     }
 
@@ -39,9 +55,11 @@ export default class Options {
     }
 
     addCategories(cat:any){
-
         this.xAxis.categories = cat[0]
     }
 
+    setFuncao(funcao: Function){
+        this.funcao = funcao
+    }
 
 }
