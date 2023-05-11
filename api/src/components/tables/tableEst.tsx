@@ -48,6 +48,7 @@ export default function TableEst() {
   const [modalData, setModalData] = React.useState<IEstacao>();
   const [searchTerm, setSearchTerm] = useState('');
   const cookies = parseCookies();
+  const [nivelUser, setNivelUser] = useState("");
 
   const handleShowModal = (estacao: IEstacao) => {
     setModalData(estacao);
@@ -61,6 +62,21 @@ export default function TableEst() {
       })
     }
     render()
+
+    axios
+        .get(`http://localhost:5000/user/pegarUsuarios`, {
+          headers: {
+            Authorization: `Bearer ${cookies["tecsus.token"]}`,
+          },
+        })
+        .then((re) => {
+          re.data.map((user: any) => {
+            if (user.user_id == cookies["tecsus.user_id"]) {			
+              setNivelUser(user.tipoUsuario);
+			  console.log(nivelUser);
+            }
+          });
+        });
   }, [])
 
   useEffect(() => {
@@ -167,7 +183,7 @@ export default function TableEst() {
               </Button>
             </OverlayTrigger>
 
-            {cookies["tecsus.token"] ? (
+            {cookies["tecsus.token"] && Number(nivelUser) == 1 ? (
               <>
                 <OverlayTrigger
                   placement="top"
@@ -220,7 +236,7 @@ export default function TableEst() {
           <td>{inativo.lati}</td>
           <td>{inativo.long}</td>
           <td>
-          <OverlayTrigger
+            <OverlayTrigger
               placement="top"
 							delay={{ show: 150, hide: 200 }}
 							overlay={dashTooltip}
@@ -253,8 +269,9 @@ export default function TableEst() {
                 <BsEye className="icon" />
               </Button>
             </OverlayTrigger>
-
-            <OverlayTrigger
+            { Number(nivelUser) == 1 ?
+              <>
+                <OverlayTrigger
               placement="top"
               delay={{ show: 150, hide: 200 }}
               overlay={editTooltip}
@@ -275,6 +292,9 @@ export default function TableEst() {
                 <BsCheckLg className="icon" />
               </Button>
             </OverlayTrigger>
+              </>
+              :null
+            }
           </td>
         </tr>
       ));

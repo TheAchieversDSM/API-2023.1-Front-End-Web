@@ -41,6 +41,8 @@ export default function TablePar(props: any) {
 	const [modalShow, setModalShow] = React.useState(false);
 	const [modalData, setModalData] = React.useState<IParametro>();
 	const [searchTerm, setSearchTerm] = useState('');
+	const [nivelUser, setNivelUser] = useState("");
+
 
 	const handleShowModal = (parametro: any) => {
 		setModalData(parametro);
@@ -58,6 +60,22 @@ export default function TablePar(props: any) {
 				});
 		}
 		render();
+
+		axios
+        .get(`http://localhost:5000/user/pegarUsuarios`, {
+          headers: {
+            Authorization: `Bearer ${cookies["tecsus.token"]}`,
+          },
+        })
+        .then((re) => {
+          re.data.map((user: any) => {
+            if (user.user_id == cookies["tecsus.user_id"]) {			
+              setNivelUser(user.tipoUsuario);
+			  console.log(nivelUser);
+            }
+          });
+        });
+
 	}, []);
 
 	useEffect(() => {
@@ -71,6 +89,21 @@ export default function TablePar(props: any) {
 				});
 		}
 		render();
+
+		axios
+        .get(`http://localhost:5000/user/pegarUsuarios`, {
+          headers: {
+            Authorization: `Bearer ${cookies["tecsus.token"]}`,
+          },
+        })
+        .then((re) => {
+          re.data.map((user: any) => {
+            if (user.user_id == cookies["tecsus.user_id"]) {			
+              setNivelUser(user.tipoUsuario);
+			  console.log(nivelUser);
+            }
+          });
+        });
 	}, []);
 
 	function handleChange(parametros: IParametro) {
@@ -131,7 +164,8 @@ export default function TablePar(props: any) {
 					<td>{parametro?.tipo?.nome}</td>
 					<td>{parametro.unidadeDeMedida?.nome}</td>
 					<td>
-					<OverlayTrigger
+
+						<OverlayTrigger
 							placement="top"
 							delay={{ show: 150, hide: 200 }}
 							overlay={infoTooltip}
@@ -140,8 +174,9 @@ export default function TablePar(props: any) {
 								<BsEye className="icon"/>
 							</Button>
 						</OverlayTrigger>
-
-						<OverlayTrigger
+						{ Number(nivelUser) == 1 ? 
+							<>
+								<OverlayTrigger
 							placement="top"
 							delay={{ show: 150, hide: 200 }}
 							overlay={editTooltip}
@@ -162,7 +197,10 @@ export default function TablePar(props: any) {
 								<BsXOctagon className="icon" />
 							</Button>
 						</OverlayTrigger>
-
+							</>
+							: null
+						}
+        
 						<MyVerticallyCenteredModal
 							show={modalShow}
 							{...modalData}
@@ -209,6 +247,7 @@ export default function TablePar(props: any) {
 					<td>{inativo?.tipo?.nome}</td>
 					<td>{inativo.unidadeDeMedida?.nome}</td>
 					<td>
+
 						<OverlayTrigger
 							placement="top"
 							delay={{ show: 150, hide: 200 }}
@@ -218,8 +257,9 @@ export default function TablePar(props: any) {
 								<BsEye className="icon"/>
 							</Button>
 						</OverlayTrigger>
-
-						<OverlayTrigger
+						{ Number(nivelUser) == 1 ?
+							<>
+								<OverlayTrigger
 							placement="top"
 							delay={{ show: 150, hide: 200 }}
 							overlay={editTooltip}
@@ -240,6 +280,9 @@ export default function TablePar(props: any) {
 								<BsCheckLg className="icon" />
 							</Button>
 						</OverlayTrigger>
+							</>
+						:<></>
+						}
 
 						<MyVerticallyCenteredModal
 							show={modalShow}

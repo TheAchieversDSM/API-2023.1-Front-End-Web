@@ -16,6 +16,7 @@ interface IUser {
 	user_id: number;
 	nome?: string;
 	email?: string;
+	tipoUsuario: number;
 }
 
 export default function TableUsu() {
@@ -23,6 +24,7 @@ export default function TableUsu() {
 	const [modalShow, setModalShow] = React.useState(false);
 	const [modalData, setModalData] = React.useState<IUser>();
 	const [searchTerm, setSearchTerm] = useState('');
+	const [nivelUser, setNivelUser] = useState("");
 
 	const cookies = parseCookies();
 
@@ -42,6 +44,22 @@ export default function TableUsu() {
 				});
 		}
 		render();
+	
+		axios
+        .get(`http://localhost:5000/user/pegarUsuarios`, {
+          headers: {
+            Authorization: `Bearer ${cookies["tecsus.token"]}`,
+          },
+        })
+        .then((re) => {
+          re.data.map((user: any) => {
+            if (user.user_id == cookies["tecsus.user_id"]) {			
+              setNivelUser(user.tipoUsuario);
+			  console.log(nivelUser);
+            }
+          });
+        });
+	
 	}, []);
 
 	function handleSearch(event: React.ChangeEvent<HTMLInputElement>) {
@@ -102,7 +120,11 @@ export default function TableUsu() {
 					<td>{user.user_id}</td>
 					<td>{user.nome}</td>
 					<td>{user.email}</td>
+					<td>{user.tipoUsuario}</td>
 					<td>
+
+					{ Number(nivelUser) == 1 ? 
+						<>
 						<OverlayTrigger
 							placement="top"
 							delay={{ show: 150, hide: 200 }}
@@ -124,6 +146,9 @@ export default function TableUsu() {
 								<BsTrash3 className="icon" />
 							</Button>
 						</OverlayTrigger>
+              </>
+						: null
+					}
 					</td>
 				</tr>
 			));
@@ -150,6 +175,7 @@ export default function TableUsu() {
 							<th>ID</th>
 							<th>Nome</th>
 							<th>Email</th>
+							<th>Nível</th>
 							<th></th>
 						</tr>
 					</thead>

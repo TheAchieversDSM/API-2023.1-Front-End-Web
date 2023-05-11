@@ -30,6 +30,7 @@ export default function TableAlert() {
 	const [inativos, setInativos] = useState<IAlerta[]>([])
 	const [searchTerm, setSearchTerm] = useState('');
 	const cookies = parseCookies();
+	const [nivelUser, setNivelUser] = useState("");
 
 	useEffect(() => {
 		function render() {
@@ -44,6 +45,21 @@ export default function TableAlert() {
 				});
 		}
 		render();
+
+		axios
+        .get(`http://localhost:5000/user/pegarUsuarios`, {
+          headers: {
+            Authorization: `Bearer ${cookies["tecsus.token"]}`,
+          },
+        })
+        .then((re) => {
+          re.data.map((user: any) => {
+            if (user.user_id == cookies["tecsus.user_id"]) {			
+              setNivelUser(user.tipoUsuario);
+			  console.log(nivelUser);
+            }
+          });
+        });
 	}, []);
 
 	useEffect(() => {
@@ -60,6 +76,7 @@ export default function TableAlert() {
 		}
 		render();
 	}, []);
+
 
 	function handleChange(alertas: IAlerta) {
 		const id = alertas.alerta_id;
@@ -121,6 +138,8 @@ export default function TableAlert() {
 					<td>{alerta.parametro?.nome}</td>
 					<td>
 					
+					{Number(nivelUser) == 1 ? 
+							<>
 						<Link to={`/editar-alerta/${alerta.alerta_id}`}>
 							<OverlayTrigger
       							placement="top"
@@ -141,6 +160,8 @@ export default function TableAlert() {
 								<BsXOctagon className="icon" />
 							</Button>
 						</OverlayTrigger>
+							</>: null
+						}
 					</td>
 				</tr>
 			));
@@ -171,6 +192,9 @@ export default function TableAlert() {
 					<td>{inativo.valorMinimo}</td>
 					<td>{inativo.parametro?.nome}</td>
 					<td>
+
+						{Number(nivelUser) == 1 ? 
+							<>
 						<Link to={`/editar-alerta/${inativo.alerta_id}`}>
 							<OverlayTrigger
       							placement="top"
@@ -191,7 +215,8 @@ export default function TableAlert() {
 								<BsCheckLg className="icon" />
 							</Button>
 						</OverlayTrigger>
-
+							</>:null
+						}
 					</td>
 				</tr>
 			));
