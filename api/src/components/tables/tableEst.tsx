@@ -9,7 +9,7 @@ import MyVerticallyCenteredModal from '../modal';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Search from '../search';
-import { Tab, Tabs } from 'react-bootstrap';
+import { OverlayTrigger, Tab, Tabs, Tooltip } from 'react-bootstrap';
 import { parseCookies } from 'nookies';
 import Swal from 'sweetalert2'
 
@@ -133,18 +133,63 @@ export default function TableEst() {
           <td>{estacao.lati}</td>
           <td>{estacao.long}</td>
           <td>
-            <Link to={`/dashboard/${estacao.estacao_id}`} onClick={() => nomeEstacaoDashboard(estacao.nome)}><Button className="bt bt-dash"><FaChartLine className="icon" /></Button></Link>
-            <Link to={`/reports/${estacao.uid}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
-            <Button className="bt bt-view" onClick={() => handleShowModal(estacao)}><BsEye className="icon" /></Button>
+            <OverlayTrigger
+              placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={dashTooltip}
+            >
+              <Link to={`/dashboard/${estacao.estacao_id}`} onClick={() => nomeEstacaoDashboard(estacao.nome)}>
+                <Button className="bt bt-dash">
+                  <FaChartLine className="icon" />
+                </Button>
+              </Link>
+            </OverlayTrigger>
+
+            <OverlayTrigger
+              placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={reportTooltip}
+            >
+              <Link to={`/reports/${estacao.uid}`}>
+                <Button className="bt bt-record">
+                  <BsClipboard2 className="icon" />
+                </Button>
+              </Link>
+            </OverlayTrigger>
+
+            <OverlayTrigger
+              placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={infoTooltip}
+            >
+              <Button className="bt bt-view" onClick={() => handleShowModal(estacao)}>
+                <BsEye className="icon" />
+              </Button>
+            </OverlayTrigger>
 
             {cookies["tecsus.token"] ? (
               <>
-                <Link to={`/editar-estacao/${estacao.estacao_id}`}>
-                  <Button className="bt bt-edit">
-                    <BsPencil className="icon" />
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 150, hide: 200 }}
+                  overlay={editTooltip}
+                >
+                  <Link to={`/editar-estacao/${estacao.estacao_id}`}>
+                    <Button className="bt bt-edit">
+                      <BsPencil className="icon" />
+                    </Button>
+                  </Link>
+                </OverlayTrigger>
+
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 150, hide: 200 }}
+                  overlay={inTooltip}
+                >
+                  <Button className="bt bt-delete">
+                    <BsXOctagon className="icon" onClick={() => handleChange(estacao)} />
                   </Button>
-                </Link>
-                <Button className="bt bt-delete"><BsXOctagon className="icon" onClick={() => handleChange(estacao)} /></Button>
+                </OverlayTrigger>
               </>
             ) : null}
           </td>
@@ -175,19 +220,98 @@ export default function TableEst() {
           <td>{inativo.lati}</td>
           <td>{inativo.long}</td>
           <td>
-            <Link to={`/dashboard/${inativo.estacao_id}`}><Button className="bt bt-dash"><FaChartLine className="icon" /></Button></Link>
-            <Link to={`/reports/${inativo.uid}`}><Button className="bt bt-record"><BsClipboard2 className="icon" /></Button></Link>
-            <Button className="bt bt-view" onClick={() => handleShowModal(inativo)}><BsEye className="icon" /></Button>
-            <Link to={`/editar-estacao/${inativo.estacao_id}`}>
-              <Button className="bt bt-edit">
-                <BsPencil className="icon" />
+          <OverlayTrigger
+              placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={dashTooltip}
+            >
+              <Link to={`/dashboard/${inativo.estacao_id}`} onClick={() => nomeEstacaoDashboard(inativo.nome)}>
+                <Button className="bt bt-dash">
+                  <FaChartLine className="icon" />
+                </Button>
+              </Link>
+            </OverlayTrigger>
+
+            <OverlayTrigger
+              placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={reportTooltip}
+            >
+              <Link to={`/reports/${inativo.uid}`}>
+                <Button className="bt bt-record">
+                  <BsClipboard2 className="icon" />
+                </Button>
+              </Link>
+            </OverlayTrigger>
+
+            <OverlayTrigger
+              placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={infoTooltip}
+            >
+              <Button className="bt bt-view" onClick={() => handleShowModal(inativo)}>
+                <BsEye className="icon" />
               </Button>
-            </Link>
-            <Button className="bt bt-active" onClick={() => handleChange(inativo)}><BsCheckLg className="icon" /></Button>
+            </OverlayTrigger>
+
+            <OverlayTrigger
+              placement="top"
+              delay={{ show: 150, hide: 200 }}
+              overlay={editTooltip}
+            >
+              <Link to={`/editar-estacao/${inativo.estacao_id}`}>
+                <Button className="bt bt-edit">
+                  <BsPencil className="icon" />
+                </Button>
+              </Link>
+            </OverlayTrigger>
+
+            <OverlayTrigger
+              placement="top"
+              delay={{ show: 150, hide: 200 }}
+              overlay={atTooltip}
+            >
+              <Button className="bt bt-active" onClick={() => handleChange(inativo)}>
+                <BsCheckLg className="icon" />
+              </Button>
+            </OverlayTrigger>
           </td>
         </tr>
       ));
   }
+
+  const dashTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Dashboards
+		</Tooltip>
+	);
+
+  const reportTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Reports
+		</Tooltip>
+	);
+
+  const infoTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Mais informações
+		</Tooltip>
+	);
+  const editTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Editar
+		</Tooltip>
+	);
+  const inTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Inativar
+		</Tooltip>
+	);
+  const atTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Ativar
+		</Tooltip>
+	);
 
   return (
     <>

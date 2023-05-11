@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import MyVerticallyCenteredModal from '../modal';
 import axios from 'axios';
 import Search from '../search';
-import { Form, InputGroup } from 'react-bootstrap';
+import { Form, InputGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { parseCookies } from "nookies";
 import Swal from 'sweetalert2'
@@ -103,18 +103,42 @@ export default function TableUsu() {
 					<td>{user.nome}</td>
 					<td>{user.email}</td>
 					<td>
-						<Link to={`/editar-usuario/${user.user_id}`}>
-							<Button className="bt bt-edit">
-								<BsPencil className="icon" />
+						<OverlayTrigger
+							placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={editTooltip}
+						>
+							<Link to={`/editar-usuario/${user.user_id}`}>
+								<Button className="bt bt-edit">
+									<BsPencil className="icon" />
+								</Button>
+							</Link>
+						</OverlayTrigger>
+
+						<OverlayTrigger
+							placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={deleteTooltip}
+						>
+							<Button className="bt bt-delete" onClick={() => handleDelete(user.user_id)}>
+								<BsTrash3 className="icon" />
 							</Button>
-						</Link>
-						<Button className="bt bt-delete" onClick={() => handleDelete(user.user_id)}>
-							<BsTrash3 className="icon" />
-						</Button>
+						</OverlayTrigger>
 					</td>
 				</tr>
 			));
 	}
+
+	const editTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Editar
+		</Tooltip>
+	);
+  	const deleteTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Deletar
+		</Tooltip>
+	);
 
 	return (
 		<>
