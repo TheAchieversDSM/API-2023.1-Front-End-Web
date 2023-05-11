@@ -41,7 +41,6 @@ export default function TableAlert() {
 				})
 				.then((res) => {
 					setAlertas(res.data);
-					console.log(res.data)
 				});
 		}
 		render();
