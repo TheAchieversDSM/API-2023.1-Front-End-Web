@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Search from '../search';
-import { Tab, Tabs } from 'react-bootstrap';
+import { OverlayTrigger, Tab, Tabs, Tooltip } from 'react-bootstrap';
 import { AuthContext } from "../../hooks/useAuth";
 import { parseCookies } from "nookies";
 import Swal from 'sweetalert2'
@@ -42,7 +42,6 @@ export default function TableAlert() {
 				})
 				.then((res) => {
 					setAlertas(res.data);
-					console.log(res.data)
 				});
 		}
 		render();
@@ -139,17 +138,30 @@ export default function TableAlert() {
 					<td>{alerta.parametro?.nome}</td>
 					<td>
 					
-						{Number(nivelUser) == 1 ? 
+					{Number(nivelUser) == 1 ? 
 							<>
-								<Link to={`/editar-alerta/${alerta.alerta_id}`}>
-									<Button className="bt bt-edit">
-										<BsPencil className="icon" />
-									</Button>
-								</Link>
-								<Button className="bt bt-delete" onClick={() => handleChange(alerta)}><BsXOctagon className="icon" /></Button>
+						<Link to={`/editar-alerta/${alerta.alerta_id}`}>
+							<OverlayTrigger
+      							placement="top"
+      							delay={{ show: 150, hide: 200 }}
+      							overlay={editTooltip}
+    						>
+								<Button className="bt bt-edit">
+									<BsPencil className="icon" />
+								</Button>
+							</OverlayTrigger>
+						</Link>
+						<OverlayTrigger
+							placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={deleteTooltip}
+						>
+							<Button className="bt bt-delete" onClick={() => handleChange(alerta)}>
+								<BsXOctagon className="icon" />
+							</Button>
+						</OverlayTrigger>
 							</>: null
 						}
-
 					</td>
 				</tr>
 			));
@@ -180,21 +192,53 @@ export default function TableAlert() {
 					<td>{inativo.valorMinimo}</td>
 					<td>{inativo.parametro?.nome}</td>
 					<td>
+
 						{Number(nivelUser) == 1 ? 
 							<>
-								<Link to={`/editar-alerta/${inativo.alerta_id}`}>
-									<Button className="bt bt-edit">
-										<BsPencil className="icon" />
-									</Button>
-								</Link>
-								<Button className="bt bt-active" onClick={() => handleChange(inativo)}><BsCheckLg className="icon" /></Button>
+						<Link to={`/editar-alerta/${inativo.alerta_id}`}>
+							<OverlayTrigger
+      							placement="top"
+      							delay={{ show: 150, hide: 200 }}
+      							overlay={editTooltip}
+    						>
+								<Button className="bt bt-edit">
+									<BsPencil className="icon" />
+								</Button>
+							</OverlayTrigger>
+						</Link>
+						<OverlayTrigger
+							placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={activateTooltip}
+						>
+							<Button className="bt bt-active" onClick={() => handleChange(inativo)}>
+								<BsCheckLg className="icon" />
+							</Button>
+						</OverlayTrigger>
 							</>:null
 						}
-
 					</td>
 				</tr>
 			));
 	}
+
+	const editTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Editar
+		</Tooltip>
+	);
+
+	const deleteTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Inativar
+		</Tooltip>
+	);
+
+	const activateTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Ativar
+		</Tooltip>
+	);
 
 	return (
 		<>

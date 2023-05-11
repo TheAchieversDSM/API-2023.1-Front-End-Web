@@ -17,6 +17,8 @@ import EditarParametro from "../pages/editar-parametros";
 import EditarUsuarios from "../pages/editar-usuario";
 import EditarAlertas from "../pages/editar-alertas";
 import EditarEstacoes from "../pages/editar-estacoes";
+import DocParametro from "../pages/docParametro";
+import DocAlerta from "../pages/docAlerta";
 
 const Routes = () => {
     return (
@@ -37,6 +39,8 @@ const Routes = () => {
             <Route path="/editar-parametro/:id" element={<EditarParametro />} />
             <Route path="/editar-alerta/:id" element={<EditarAlertas />} />
             <Route path="/editar-estacao/:id" element={<EditarEstacoes />} />
+            <Route path="/doc-parametro" element={<DocParametro />} />
+            <Route path="/doc-alerta" element={<DocAlerta />} />
         </Switch>
     )
 }

@@ -50,56 +50,42 @@ export default function CriarAlertas() {
         [name]: value,
       };
     });
-  };
 
-  // select's handleChange ✨
-  const handleChangeSelect = (event: any) => {
-    if (event.length != 0 && event) {
-      setAlerta((prevState) => {
-        return {
-          ...prevState,
-          nivel: event.target.value,
-        };
-      });
-    }
-  };
 
-  const handleChangeSelectParametro = (event: any) => {
-    if (event.length != 0 && event) {
-      setAlerta((prevState) => {
-        return {
-          ...prevState,
-          parametro_id: event[0].value,
-        };
-      });
-    }
-  };
+    // inputs' handleChange ✨
+    const handleChange = (event: any) => {
+        const { name, value } = event.target;
+        setAlerta((prevState: any) => {
+            return {
+                ...prevState,
+                [name]: value,
+            };
+        });
 
-  const handleSubmit = (event: any) => {
-    for (
-      let index = 0;
-      index < event.target.querySelectorAll("input").length;
-      index++
-    ) {
-      event.target.querySelectorAll("input")[index].value = "";
-    }
+        console.log(alerta);
+    };
 
-    event.preventDefault();
+    // select's handleChange ✨
+    const handleChangeSelect = (event: any) => {
+        if (event.length != 0 && event) {
+            setAlerta((prevState) => {
+                return {
+                    ...prevState,
+                    nivel: event.target.value,
+                };
+            });
+        }
+    };
 
-    axios
-      .post(
-        `http://localhost:5000/alerta/cadastro`,
-        {
-          nome: alerta.nome,
-          valorMinimo: alerta.valorMin,
-          valorMax: alerta.valorMax,
-          nivel: alerta.nivel,
-          parametro_id: alerta.parametro_id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookies["tecsus.token"]}`,
-          },
+    const handleChangeSelectParametro = (event: any) => {
+        if (event.length != 0 && event) {
+            setAlerta((prevState) => {
+                return {
+                    ...prevState,
+                    parametro_id: event[0].value,
+                };
+            });
+
         }
       )
       .then((res) => {});
@@ -132,96 +118,91 @@ export default function CriarAlertas() {
             param.push(opt);
           }
 
-          setParametros(param);
-        });
-    }
+        render();
+    }, []);
 
-    render();
-  }, []);
+    return (
+        <Form onSubmit={handleSubmit}>
+            <Sidebar />
 
-  return (
-    <Form onSubmit={handleSubmit}>
-      <Sidebar />
+            <div className="main-body">
+                <h1 className="TitImp">Cadastro de Alertas</h1>
 
-      <div className="main-body">
-        <h1 className="TitImp">Cadastro de Alertas</h1>
+                <div className="box-create">
+                    <Row className="create-alert-content">
+                        <Col md={11}>
+                            <Input
+                                label="Nome do alerta"
+                                name="nome"
+                                size="mb-6"
+                                type="text"
+                                value={alerta.nome}
+                                placeholder="Insira o nome do alerta."
+                                onChange={handleChange}
+                            />
+                        </Col>
+                    </Row>
 
-        <div className="box-create">
-          <Row className="create-alert-content">
-            <Col md={11}>
-              <Input
-                label="Nome do alerta"
-                name="nome"
-                size="mb-6"
-                type="text"
-                value={alerta.nome}
-                placeholder="Insira o nome do alerta."
-                onChange={handleChange}
-              />
-            </Col>
-          </Row>
+                    <Row className="create-alert-content">
+                        <Col md={6}>
+                            <Input
+                                label="Valor Máximo"
+                                name="valorMax"
+                                size="mb-6"
+                                type="number"
+                                placeholder="Insira o valor máximo do alerta."
+                                onChange={handleChange}
+                            />
+                        </Col>
 
-          <Row className="create-alert-content">
-            <Col md={6}>
-              <Input
-                label="Valor Máximo"
-                name="valorMax"
-                size="mb-6"
-                type="number"
-                placeholder="Insira o valor máximo do alerta."
-                onChange={handleChange}
-              />
-            </Col>
+                        <Col md={5}>
+                            <Input
+                                label="Valor Mínimo"
+                                name="valorMin"
+                                size="mb-6"
+                                type="number"
+                                placeholder="Insira o valor mínimo do alerta."
+                                onChange={handleChange}
+                            />
+                        </Col>
+                    </Row>
 
-            <Col md={5}>
-              <Input
-                label="Valor Mínimo"
-                name="valorMin"
-                size="mb-6"
-                type="number"
-                placeholder="Insira o valor mínimo do alerta."
-                onChange={handleChange}
-              />
-            </Col>
-          </Row>
+                    <Row className="create-alert-content">
+                        <Col md={5}>
+                            <Form.Label>Nível</Form.Label>
+                            <Select onChange={handleChangeSelect}>
+                                <option value="" disabled selected hidden>Selecione o nível.</option>
+                                {options.map((option) => (
+                                    <option key={option?.value} value={option?.value}>
+                                        {option?.label}
+                                    </option>
+                                ))}
+                            </Select>
+                        </Col>
 
-          <Row className="create-alert-content">
-            <Col md={5}>
-              <Form.Label>Nível</Form.Label>
-              <Select onChange={handleChangeSelect}>
-                {options.map((option) => (
-                  <option key={option?.value} value={option?.value}>
-                    {option?.label}
-                  </option>
-                ))}
-              </Select>
-            </Col>
+                        <Col md={6}>
+                            <SelectMulti
+                                label="Parâmetros"
+                                size="mb-3"
+                                name="parametro"
+                                placeholder="Selecione o parâmetro correspondente."
+                                options={parametros}
+                                onChange={(e: any) => { handleChangeSelectParametro(e); }}
+                                close={true}
+                            />
+                        </Col>
+                    </Row>
 
-            <Col md={6}>
-              <SelectMulti
-                label="Parâmetros"
-                size="mb-3"
-                name="parametro"
-                placeholder="Selecione o parâmetro correspondente."
-                options={parametros}
-                onChange={(e: any) => {
-                  handleChangeSelectParametro(e);
-                }}
-                close={true}
-              />
-            </Col>
-          </Row>
-
-          <div className="create-alert-button">
-            <Button
-              type="submit"
-              label="Criar!"
-              className="btnCriar"
-              /* onClick={handleSubmit} */
-            />
-          </div>
-        </div>
-      </div>
-    </Form>
-  );
+                    <div className="create-alert-button">
+                        <Button
+                            type="submit"
+                            label="Criar!"
+                            className="btnCriar"
+                        /* onClick={handleSubmit} */
+                        />
+                    </div>
+                </div>
+            </div>
+        </Form>
+    );
 }

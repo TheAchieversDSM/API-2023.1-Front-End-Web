@@ -37,7 +37,7 @@ export default function Search(props: any){
         <div className="box-search ">
             <InputGroup className="mb-1">
                 <Form.Control className="input-search"
-                    placeholder="Search..."
+                    placeholder="Pesquisar..."
                     aria-describedby="basic-addon2"
                     onChange={props.change}
                 />
