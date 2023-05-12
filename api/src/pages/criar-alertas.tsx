@@ -8,7 +8,7 @@ import Input from "../components/input";
 import SelectMulti from "../components/select";
 import Sidebar from "../components/sidebar";
 import Button from "../components/button";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2'
 import { parseCookies } from "nookies";
 
 import { AuthContext } from "../hooks/useAuth";
@@ -16,41 +16,28 @@ import { AuthContext } from "../hooks/useAuth";
 import "../styles/criar-alertas.css";
 
 const options = [
-  { value: 1, label: "Atenção" },
-  { value: 2, label: "Perigo" },
-  { value: 3, label: "Crítico" },
+    { value: 1, label: "Atenção" },
+    { value: 2, label: "Perigo" },
+    { value: 3, label: "Crítico" },
 ];
 
 const { Select } = Form;
 
 export default function CriarAlertas() {
-  const cookies = parseCookies();
-  const { user } = useContext(AuthContext);
+    const cookies = parseCookies();
+    const { user } = useContext(AuthContext);
 
-  const nivel = { value: "", label: "" };
+    const nivel = { value: "", label: "" };
 
-  const [parametros, setParametros] = useState<{ label: any; value: any }[]>(
-    []
-  );
+    const [parametros, setParametros] = useState<{ label: any; value: any; }[]>([]);
 
-  const [alerta, setAlerta] = useState({
-    nome: "",
-    valorMin: "",
-    valorMax: "",
-    nivel: nivel.value,
-    parametro_id: "",
-  });
-
-  // inputs' handleChange ✨
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
-    setAlerta((prevState: any) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
+    const [alerta, setAlerta] = useState({
+        nome: "",
+        valorMin: "",
+        valorMax: "",
+        nivel: nivel.value,
+        parametro_id: ""
     });
-
 
     // inputs' handleChange ✨
     const handleChange = (event: any) => {
@@ -85,38 +72,59 @@ export default function CriarAlertas() {
                     parametro_id: event[0].value,
                 };
             });
-
         }
-      )
-      .then((res) => {});
+    };
 
-    Swal.fire({
-      title: "Alerta cadastrado!",
-      text: `A alerta ${alerta.nome} foi cadastrado com sucesso!`,
-      icon: "success",
-      confirmButtonText: "OK!",
-    });
-  };
+    const handleSubmit = (event: any) => {
+        for (let index = 0; index < event.target.querySelectorAll("input").length; index++) {
+            event.target.querySelectorAll("input")[index].value = ""
+        }
 
-  useEffect(() => {
-    async function render() {
-      axios
-        .get(`http://localhost:5000/parametro/pegarParametros`, {
-          headers: {
-            Authorization: `Bearer ${cookies["tecsus.token"]}`,
-          },
+        event.preventDefault();
+
+        axios.post(`http://localhost:5000/alerta/cadastro`,
+            {
+                nome: alerta.nome,
+                valorMinimo: alerta.valorMin,
+                valorMax: alerta.valorMax,
+                nivel: alerta.nivel,
+                parametro_id: alerta.parametro_id
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${cookies["tecsus.token"]}`,
+                },
+            }).then((res) => {
+
+            });
+
+        Swal.fire({
+            title: 'Alerta cadastrado!',
+            text: `A alerta ${alerta.nome} foi cadastrado com sucesso!`,
+            icon: 'success',
+            confirmButtonText: 'OK!'
         })
-        .then((res) => {
-          var param = [];
+    };
 
-          for (let index = 0; index < res.data.length; index++) {
-            const opt = {
-              label: res.data[index].nome,
-              value: res.data[index].parametro_id,
-            };
+    useEffect(() => {
+        async function render() {
+            axios.get(`http://localhost:5000/parametro/pegarParametros`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${cookies["tecsus.token"]}`,
+                    },
+                }).then((res) => {
+                    var param = []
 
-            param.push(opt);
-          }
+                    for (let index = 0; index < res.data.length; index++) {
+                        const opt = { label: res.data[index].nome, value: res.data[index].parametro_id }
+
+                        param.push(opt)
+                    }
+
+                    setParametros(param);
+                })
+        }
 
         render();
     }, []);
