@@ -1,0 +1,38 @@
+.box-doc{
+    position: absolute;
+    left: 25% !important;
+    top: 15% !important;
+    max-height: fit-content;
+}
+
+.box-doc > h4{
+    color: #3E3579;
+}
+
+.box-doc > p{
+    width: 90%;
+}
+
+.doc-txt > b{
+    border-radius: 10px;
+    padding: 1px 10px 1px 10px;
+    color: #FFFF;
+    font-weight: 500;
+}
+
+.doc-formula{
+    font-size: 15px;
+    color: #665a6c
+}
+
+.txt1 > b{
+    background-color: #3498D9;
+}
+
+.txt2 > b{
+    background-color: #F1C30B;
+}
+
+.txt3 > b{
+    background-color: #E74B3C;
+}

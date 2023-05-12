@@ -6,7 +6,7 @@ import { BsTrash3, BsEye, BsPencil, BsCheckLg, BsXOctagon } from "react-icons/bs
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Search from "../search";
-import { Tab, Tabs } from "react-bootstrap";
+import { OverlayTrigger, Tab, Tabs, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { parseCookies } from "nookies";
 import Swal from 'sweetalert2'
@@ -41,6 +41,8 @@ export default function TablePar(props: any) {
 	const [modalShow, setModalShow] = React.useState(false);
 	const [modalData, setModalData] = React.useState<IParametro>();
 	const [searchTerm, setSearchTerm] = useState('');
+	const [nivelUser, setNivelUser] = useState("");
+
 
 	const handleShowModal = (parametro: any) => {
 		setModalData(parametro);
@@ -58,6 +60,22 @@ export default function TablePar(props: any) {
 				});
 		}
 		render();
+
+		axios
+        .get(`http://localhost:5000/user/pegarUsuarios`, {
+          headers: {
+            Authorization: `Bearer ${cookies["tecsus.token"]}`,
+          },
+        })
+        .then((re) => {
+          re.data.map((user: any) => {
+            if (user.user_id == cookies["tecsus.user_id"]) {			
+              setNivelUser(user.tipoUsuario);
+			  console.log(nivelUser);
+            }
+          });
+        });
+
 	}, []);
 
 	useEffect(() => {
@@ -71,6 +89,21 @@ export default function TablePar(props: any) {
 				});
 		}
 		render();
+
+		axios
+        .get(`http://localhost:5000/user/pegarUsuarios`, {
+          headers: {
+            Authorization: `Bearer ${cookies["tecsus.token"]}`,
+          },
+        })
+        .then((re) => {
+          re.data.map((user: any) => {
+            if (user.user_id == cookies["tecsus.user_id"]) {			
+              setNivelUser(user.tipoUsuario);
+			  console.log(nivelUser);
+            }
+          });
+        });
 	}, []);
 
 	function handleChange(parametros: IParametro) {
@@ -131,19 +164,43 @@ export default function TablePar(props: any) {
 					<td>{parametro?.tipo?.nome}</td>
 					<td>{parametro.unidadeDeMedida?.nome}</td>
 					<td>
-						<Button className="bt bt-view" onClick={() => handleShowModal(parametro)}>
-							<BsEye
-								className="icon"
-							/>
-						</Button>
-						<Link to={`/editar-parametro/${parametro.parametro_id}`}>
-							<Button className="bt bt-edit">
-								<BsPencil className="icon" />
+
+						<OverlayTrigger
+							placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={infoTooltip}
+						>
+							<Button className="bt bt-view" onClick={() => handleShowModal(parametro)}>
+								<BsEye className="icon"/>
 							</Button>
-						</Link>
-						<Button className="bt bt-delete" onClick={() => handleChange(parametro)}>
-							<BsXOctagon className="icon" />
-						</Button>
+						</OverlayTrigger>
+						{ Number(nivelUser) == 1 ? 
+							<>
+								<OverlayTrigger
+							placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={editTooltip}
+						>
+							<Link to={`/editar-parametro/${parametro.parametro_id}`}>
+								<Button className="bt bt-edit">
+									<BsPencil className="icon" />
+								</Button>
+							</Link>
+						</OverlayTrigger>
+
+						<OverlayTrigger
+							placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={inTooltip}
+						>
+							<Button className="bt bt-delete" onClick={() => handleChange(parametro)}>
+								<BsXOctagon className="icon" />
+							</Button>
+						</OverlayTrigger>
+							</>
+							: null
+						}
+        
 						<MyVerticallyCenteredModal
 							show={modalShow}
 							{...modalData}
@@ -190,19 +247,43 @@ export default function TablePar(props: any) {
 					<td>{inativo?.tipo?.nome}</td>
 					<td>{inativo.unidadeDeMedida?.nome}</td>
 					<td>
-						<Button className="bt bt-view" onClick={() => handleShowModal(inativo)}>
-							<BsEye
-								className="icon"
-							/>
-						</Button>
-						<Link to={`/editar-parametro/${inativo.parametro_id}`}>
-							<Button className="bt bt-edit">
-								<BsPencil className="icon" />
+
+						<OverlayTrigger
+							placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={infoTooltip}
+						>
+							<Button className="bt bt-view" onClick={() => handleShowModal(inativo)}>
+								<BsEye className="icon"/>
 							</Button>
-						</Link>
-						<Button className="bt bt-active" onClick={() => handleChange(inativo)}>
-							<BsCheckLg className="icon" />
-						</Button>
+						</OverlayTrigger>
+						{ Number(nivelUser) == 1 ?
+							<>
+								<OverlayTrigger
+							placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={editTooltip}
+						>
+							<Link to={`/editar-parametro/${inativo.parametro_id}`}>
+								<Button className="bt bt-edit">
+									<BsPencil className="icon" />
+								</Button>
+							</Link>
+						</OverlayTrigger>
+
+						<OverlayTrigger
+							placement="top"
+							delay={{ show: 150, hide: 200 }}
+							overlay={atTooltip}
+						>
+							<Button className="bt bt-active" onClick={() => handleChange(inativo)}>
+								<BsCheckLg className="icon" />
+							</Button>
+						</OverlayTrigger>
+							</>
+						:<></>
+						}
+
 						<MyVerticallyCenteredModal
 							show={modalShow}
 							{...modalData}
@@ -225,7 +306,26 @@ export default function TablePar(props: any) {
 			));
 	}
 
-
+	const infoTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Mais informações
+		</Tooltip>
+	);
+  	const editTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Editar
+		</Tooltip>
+	);
+  	const inTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Inativar
+		</Tooltip>
+	);
+  	const atTooltip = (props:any) => (
+		<Tooltip id="button-tooltip" {...props}>
+		  Ativar
+		</Tooltip>
+	);
 
 	return (
 		<>
