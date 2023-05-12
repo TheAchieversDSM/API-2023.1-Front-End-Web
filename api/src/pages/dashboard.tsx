@@ -99,7 +99,10 @@ export default function Dashboard() {
         <h1 className="TitImp"> {estacaoNome} </h1>
         <div className="container_dashboard">
           <div className="box-dash">
-            <Chart className="container_dashboard" options={options} />
+            {estacaoParametros?.map((param)=>(
+              <Chart className="container_dashboard" options={options} />
+            ))}
+            
           </div>
           <h4 className="parametrosTitulo">Parâmetros</h4>
           <div className="box-par">

@@ -6,14 +6,15 @@ import metricMount from "../metricMount/metricMount";
 
 export const generateOptions = (estacaoParametros: EstacaoParametro[], estacaoNome?: string) => {
     const medidasseries: MediasSeries[] = [];
-  
+    console.log(estacaoParametros)
     estacaoParametros?.map((parametro: EstacaoParametro) => {
       if (parametro.medidas[0].unixtime) {
         parametro.medidaMedia = averageCalculator(
           groupByUnixtime(parametro.medidas)
         );
+        console.log(parametro?.nome)
         const med = {
-          nome: parametro.nome,
+          nome: parametro?.nome,
           sufixo: {
             nome: " " + parametro.unidadeDeMedida.nome,
             id: parametro.unidadeDeMedida.unidade_id,
