@@ -29,6 +29,7 @@ export default function Dashboard() {
   const [parametroDisplay, setParametroDisplay] = useState<EstacaoParametro>();
   const [medidas, setMedidas] = useState<Medida[]>();
   const [options, setOptions] = useState<Options>();
+  const [optionsState, setOptionsState] = useState<any>({});
   
   var x = 0
 
@@ -75,11 +76,29 @@ export default function Dashboard() {
     });
   }, [options])
 
-  useEffect(() => {
-    if(estacaoParametros && estacaoNome){
-      console.log(estacaoParametros)
-      setOptions(generateOptions(estacaoParametros, estacaoNome))
+  const setDadosDiarios = (index: any, category: any) =>{
+    var estacParam = estacaoParametros
+    if(estacParam){
+      estacParam[index].medidas = dadosDiarios(estacParam[index].medidas, category) 
+      const opts = generateOptions([estacParam[index]], estacaoNome? estacaoNome : '');
+      setOptionsState({...optionsState, [index]: opts})
     }
+    setEstacaoParametros(estacParam)
+  }
+
+  useEffect(() => {
+    if (estacaoParametros && estacaoNome) {
+      const newOptionsState: any = {};
+      estacaoParametros.forEach((param, index) => {
+        const opts = generateOptions([param], estacaoNome);
+        opts.setFuncao((event: any) => {
+            setDadosDiarios(index, event.point.category)       
+        });
+        newOptionsState[index] = opts;
+      });
+      setOptionsState(newOptionsState);
+    }
+
   }, [estacaoParametros]);
 
   useEffect(() => {
@@ -99,8 +118,8 @@ export default function Dashboard() {
         <h1 className="TitImp"> {estacaoNome} </h1>
         <div className="container_dashboard">
           <div className="box-dash">
-            {estacaoParametros?.map((param)=>(
-              <Chart className="container_dashboard" options={options} />
+            {estacaoParametros?.map((param, index)=>(
+              <Chart className="container_dashboard" options={optionsState[index]} />
             ))}
             
           </div>
