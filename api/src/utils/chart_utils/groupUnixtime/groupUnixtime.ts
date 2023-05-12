@@ -7,11 +7,8 @@ export default function groupByUnixtime(medidas: Medida[]): any {
     const { unixtime } = medida;
     const data = new Date(parseInt(unixtime) * 1000); // converte unixtime para uma data
     const dia = data.toISOString().slice(0, 10); // extrai o dia da data no formato yyyy-mm-dd
-    
     if (!medidasAgrupadas[dia]) {
-      console.log(dia)
       medidasAgrupadas[dia] = [];
-      console.log(medidasAgrupadas)
     }
     medidasAgrupadas[dia].push(medida);
     
@@ -27,6 +24,5 @@ export default function groupByUnixtime(medidas: Medida[]): any {
     });
   });
 
-  console.log(medidasAgrupadas);
   return medidasAgrupadas;
 } 
