@@ -26,10 +26,10 @@ export default function App() {
         )
     }
 
-    const attention = () => toast.info(
+    const attention = (report: any) => toast.info(
         <ToastMessage
             titulo="Alerta: Atenção"
-            messagem={`Estação ${dados[0]?.value?.estacao} com paramêtros ${dados[0]?.value?.parametro}`}
+            messagem={`Estação ${report?.value?.estacao} com paramêtros ${report?.value?.parametro}`}
         />, {
         autoClose: 10000,
         closeButton: false,
@@ -41,10 +41,10 @@ export default function App() {
         theme: "colored",
     });
 
-    const perigo = () => toast.warn(
+    const perigo = (report: any) => toast.warn(
         <ToastMessage
             titulo="Alerta: Perigo"
-            messagem={`Estação ${dados[0]?.value?.estacao} com paramêtros ${dados[0]?.value?.parametro}`}
+            messagem={`Estação ${report?.value?.estacao} com paramêtros ${report?.value?.parametro}`}
         />, {
         autoClose: 10000,
         closeButton: false,
@@ -56,13 +56,28 @@ export default function App() {
         theme: "colored",
     });
 
-    const critico = () => toast.error(
+    const critico = (report: any) => toast.error(
         <ToastMessage
             titulo="Alerta: Crítico"
-            messagem={`Estação ${dados[0]?.value?.estacao} com paramêtros ${dados[0]?.value?.parametro}`}
+            messagem={`Estação ${report?.value?.estacao} com paramêtros ${report?.value?.parametro}`}
         />, {
         autoClose: 10000,
         closeButton: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+    });
+
+    const naoCadastrada = (report: any) => toast(
+        <ToastMessage
+            titulo={report.value.parametro?`Parametro não cadastrado: ${report.value.parametro} `: `Estação não cadastrada, UID: ${report.value.estacao} `}
+            messagem={report.value.msg}
+        />, {
+        autoClose: 10000,
+        closeButton: true,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -75,16 +90,18 @@ export default function App() {
         const intervalId = setInterval(() => {
             axios.get(`http://localhost:5000/report/redis-alertas`).then((res) => {
                 setDados(res.data)
-
+                console.log(res.data)
                 res.data.map((report: any) => {
                     if (report.value.nivel == "1") {
-                        attention()
+                        attention(report)
                     }
                     else if (report.value.nivel == "2") {
-                        perigo()
+                        perigo(report)
                     }
                     else if (report.value.nivel == "3") {
-                        critico()
+                        critico(report)
+                    }else if (report.key.split(":")[2] == "not_exist"){
+                        naoCadastrada(report)
                     }
 
                     /* axios.get(`http://localhost:5000/estacao/pegarEstacoes`).then((re) => {
@@ -97,7 +114,7 @@ export default function App() {
                 })
             })           
 
-        }, 60000);
+        }, 10000);
         return () => {
             clearInterval(intervalId)
         }
