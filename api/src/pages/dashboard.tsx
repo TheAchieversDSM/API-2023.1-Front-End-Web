@@ -62,6 +62,7 @@ export default function Dashboard() {
       return updatedEstacParam;
     });
 
+
     setEstacaoParametros(newEstacaoParametros);
   };
 
@@ -77,8 +78,6 @@ export default function Dashboard() {
       newOptionsState[index] = opts;
     });
     setOptionsState(newOptionsState);
-
-
   }, [estacaoParametros]);
 
   useEffect(() => {

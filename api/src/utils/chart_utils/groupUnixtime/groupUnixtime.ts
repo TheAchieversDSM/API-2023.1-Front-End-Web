@@ -36,6 +36,7 @@ export default function groupByUnixtime(medidas: Medida[]): any {
     })
   }
 
+
   const numChaves = Object.keys(medidasAgrupadas).length;
   const exibirHora = numChaves < 2;
 
