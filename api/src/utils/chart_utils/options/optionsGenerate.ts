@@ -12,7 +12,6 @@ export const generateOptions = (estacaoParametros: EstacaoParametro[], estacaoNo
       parametro.medidaMedia = averageCalculator(
         groupByUnixtime(parametro.medidas)
       );
-      console.log(parametro?.nome)
       const med = {
         nome: parametro?.nome,
         sufixo: {
@@ -30,7 +29,6 @@ export const generateOptions = (estacaoParametros: EstacaoParametro[], estacaoNo
 
   const metrics = metricMount(medidas);
   const newOptions = chartMount(metrics, estacaoNome ? estacaoNome : "");
-  console.log(newOptions)
   return newOptions;
 
 };
