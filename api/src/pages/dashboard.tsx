@@ -80,7 +80,7 @@ export default function Dashboard() {
       <div className="main-body">
         <h1 className="TitImp">{estacaoNome}</h1>
         <div className="container_dashboard">
-          {renderButton ? <Button className="chartResetButton" onClick={() => setFetchData(true)}><MdUpdate className="buttonIcon"/> Reset date chart</Button> : <></>}
+          {renderButton ? <Button className="chartResetButton" onClick={() => setFetchData(true)}><MdUpdate className="buttonIcon"/> Redefinir</Button> : <></>}
           <Row>
             {estacaoParametros.length > 1 ? (
               estacaoParametros.map((param, index) => (
