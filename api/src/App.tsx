@@ -29,7 +29,7 @@ export default function App() {
     const attention = (report: any) => toast.info(
         <ToastMessage
             titulo="Alerta: Atenção"
-            messagem={`Estação ${report?.value?.estacao} com paramêtros ${report?.value?.parametro}`}
+            messagem={`Estação ${report?.estacao} com paramêtros ${report?.parametro}`}
         />, {
         autoClose: 10000,
         closeButton: false,
@@ -44,7 +44,7 @@ export default function App() {
     const perigo = (report: any) => toast.warn(
         <ToastMessage
             titulo="Alerta: Perigo"
-            messagem={`Estação ${report?.value?.estacao} com paramêtros ${report?.value?.parametro}`}
+            messagem={`Estação ${report?.estacao} com paramêtros ${report?.parametro}`}
         />, {
         autoClose: 10000,
         closeButton: false,
@@ -59,7 +59,7 @@ export default function App() {
     const critico = (report: any) => toast.error(
         <ToastMessage
             titulo="Alerta: Crítico"
-            messagem={`Estação ${report?.value?.estacao} com paramêtros ${report?.value?.parametro}`}
+            messagem={`Estação ${report?.estacao} com paramêtros ${report?.parametro}`}
         />, {
         autoClose: 10000,
         closeButton: false,
@@ -73,8 +73,8 @@ export default function App() {
 
     const naoCadastrada = (report: any) => toast(
         <ToastMessage
-            titulo={report.value.parametro?`Parametro não cadastrado: ${report.value.parametro} `: `Estação não cadastrada, UID: ${report.value.estacao} `}
-            messagem={report.value.msg}
+            titulo={report.parametro?`Parametro não cadastrado: ${report.parametro} `: `Estação não cadastrada, UID: ${report.estacao} `}
+            messagem={report.msg}
         />, {
         autoClose: 10000,
         closeButton: true,
@@ -90,27 +90,19 @@ export default function App() {
         const intervalId = setInterval(() => {
             axios.get(`http://localhost:5000/report/redis-alertas`).then((res) => {
                 setDados(res.data)
-                console.log(res.data)
                 res.data.map((report: any) => {
-                    if (report.value.nivel == "1") {
+                    console.log(report)
+                    if (report.nivel == "1") {
                         attention(report)
                     }
-                    else if (report.value.nivel == "2") {
+                    else if (report.nivel == "2") {
                         perigo(report)
                     }
-                    else if (report.value.nivel == "3") {
+                    else if (report.nivel == "3") {
                         critico(report)
                     }else if (report.key.split(":")[2] == "not_exist"){
                         naoCadastrada(report)
                     }
-
-                    /* axios.get(`http://localhost:5000/estacao/pegarEstacoes`).then((re) => {
-                        re.data.map((estacao: any) => {
-                            if (report.value.estacao == estacao.estacao_uid) {
-                                setEstacao(estacao)
-                            }
-                        })
-                    }) */
                 })
             })           
 
