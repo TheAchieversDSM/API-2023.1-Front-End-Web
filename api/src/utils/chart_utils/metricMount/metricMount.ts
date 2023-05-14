@@ -3,7 +3,6 @@ import Metric from "../metric/metric";
 
 export default function metricMount(data: Array<MediasSeries>){
     const metrics: Metric[] = []
-    console.log(data)
     data.map(metric => {
         const series: number[][] = []
         const newMetric = new Metric("",[[0,0]]);
@@ -12,7 +11,6 @@ export default function metricMount(data: Array<MediasSeries>){
         metric.media.map(metrica =>{
           const datas: any[] = [];
           datas.push(metrica.unixtime)
-          console.log(metrica.unixtime )
           datas.push(Number(metrica.valorMedido))
           series.push(datas)
         })

@@ -13,6 +13,8 @@ import { parseCookies } from "nookies";
 
 import '../styles/criar-usuarios.css'
 
+const { Select } = Form;
+
 const options = [{ value: '1', label: 'Administrador' }, { value: '2', label: 'Comum' }]
 
 export default function CriarUsuarios() {
@@ -45,7 +47,7 @@ export default function CriarUsuarios() {
             setUsuario((prevState) => {
                 return {
                     ...prevState,
-                    tipoUsuario: event[0].value,
+                    tipoUsuario: event.target.value,
                 };
             });
         }
@@ -57,12 +59,19 @@ export default function CriarUsuarios() {
         }
 
         event.preventDefault()
-
+        console.log( {
+            // colocar o campo de tipo aqui
+            nome: usuario.nome,
+            email: usuario.email,
+            senha: usuario.senha,
+            tipoUsuario: usuario.tipoUsuario
+        })
         axios.post(`http://localhost:5000/user/cadastro`, {
             // colocar o campo de tipo aqui
             nome: usuario.nome,
             email: usuario.email,
-            senha: usuario.senha
+            senha: usuario.senha,
+            tipoUsuario: usuario.tipoUsuario
         },
              { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } } 
         ).then((res) => {
@@ -111,9 +120,9 @@ export default function CriarUsuarios() {
                             </Col>
                         </Row>
 
-                        {/* <Row className="create-alert-content">
+                        <Row className="create-alert-content">
                             <Col md={11}>
-                                <SelectMulti
+                                {/*<SelectMulti
                                     label="Nível de Acesso"
                                     size="mb-3"
                                     name="tipoUsuario"
@@ -121,9 +130,19 @@ export default function CriarUsuarios() {
                                     options={options}
                                     onChange={handleChangeSelect}
                                     close={true}
-                                />
+                                />*/}
+
+                                <Form.Label>Selecione o nível de acesso do usuário</Form.Label>
+                                <Select onChange={handleChangeSelect}>
+                                    <option value="" disabled selected hidden>Selecione o nível de acesso</option>
+                                    {options.map((option)=> (
+                                        <option key={option?.value} value={option?.value}>
+                                        {option?.label}
+                                    </option>
+                                    ))}
+                                </Select>
                             </Col>
-                        </Row> */}
+                        </Row> 
 
                         <Row className="create-alert-content">
                             <Col md={11}>
