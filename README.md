@@ -33,5 +33,5 @@ npm install
 # Inicie o sistema
 npm start
 
-# Pronto! A aplicação estará rodando no endereço http://localhost:8080
+# Pronto! A aplicação estará rodando no endereço http://localhost:3000
 ```
