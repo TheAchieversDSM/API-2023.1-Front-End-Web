@@ -1,3 +1,5 @@
+import Options from "../chart_utils/options/options";
+
 export type Data = [number, number]
 
 export type Estacao = {
@@ -30,5 +32,6 @@ export type EstacaoParametro = {
     offset: number;
     medidas: Medida[];
     medidaMedia: MedidaMedia;
+    options: Options;
     
 }
