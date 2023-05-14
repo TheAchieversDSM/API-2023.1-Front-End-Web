@@ -14,10 +14,9 @@ export default class Options {
         zoomType: 'x', // Adiciona a opção de zoom no eixo x
         panning: true, // Habilita o panning no eixo x
       };
-<
 
-      xAxis = {categories: [], range: 5 }
-      title = { text: `Informações meteorológicas da estação` };
+      xAxis = {categories: []}
+      title = { text: '' };
       rangeSelector!: {
         selected: 1,
         inputDateFormat: '%Y-%d-%m',
@@ -41,7 +40,7 @@ export default class Options {
 
 
     constructor(title: string, series: Array<Metric>) {
-        this.title = { text: `Informações meteorológicas da estação ${title}` };
+        this.title = { text: `Informações de ${title}` };
         this.series = series;
         this.funcao = (event: any)=>{}
 
