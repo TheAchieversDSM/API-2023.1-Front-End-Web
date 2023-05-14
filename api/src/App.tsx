@@ -106,7 +106,7 @@ export default function App() {
                 })
             })           
 
-        }, 10000);
+        }, 60000);
         return () => {
             clearInterval(intervalId)
         }
