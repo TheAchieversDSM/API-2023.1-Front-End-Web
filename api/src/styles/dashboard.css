@@ -4,6 +4,32 @@
     left: 25%;
 }
 
+.coluna{
+    margin-bottom: 2%;
+}
+
+.chartResetButton{
+    position: fixed;
+    right: 1%;
+    border: none;
+    background-color: #5751D3 ;
+    z-index: 20;
+    transition:  0.5s;
+    font-size: 20px;
+    animation: fadeIn 0.5s;
+}
+
+
+.chartResetButton:hover{
+    color: #ffff;
+    background-color: #9894EA ;
+    transition:  0.5s;
+}
+
+.chartResetButton .buttonIcon{
+    font-size: 25px;
+}
+
 .parametrosTitulo{
     font-style: normal !important;
     font-weight: 600 !important;
@@ -46,3 +72,12 @@
     color: white;
 
 }
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
