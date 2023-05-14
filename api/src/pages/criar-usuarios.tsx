@@ -134,6 +134,7 @@ export default function CriarUsuarios() {
 
                                 <Form.Label>Selecione o nível de acesso do usuário</Form.Label>
                                 <Select onChange={handleChangeSelect}>
+                                    <option value="" disabled selected hidden>Selecione o nível de acesso</option>
                                     {options.map((option)=> (
                                         <option key={option?.value} value={option?.value}>
                                         {option?.label}
