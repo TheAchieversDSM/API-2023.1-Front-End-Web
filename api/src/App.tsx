@@ -100,7 +100,7 @@ export default function App() {
                     }
                     else if (report.nivel == "3") {
                         critico(report)
-                    }else if (report.key.split(":")[2] == "not_exist"){
+                    }else if (report.key.split(":")[1] == "not_exist"){
                         naoCadastrada(report)
                     }
                 })
@@ -116,7 +116,7 @@ export default function App() {
     return (
         <BrowserRouter>
             <AuthProvider>
-                <Link to={`/reports/${dados[0]?.value?.estacao}`}><ToastContainer /></Link>
+               <ToastContainer />
                 <Routes />
             </AuthProvider>
         </BrowserRouter>
