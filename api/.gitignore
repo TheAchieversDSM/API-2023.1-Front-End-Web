@@ -7,9 +7,12 @@
 
 # testing
 /coverage
+/.scannerwork
 
 # production
 /build
+
+#sonar-scanner -Dsonar.token=sqp_8702c1b760c1861fd1b68d3691c96fedef13b836
 
 # misc
 .DS_Store
