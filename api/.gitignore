@@ -8,6 +8,8 @@
 # testing
 /coverage
 /.scannerwork
+/.nyc_output
+/instrumented
 
 # production
 /build
