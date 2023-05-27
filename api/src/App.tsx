@@ -12,6 +12,7 @@ import { BrowserRouter, Link } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import url from './services/config';
 
 export default function App() {
     const [dados, setDados] = useState<any>([])
@@ -88,7 +89,7 @@ export default function App() {
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            axios.get(`http://localhost:5000/report/redis-alertas`).then((res) => {
+            axios.get(`${url.baseURL}/report/redis-alertas`).then((res) => {
                 setDados(res.data)
                 res.data.map((report: any) => {
                     console.log(report)
