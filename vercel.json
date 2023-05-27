@@ -1,9 +1,0 @@
-{
-  "github": {
-    "enable": false
-  },
-  "builds": [{
-    "src": "api",
-    "use": "@vercel/static"
-  }]
-}
