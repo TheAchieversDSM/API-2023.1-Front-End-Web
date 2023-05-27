@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 import { parseCookies } from "nookies";
+import url from '../services/config';
 
 interface modelo  {
         'estacao_uid': '',
@@ -20,7 +21,7 @@ export default function Reports() {
 
     useEffect(() =>{
         function render(){
-            axios.get(`http://localhost:5000/report/pegarReportPelaEstacao/${uid}`, {
+            axios.get(`${url.baseURL}/report/pegarReportPelaEstacao/${uid}`, {
                 headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
               }).then((res) =>{
                 setEstacao(res.data)

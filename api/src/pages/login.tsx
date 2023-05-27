@@ -13,11 +13,14 @@ import { AuthContext } from "../hooks/useAuth";
 
 export default function Login() {
     const navigate = useNavigate();
+    
     const { signIn, isAuthenticated } = useContext(AuthContext);
+
     const [values, setValues] = useState({
         email: "",
         password: "",
     });
+
     const handleChange = (event: any) => {
         const { name, value } = event.target;
 
@@ -47,11 +50,13 @@ export default function Login() {
             console.log("erro");
         }
     };
+
     useEffect(() => {
         if (isAuthenticated) {
             navigate("/home");
         }
     }, [isAuthenticated, navigate]);
+
     return (
         <div className="body-login">
             <div className="grid-login">
