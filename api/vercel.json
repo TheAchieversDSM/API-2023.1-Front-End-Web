@@ -1,6 +1,6 @@
 {
-    "github": {
-      "enable": false
-    }
-  }
-  
+  "github": {
+    "enable": false
+  },
+  "builds": []
+}
