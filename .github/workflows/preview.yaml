@@ -11,6 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Verify Branch
+        run: |
+          if [[ "${{ github.ref }}" != "refs/heads/pre-release" ]]; then
+            echo "🛑 Build canceled. Branch not allowed for Preview deployment"
+            exit 1
+          fi
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
@@ -19,13 +25,8 @@ jobs:
         id: build
         run: |
           echo "🚀 Starting build..."
-          if [[ "${{ github.ref }}" != "refs/heads/pre-release" ]]; then
-            echo "🛑 Build canceled. Branch not allowed for Preview deployment"
-            exit 1
-          fi
           # Seu script de build aqui
           echo "::set-output name=exit-code::$?"
-
       - name: Deploy Project Artifacts to Vercel
         run: |
           echo "💫 Deploying project..."
