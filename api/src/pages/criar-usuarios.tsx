@@ -12,6 +12,7 @@ import Swal from 'sweetalert2'
 import { parseCookies } from "nookies";
 
 import '../styles/criar-usuarios.css'
+import url from '../services/config';
 
 const { Select } = Form;
 
@@ -59,21 +60,21 @@ export default function CriarUsuarios() {
         }
 
         event.preventDefault()
-        console.log( {
+        console.log({
             // colocar o campo de tipo aqui
             nome: usuario.nome,
             email: usuario.email,
             senha: usuario.senha,
             tipoUsuario: usuario.tipoUsuario
         })
-        axios.post(`http://localhost:5000/user/cadastro`, {
+        axios.post(`${url.baseURL}/user/cadastro`, {
             // colocar o campo de tipo aqui
             nome: usuario.nome,
             email: usuario.email,
             senha: usuario.senha,
             tipoUsuario: usuario.tipoUsuario
         },
-             { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } } 
+            { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
         ).then((res) => {
 
         })
@@ -135,14 +136,14 @@ export default function CriarUsuarios() {
                                 <Form.Label>Selecione o nível de acesso do usuário</Form.Label>
                                 <Select onChange={handleChangeSelect}>
                                     <option value="" disabled selected hidden>Selecione o nível de acesso</option>
-                                    {options.map((option)=> (
+                                    {options.map((option) => (
                                         <option key={option?.value} value={option?.value}>
-                                        {option?.label}
-                                    </option>
+                                            {option?.label}
+                                        </option>
                                     ))}
                                 </Select>
                             </Col>
-                        </Row> 
+                        </Row>
 
                         <Row className="create-alert-content">
                             <Col md={11}>

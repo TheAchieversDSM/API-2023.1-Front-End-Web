@@ -13,6 +13,7 @@ import Swal from 'sweetalert2'
 import { parseCookies } from "nookies";
 
 import '../styles/criar-parametros.css'
+import url from '../services/config';
 
 const modelo = [{ value: '', label: '' }]
 
@@ -61,7 +62,7 @@ export default function CriarParametros() {
     };
 
     const createTipoOption = (event: any) => {
-        axios.post(`http://localhost:5000/tipoParametro/cadastro`,
+        axios.post(`${url.baseURL}/tipoParametro/cadastro`,
             { nome: event },
             { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
         ).then((res) => {
@@ -85,7 +86,7 @@ export default function CriarParametros() {
 
     const createMedidaOption = (event: any) => {
         console.log(event)
-        axios.post(`http://localhost:5000/unidadeMedida/cadastro`,            
+        axios.post(`${url.baseURL}/unidadeMedida/cadastro`,
             { nome: event },
             { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
         ).then(res => {
@@ -106,7 +107,7 @@ export default function CriarParametros() {
 
         event.preventDefault();
 
-        axios.post(`http://localhost:5000/parametro/cadastro`, {
+        axios.post(`${url.baseURL}/parametro/cadastro`, {
             tipo_parametro: parametros.tipoParametro.value,
             formula_parametro: parametros.formula,
             nome_parametro: parametros.nome,
@@ -134,7 +135,7 @@ export default function CriarParametros() {
     // get unidade de medidas & tipos de parâmetros ✨
     useEffect(() => {
         async function render() {
-            axios.get(`http://localhost:5000/parametro/pegarParametros`, {
+            axios.get(`${url.baseURL}/parametro/pegarParametros`, {
                 headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
             }).then((res) => {
                 const unidades = [{ value: '', label: '' }]
@@ -151,7 +152,7 @@ export default function CriarParametros() {
                 setUnidadeMedidas(unidades)
             });
 
-            axios.get(`http://localhost:5000/tipoParametro/pegarTiposParametro`,
+            axios.get(`${url.baseURL}/tipoParametro/pegarTiposParametro`,
                 {
                     headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` }
                 }).then((res) => {
@@ -170,7 +171,7 @@ export default function CriarParametros() {
                 })
 
             axios
-                .get(`http://localhost:5000/unidadeMedida/pegarUnidadeDeMedidas`, {
+                .get(`${url.baseURL}/unidadeMedida/pegarUnidadeDeMedidas`, {
                     headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
                 })
                 .then((res) => {

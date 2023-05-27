@@ -14,6 +14,7 @@ import { parseCookies } from "nookies";
 import { AuthContext } from "../hooks/useAuth";
 
 import "../styles/criar-alertas.css";
+import url from "../services/config";
 
 const options = [
     { value: 1, label: "Atenção" },
@@ -82,7 +83,7 @@ export default function CriarAlertas() {
 
         event.preventDefault();
 
-        axios.post(`http://localhost:5000/alerta/cadastro`,
+        axios.post(`${url.baseURL}/alerta/cadastro`,
             {
                 nome: alerta.nome,
                 valorMinimo: alerta.valorMin,
@@ -108,7 +109,7 @@ export default function CriarAlertas() {
 
     useEffect(() => {
         async function render() {
-            axios.get(`http://localhost:5000/parametro/pegarParametros`,
+            axios.get(`${url.baseURL}/parametro/pegarParametros`,
                 {
                     headers: {
                         Authorization: `Bearer ${cookies["tecsus.token"]}`,

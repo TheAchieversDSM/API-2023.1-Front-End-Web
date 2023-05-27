@@ -12,6 +12,7 @@ import Swal from 'sweetalert2'
 import { parseCookies } from "nookies";
 
 import "../styles/criar-estacoes.css";
+import url from "../services/config";
 
 const modelo = [{ value: "", label: "" }];
 
@@ -65,7 +66,7 @@ export default function CriarEstacoes() {
 
         event.preventDefault();
 
-        axios.post(`http://localhost:5000/estacao/cadastro`,
+        axios.post(`${url.baseURL}/estacao/cadastro`,
             {
                 nome_estacao: estacao.nome,
                 latitude: estacao.latitude,
@@ -94,8 +95,9 @@ export default function CriarEstacoes() {
     useEffect(() => {
         async function render() {
             axios
-                .get(`http://localhost:5000/parametro/pegarParametros`, {
-                    headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` }})
+                .get(`${url.baseURL}/parametro/pegarParametros`, {
+                    headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` }
+                })
                 .then((res) => {
                     const parametro = [{ value: "", label: "" }];
 
