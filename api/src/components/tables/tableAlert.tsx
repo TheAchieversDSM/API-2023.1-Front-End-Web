@@ -11,6 +11,7 @@ import { OverlayTrigger, Tab, Tabs, Tooltip } from 'react-bootstrap';
 import { AuthContext } from "../../hooks/useAuth";
 import { parseCookies } from "nookies";
 import Swal from 'sweetalert2'
+import url from '../../services/config';
 
 interface IAlerta {
 	alerta_id: number;
@@ -35,7 +36,7 @@ export default function TableAlert() {
 	useEffect(() => {
 		function render() {
 			axios
-				.get("http://localhost:5000/alerta/pegarAlertasAtivos", {
+				.get(`${url.baseURL}/alerta/pegarAlertasAtivos`, {
 					headers: {
 						Authorization: `Bearer ${cookies["tecsus.token"]}`,
 					},
@@ -47,7 +48,7 @@ export default function TableAlert() {
 		render();
 
 		axios
-        .get(`http://localhost:5000/user/pegarUsuarios`, {
+        .get(`${url.baseURL}/user/pegarUsuarios`, {
           headers: {
             Authorization: `Bearer ${cookies["tecsus.token"]}`,
           },
@@ -65,7 +66,7 @@ export default function TableAlert() {
 	useEffect(() => {
 		function render() {
 			axios
-				.get("http://localhost:5000/alerta/pegarAlertasInativos", {
+				.get(`${url.baseURL}/alerta/pegarAlertasInativos`, {
 					headers: {
 						Authorization: `Bearer ${cookies["tecsus.token"]}`,
 					},
@@ -93,7 +94,7 @@ export default function TableAlert() {
 			if (result.isConfirmed) {
 				Swal.fire('Atualizado!', '', 'success')
 
-				axios.put(`http://localhost:5000/alerta/atualizarEstado/${id}`,{ ativo },
+				axios.put(`${url.baseURL}/alerta/atualizarEstado/${id}`,{ ativo },
 				{ headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
 				)
 				.then((response) => {

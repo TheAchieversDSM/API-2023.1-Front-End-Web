@@ -12,6 +12,7 @@ import { parseCookies } from "nookies";
 import Swal from 'sweetalert2'
 
 import '../../styles/modal.css';
+import url from '../../services/config';
 interface IUser {
 	user_id: number;
 	nome?: string;
@@ -36,7 +37,7 @@ export default function TableUsu() {
 	useEffect(() => {
 		function render() {
 			axios
-				.get("http://localhost:5000/user/pegarUsuarios", {
+				.get(`${url.baseURL}/user/pegarUsuarios`, {
 					headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
 				})
 				.then((res) => {
@@ -46,7 +47,7 @@ export default function TableUsu() {
 		render();
 	
 		axios
-        .get(`http://localhost:5000/user/pegarUsuarios`, {
+        .get(`${url.baseURL}/user/pegarUsuarios`, {
           headers: {
             Authorization: `Bearer ${cookies["tecsus.token"]}`,
           },
@@ -78,12 +79,12 @@ export default function TableUsu() {
 			if (result.isConfirmed) {
 				Swal.fire('Deletado!', '', 'success')
 
-				axios.delete(`http://localhost:5000/user/deletarUsuario`, {
+				axios.delete(`${url.baseURL}/user/deletarUsuario`, {
 					data: { id },
 					headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
 				}).then(() => {
 					// Atualiza a lista de usuários após a exclusão
-					axios.get("http://localhost:5000/user/pegarUsuarios", {
+					axios.get(`${url.baseURL}/user/pegarUsuarios`, {
 						headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
 					}).then((res) => {
 						setUsers(res.data);

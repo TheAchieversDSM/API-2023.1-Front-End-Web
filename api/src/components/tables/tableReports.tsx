@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { parseCookies } from "nookies";
+import url from '../../services/config';
 
 interface IReport {
     report_id: number;
@@ -26,7 +27,7 @@ export default function TableReport() {
     useEffect(() => {
         const fetchReports = async () => {
           try {
-            const response = await axios.get(`http://localhost:5000/report/pegarReportPelaEstacao/${uid}`, {
+            const response = await axios.get(`${url.baseURL}/report/pegarReportPelaEstacao/${uid}`, {
               headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
             });
             console.log(response.data);
