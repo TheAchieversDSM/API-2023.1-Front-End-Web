@@ -1,0 +1,16 @@
+{
+    "builds": [
+      {
+        "src": "build/*",
+        "use": "@vercel/static"
+      }
+    ],
+    "version": 2,
+    "ignore": {
+      "files": [".vercelignore"],
+      "directories": [".git", "node_modules"],
+      "functions": ["api/**/*"],
+      "buildStep": "bash build-script.sh"
+    }
+  }
+  
