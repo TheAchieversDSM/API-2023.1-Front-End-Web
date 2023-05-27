@@ -2,7 +2,10 @@ name: Deploy to Preview
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
+on:
+  push:
+    branches-ignore:
+      - main
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
@@ -27,4 +30,4 @@ jobs:
         run: echo "✅ Build successful"
       - name: Display Build Output
         if: ${{ steps.build.outputs.exit-code == 2 }}
-        run: echo "🛑 Build canceled. Branch not allowed for preview deployment"
+        run: echo "🛑 Build canceled. Branch not allowed for Preview deployment"
