@@ -10,5 +10,5 @@ elif [[ "$VERCEL_GIT_COMMIT_REF" == "main" ]]; then
     exit 1;
 else
     echo "🛑 - Build cancelada, branch não permitida para deploy"
-    exit 0;
+    exit 2;
 fi
