@@ -28,7 +28,7 @@ jobs:
         run: |
           echo "🚀 Starting build..."
           echo "::set-output name=exit-code::$?"
-        vercel build --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: |
           echo "💫 Deploying project..."
