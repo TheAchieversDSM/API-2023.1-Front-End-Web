@@ -19,7 +19,7 @@ jobs:
         id: build
         run: |
           echo "🚀 Starting build..."
-          ./build-script.sh
+          ../build-script.sh
           echo "::set-output name=exit-code::$?"
       - name: Deploy Project Artifacts to Vercel
         run: |
