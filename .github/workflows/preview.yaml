@@ -16,6 +16,18 @@ jobs:
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        id: build
+        run: |
+          echo "🚀 Starting build..."
+          ./build-script.sh
+          echo "::set-output name=exit-code::$?"
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          echo "💫 Deploying project..."
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Check Build Status
+        if: ${{ steps.build.outputs.exit-code == 0 }}
+        run: echo "✅ Build successful"
+      - name: Display Build Output
+        if: ${{ steps.build.outputs.exit-code == 2 }}
+        run: echo "🛑 Build canceled. Branch not allowed for deployment"
