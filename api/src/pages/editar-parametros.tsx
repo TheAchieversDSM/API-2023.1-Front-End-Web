@@ -15,6 +15,7 @@ import Swal from 'sweetalert2'
 import { parseCookies } from "nookies";
 
 import '../styles/criar-parametros.css'
+import url from '../services/config';
 
 const modelo = [{ value: '', label: '' }]
 
@@ -82,7 +83,7 @@ export default function EditarParametro() {
     };
 
     const createTipoOption = (event: any) => {
-        axios.post(`http://localhost:5000/tipoParametro/cadastro`,
+        axios.post(`${url.baseURL}/tipoParametro/cadastro`,
             { nome: event },
             { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
           )
@@ -106,7 +107,7 @@ export default function EditarParametro() {
     };
 
     const createMedidaOption = (event: any) => {
-        axios.post(`http://localhost:5000/unidadeMedida/cadastro`,
+        axios.post(`${url.baseURL}/unidadeMedida/cadastro`,
             { nome: event },
             { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }).then(res => {
                 handleChangeSelectUnidade({ value: res.data.id, label: event })
@@ -143,7 +144,7 @@ export default function EditarParametro() {
             parametros.offset = parametro?.offset ?? ''
         }
 
-        axios.put(`http://localhost:5000/parametro/atualizarParametro/${id}`, {
+        axios.put(`${url.baseURL}/parametro/atualizarParametro/${id}`, {
             tipo_parametro: parseInt(parametros.tipoParametro.value),
             formula_parametro: parametros.formula,
             nome_parametro: parametros.nome,
@@ -169,7 +170,7 @@ export default function EditarParametro() {
     // get unidade de medidas & tipos de parâmetros ✨
     useEffect(() => {
         async function render() {
-            axios.get(`http://localhost:5000/unidadeMedida/pegarUnidadeDeMedidas`,
+            axios.get(`${url.baseURL}/unidadeMedida/pegarUnidadeDeMedidas`,
                 {
                     headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
                 }).then((res) => {
@@ -187,7 +188,7 @@ export default function EditarParametro() {
                     setUnidadeMedidas(unidades)
                 });
 
-            axios.get(`http://localhost:5000/tipoParametro/pegarTiposParametro`,
+            axios.get(`${url.baseURL}/tipoParametro/pegarTiposParametro`,
                 {
                     headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
                 }).then((res) => {
@@ -205,7 +206,7 @@ export default function EditarParametro() {
                     setTipos(parametrosTipos)
                 })
 
-            axios.get(`http://localhost:5000/parametro/pegarParametrosPorId/${id}`).then((res) => {
+            axios.get(`${url.baseURL}/parametro/pegarParametrosPorId/${id}`).then((res) => {
                 setParametro(res.data)
             })
         }
