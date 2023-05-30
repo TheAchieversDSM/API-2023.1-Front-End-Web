@@ -1,0 +1,32 @@
+name: Develop
+
+on:
+  push:
+    branches: [ "API20231-203---StockChart" ]
+  pull_request:
+    branches: [ "API20231-203---StockChart" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install Dependencies
+      run: npm install
+      
+    - name: Install Cypress
+      run: npx cypress install
+      
+    - name: Run Cypress Tests
+      run: npx cypress run
