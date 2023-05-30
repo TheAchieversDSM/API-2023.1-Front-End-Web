@@ -27,6 +27,9 @@ jobs:
 
     - name: Install Cypress
       run: cd api && npx cypress install
+
+    - name: Start application
+      run: npm start
       
     - name: Run Cypress Tests
       run: cd api && npx cypress run
