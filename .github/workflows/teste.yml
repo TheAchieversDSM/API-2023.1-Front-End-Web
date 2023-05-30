@@ -29,7 +29,7 @@ jobs:
       run: cd api && npx cypress install
 
     - name: Start application
-      run: npm start
+      run: cd api && npm start
       
     - name: Run Cypress Tests
       run: cd api && npx cypress run
