@@ -89,21 +89,6 @@ export default function TablePar(props: any) {
 				});
 		}
 		render();
-
-		axios
-        .get(`http://localhost:5000/user/pegarUsuarios`, {
-          headers: {
-            Authorization: `Bearer ${cookies["tecsus.token"]}`,
-          },
-        })
-        .then((re) => {
-          re.data.map((user: any) => {
-            if (user.user_id == cookies["tecsus.user_id"]) {			
-              setNivelUser(user.tipoUsuario);
-			  console.log(nivelUser);
-            }
-          });
-        });
 	}, []);
 
 	function handleChange(parametros: IParametro) {
@@ -174,31 +159,31 @@ export default function TablePar(props: any) {
 								<BsEye className="icon"/>
 							</Button>
 						</OverlayTrigger>
-						{ Number(nivelUser) == 1 ? 
+						{Number(cookies["tecsus.nivel"]) === 1 ? (
 							<>
 								<OverlayTrigger
-							placement="top"
-							delay={{ show: 150, hide: 200 }}
-							overlay={editTooltip}
-						>
-							<Link to={`/editar-parametro/${parametro.parametro_id}`}>
-								<Button className="bt bt-edit">
-									<BsPencil className="icon" />
-								</Button>
-							</Link>
-						</OverlayTrigger>
+									placement="top"
+									delay={{ show: 150, hide: 200 }}
+									overlay={editTooltip}
+								>
+									<Link to={`/editar-parametro/${parametro.parametro_id}`}>
+										<Button className="bt bt-edit">
+											<BsPencil className="icon" />
+										</Button>
+									</Link>
+								</OverlayTrigger>
 
-						<OverlayTrigger
-							placement="top"
-							delay={{ show: 150, hide: 200 }}
-							overlay={inTooltip}
-						>
-							<Button className="bt bt-delete" onClick={() => handleChange(parametro)}>
-								<BsXOctagon className="icon" />
-							</Button>
-						</OverlayTrigger>
-							</>
-							: null
+								<OverlayTrigger
+									placement="top"
+									delay={{ show: 150, hide: 200 }}
+									overlay={inTooltip}
+								>
+									<Button className="bt bt-delete" onClick={() => handleChange(parametro)}>
+										<BsXOctagon className="icon" />
+									</Button>
+								</OverlayTrigger>
+									</>
+							): null
 						}
         
 						<MyVerticallyCenteredModal
@@ -257,31 +242,32 @@ export default function TablePar(props: any) {
 								<BsEye className="icon"/>
 							</Button>
 						</OverlayTrigger>
-						{ Number(nivelUser) == 1 ?
+
+						{Number(cookies["tecsus.nivel"]) === 1 ? (
 							<>
 								<OverlayTrigger
-							placement="top"
-							delay={{ show: 150, hide: 200 }}
-							overlay={editTooltip}
-						>
-							<Link to={`/editar-parametro/${inativo.parametro_id}`}>
-								<Button className="bt bt-edit">
-									<BsPencil className="icon" />
-								</Button>
-							</Link>
-						</OverlayTrigger>
+									placement="top"
+									delay={{ show: 150, hide: 200 }}
+									overlay={editTooltip}
+								>
+									<Link to={`/editar-parametro/${inativo.parametro_id}`}>
+										<Button className="bt bt-edit">
+											<BsPencil className="icon" />
+										</Button>
+									</Link>
+								</OverlayTrigger>
 
-						<OverlayTrigger
-							placement="top"
-							delay={{ show: 150, hide: 200 }}
-							overlay={atTooltip}
-						>
-							<Button className="bt bt-active" onClick={() => handleChange(inativo)}>
-								<BsCheckLg className="icon" />
-							</Button>
-						</OverlayTrigger>
+								<OverlayTrigger
+									placement="top"
+									delay={{ show: 150, hide: 200 }}
+									overlay={atTooltip}
+								>
+									<Button className="bt bt-active" onClick={() => handleChange(inativo)}>
+										<BsCheckLg className="icon" />
+									</Button>
+								</OverlayTrigger>
 							</>
-						:<></>
+							):null
 						}
 
 						<MyVerticallyCenteredModal

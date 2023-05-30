@@ -269,31 +269,32 @@ export default function TableEst() {
                 <BsEye className="icon" />
               </Button>
             </OverlayTrigger>
-            { Number(nivelUser) == 1 ?
+
+            { Number(nivelUser) == 1 ?(
               <>
                 <OverlayTrigger
-              placement="top"
-              delay={{ show: 150, hide: 200 }}
-              overlay={editTooltip}
-            >
-              <Link to={`/editar-estacao/${inativo.estacao_id}`}>
-                <Button className="bt bt-edit">
-                  <BsPencil className="icon" />
-                </Button>
-              </Link>
-            </OverlayTrigger>
+                  placement="top"
+                  delay={{ show: 150, hide: 200 }}
+                  overlay={editTooltip}
+                >
+                  <Link to={`/editar-estacao/${inativo.estacao_id}`}>
+                    <Button className="bt bt-edit">
+                      <BsPencil className="icon" />
+                    </Button>
+                  </Link>
+                </OverlayTrigger>
 
-            <OverlayTrigger
-              placement="top"
-              delay={{ show: 150, hide: 200 }}
-              overlay={atTooltip}
-            >
-              <Button className="bt bt-active" onClick={() => handleChange(inativo)}>
-                <BsCheckLg className="icon" />
-              </Button>
-            </OverlayTrigger>
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 150, hide: 200 }}
+                  overlay={atTooltip}
+                >
+                  <Button className="bt bt-active" onClick={() => handleChange(inativo)}>
+                    <BsCheckLg className="icon" />
+                  </Button>
+                </OverlayTrigger>
               </>
-              :null
+              ):null
             }
           </td>
         </tr>
