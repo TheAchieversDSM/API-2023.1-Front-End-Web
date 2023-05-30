@@ -1,6 +1,6 @@
 describe("CriarEstacoes", () => {
     it("deve enviar o formulário com sucesso", () => {
-      cy.visit("/criar-estacoes"); // Substitua "/sua-pagina" pela URL real da página que contém o componente CriarEstacoes
+      cy.visit("http://localhost:3000/criar-estacoes"); // Substitua "/sua-pagina" pela URL real da página que contém o componente CriarEstacoes
   
       // Simula a requisição da API
       cy.intercept("POST", "**/estacao/cadastro").as("cadastroRequest");
