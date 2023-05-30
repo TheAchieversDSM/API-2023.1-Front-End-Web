@@ -12,20 +12,16 @@ describe("CriarEstacoes", () => {
     cy.get('div[class="create-station-button"] button[type="submit"]').click();
 
     cy.wait("@cadastroRequest").then((interception) => {
-      expect(interception.response.statusCode).to.equal(200);
+      expect(interception.response.statusCode).to.equal(201);
+      expect(interception.response.body.ok).to.equal(
+        `Cadastro do '${create_estacao.estacao_id}' feito com sucesso`
+      );
 
-      // Lida com a resposta da API
-      cy.wrap(interception.response.body).then((responseBody) => {
-        // Verifique os dados de resposta ou quaisquer outras expectativas
-        // ...
-
-        cy.get('.swal2-title').should('contain.text', 'Estação cadastrada!');
-        cy.get('.swal2-content').should('contain.text', 'A estação Estação de Teste foi cadastrada com sucesso!');
-        cy.get('.swal2-icon').should('have.class', 'swal2-success');
-        cy.get('.swal2-confirm').click();
-      });
+      cy.get('.swal2-title').should('contain.text', 'Estação cadastrada!');
+      cy.get('.swal2-content').should('contain.text', 'A estação Estação de Teste foi cadastrada com sucesso!');
+      cy.get('.swal2-icon').should('have.class', 'swal2-success');
+      cy.get('.swal2-confirm').click();
     }).catch((error) => {
-      // Trata o erro de promessa rejeitada
       throw error;
     });
   });
