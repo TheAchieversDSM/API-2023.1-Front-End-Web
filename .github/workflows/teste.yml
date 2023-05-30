@@ -23,10 +23,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install Dependencies
-      run: npm install
-      
+      run: cd api && npm install
+
     - name: Install Cypress
-      run: npx cypress install
+      run: cd api && npx cypress install
       
     - name: Run Cypress Tests
-      run: npx cypress run
+      run: cd api && npx cypress run
