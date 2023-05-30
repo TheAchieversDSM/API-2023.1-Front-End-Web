@@ -21,7 +21,7 @@ describe("CriarEstacoes", () => {
       cy.get('.swal2-content').should('contain.text', 'A estação Estação de Teste foi cadastrada com sucesso!');
       cy.get('.swal2-icon').should('have.class', 'swal2-success');
       cy.get('.swal2-confirm').click();
-    }).catch((error) => {
+    }).then(null, (error) => {
       throw error;
     });
   });
