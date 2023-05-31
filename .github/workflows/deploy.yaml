@@ -29,7 +29,17 @@ jobs:
           echo "🚀 Starting build..."
           echo "::set-output name=exit-code::$?"
           vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: SonarQube Scan
+        run: sonar-scanner -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      - name: Check SonarQube Quality Gate
+        run: |
+          SONAR_PROJECT_STATUS=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: "{{ secrets.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=api-2023-1-front-end" | jq -r '.projectStatus.status')
+          if [[ "$SONAR_PROJECT_STATUS" != "OK" ]]; then
+            echo "❌ SonarQube Quality Gate failed. Status: $SONAR_PROJECT_STATUS"
+            exit 1
+          fi
       - name: Deploy Project Artifacts to Vercel
+        if: ${{ steps.build.outputs.exit-code == 0 }}
         run: |
           echo "💫 Deploying project to production..."
           vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
