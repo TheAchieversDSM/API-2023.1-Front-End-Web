@@ -40,6 +40,9 @@ export default function CriarEstacoes() {
                 [name]: value,
             };
         });
+
+        console.log(estacao);
+        
     };
 
     // select's handleChange ✨
@@ -54,7 +57,7 @@ export default function CriarEstacoes() {
 
             estacao.parametro = parameters;
 
-            setEstacao(estacao);
+            // setEstacao(estacao);
         }
     };
 
