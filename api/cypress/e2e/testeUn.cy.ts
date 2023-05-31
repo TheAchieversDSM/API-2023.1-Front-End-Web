@@ -1,6 +1,6 @@
 describe("CriarEstacoes", () => {
   it("deve enviar o formulário com sucesso", () => {
-    cy.visit("/criar-estacoes");
+    cy.visit("api/src/pages/criar-estacoes.ts");
 
     cy.intercept("POST", "/estacao/cadastro").as("cadastroRequest");
 
