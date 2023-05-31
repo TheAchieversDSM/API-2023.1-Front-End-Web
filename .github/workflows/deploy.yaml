@@ -34,7 +34,7 @@ jobs:
           SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
           SONAR_PASSWORD: ${{ secrets.SONAR_PASSWORD }}
         run: |
-          cd API-2023.1-Front-End-Web/api 
+          cd api 
           npm run sonar:build
       - name: Check SonarQube Quality Gate
         run: |
