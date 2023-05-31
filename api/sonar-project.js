@@ -1,5 +1,8 @@
 const sonarqubeScanner = require("sonarqube-scanner");
 
+
+console.log(      "sonar.login", process.env.SONAR_LOGIN,
+      "sonar.password", process.env.SONAR_PASSWORD,)
 sonarqubeScanner(
     {
         serverUrl: "http://localhost:9000",
@@ -8,8 +11,8 @@ sonarqubeScanner(
             "sonar.tests": "./src",
             "sonar.inclusions": "./src/**/*.ts,src/**/*.tsx",
             "sonar.test.inclusions": "./src/cypress/**/*.cy.ts",
-            "sonar.login": "admin",
-            "sonar.password": "tecsus",
+            "sonar.login": process.env.SONAR_LOGIN,
+            "sonar.password": process.env.SONAR_PASSWORD,
             "sonar.javascript.lcov.reportPaths": "./coverage/lcov.info"
         },
     },
