@@ -36,6 +36,7 @@ jobs:
         run: |
           cd api 
           npm install sonar-scanner
+          npm install sonarqube-scanner
           npm run sonar:build
       - name: Check SonarQube Quality Gate
         run: |
