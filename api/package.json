@@ -33,7 +33,8 @@
         "react-toastify": "^9.1.2",
         "sweetalert2": "^11.7.3",
         "typescript": "^4.9.5",
-        "web-vitals": "^2.1.4"
+        "web-vitals": "^2.1.4",
+        "sonarqube-scanner": "^3.1.0"
     },
     "scripts": {
         "start": "react-scripts -r @cypress/instrument-cra start",
@@ -41,7 +42,7 @@
         "sonar:build": "node sonar-project.js",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
-        "nyc:coverage-report": "nyc report --reporter=lcov"
+        "nyc:coverage-report": "nyc report --reporter=text-summary"
     },
     "eslintConfig": {
         "extends": [
@@ -67,6 +68,7 @@
         "@types/jsonwebtoken": "^9.0.2",
         "@typescript-eslint/eslint-plugin": "^5.57.0",
         "@typescript-eslint/parser": "^5.57.0",
+        "@istanbuljs/nyc-config-typescript": "^1.0.2",
         "babel-plugin-istanbul": "^6.1.1",
         "babel-plugin-transform-class-properties": "^6.24.1",
         "cypress": "^12.12.0",
