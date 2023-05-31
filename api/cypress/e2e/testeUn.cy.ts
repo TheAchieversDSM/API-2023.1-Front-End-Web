@@ -2,7 +2,7 @@ describe("CriarEstacoes", () => {
   it("deve enviar o formulário com sucesso", () => {
     cy.visit("http://localhost:3000/criar-estacoes");
 
-    cy.intercept("POST", "**/estacao/cadastro").as("cadastroRequest");
+    cy.intercept("POST", "/estacao/cadastro").as("cadastroRequest");
 
     cy.get('input[name="nome"]').type("Estação de Teste");
     cy.get('input[name="latitude"]').type("123,456");
