@@ -31,7 +31,7 @@ jobs:
           vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: |
-          echo "💫 Deploying project..."
+          echo "💫 Deploying project to production..."
           vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
       - name: Check Build Status
         if: ${{ steps.build.outputs.exit-code == 0 }}
