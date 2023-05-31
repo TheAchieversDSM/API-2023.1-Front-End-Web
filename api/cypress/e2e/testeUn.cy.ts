@@ -9,6 +9,8 @@ describe("CriarEstacoes", () => {
     cy.get('input[name="longitude"]').type("789,012");
     cy.get('input[name="uid"]').type("test-uid");
     cy.get('input[name="utc"]').type("test-utc");
+    cy.get('input[name="ativo"]').type("1");
+    cy.get('input[name="unixtime"]').type("135646");
     cy.get('div[class="create-station-button"] button[type="submit"]').click();
 
     cy.wait("@cadastroRequest").then((interception) => {
