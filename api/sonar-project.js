@@ -1,8 +1,6 @@
 const sonarqubeScanner = require("sonarqube-scanner");
 
 
-console.log(      "sonar.login", process.env.SONAR_LOGIN,
-      "sonar.password", process.env.SONAR_PASSWORD,)
 sonarqubeScanner(
     {
         serverUrl: "http://localhost:9000",
