@@ -35,7 +35,7 @@ jobs:
           SONAR_PASSWORD: ${{ secrets.SONAR_PASSWORD }}
         run: |
           cd api 
-          npm install sonnar-scanner
+          npm install sonar-scanner
           npm run sonar:build
       - name: Check SonarQube Quality Gate
         run: |
