@@ -4,18 +4,17 @@ const sonarqubeScanner = require("sonarqube-scanner");
 sonarqubeScanner(
     {
         serverUrl: "https://sonarcloud.io",
-        token: process.env.SONAR_LOGIN,
+        token: "f33a2a9da5a206496f95704d35ad8d120af11f19",
         options: {
+            "sonar.javascript.lcov.reportPaths": "./coverage/lcov.info",
+            "sonar.test.inclusions": "./src/cypress/**/*.cy.ts",
+            "sonar.inclusions": "./src/**/*.ts,src/**/*.tsx",
             "sonar.projectName": "API-2023.1-Front-End-Web",
+            "sonar.organization": "achievers",
+            "sonar.projectKey": "achievers",
             "sonar.sources": "./src",
             "sonar.tests": "./src",
-            "sonar.inclusions": "./src/**/*.ts,src/**/*.tsx",
-            "sonar.test.inclusions": "./src/cypress/**/*.cy.ts",
-            "sonar.key": "achievers",
-            "sonar.login": process.env.SONAR_LOGIN,
-            "sonar.javascript.lcov.reportPaths": "./coverage/lcov.info",
-            "sonar.organization": "achievers",
-            "sonar.branch": "main"
+            "sonar.branch": "main",
         },
     },
     () => {
