@@ -15,6 +15,7 @@ sonarqubeScanner(
             "sonar.login": process.env.SONAR_LOGIN,
             "sonar.javascript.lcov.reportPaths": "./coverage/lcov.info",
             "sonar.organization": "achievers",
+            "sonar.branch": "main"
         },
     },
     () => {
