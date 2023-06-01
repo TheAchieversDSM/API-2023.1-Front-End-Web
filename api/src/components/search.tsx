@@ -7,6 +7,7 @@ import { BsSearch } from 'react-icons/bs';
 import { parseCookies } from "nookies";
 import { AuthContext } from "../hooks/useAuth";
 import axios from 'axios';
+import url from '../services/config';
 
 export default function Search(props: any){
     const cookies = parseCookies();
@@ -15,7 +16,7 @@ export default function Search(props: any){
     useEffect(() => {
         async function render() {
           axios
-            .get(`http://localhost:5000/user/pegarUsuarios`, {
+            .get(`${url.baseURL}/user/pegarUsuarios`, {
               headers: {
                 Authorization: `Bearer ${cookies["tecsus.token"]}`,
               },

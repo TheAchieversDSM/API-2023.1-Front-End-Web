@@ -14,6 +14,7 @@ import Swal from 'sweetalert2'
 import { parseCookies } from "nookies";
 
 import "../styles/criar-alertas.css";
+import url from "../services/config";
 
 const options = [
     { value: 1, label: "Atenção" },
@@ -105,7 +106,7 @@ export default function EditarAlertas() {
             alerta.nivel = alerta2?.nivel?.toString() ?? ''
         }
 
-        axios.put(`http://localhost:5000/alerta/atualizarAlertaPorId/${id}`, {
+        axios.put(`${url.baseURL}/alerta/atualizarAlertaPorId/${id}`, {
             nome: alerta.nome,
             valorMinimo: alerta.valorMin,
             valorMax: alerta.valorMax,
@@ -127,14 +128,14 @@ export default function EditarAlertas() {
 
     useEffect(() => {
         async function render() {
-            axios.get(`http://localhost:5000/alerta/pegarAlertasPorId/${id}`,
+            axios.get(`${url.baseURL}/alerta/pegarAlertasPorId/${id}`,
                 {
                     headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
                 }).then((res) => {
                     setAlerta2(res.data)
                 })
 
-            axios.get(`http://localhost:5000/parametro/pegarParametros`,
+            axios.get(`${url.baseURL}/parametro/pegarParametros`,
                 {
                     headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
                 }).then((res) => {

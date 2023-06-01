@@ -14,6 +14,7 @@ import {
   
   import { setCookie, parseCookies } from "nookies";
   import axios from "axios";
+import url from "../services/config";
   
   interface SignInProps {
     email: string;
@@ -53,7 +54,7 @@ import {
   
     async function signIn({ email, password }: SignInProps) {
       try {
-        const { data } = await axios.post<IUser>("http://localhost:5000/login", {
+        const { data } = await axios.post<IUser>(`${url.baseURL}/login`, {
           email: email,
           password: password,
         });
@@ -71,8 +72,8 @@ import {
         setUser(data);
       } catch (error) {
         Swal.fire({
-          title: 'Usuário e/ou senha incorretos!',
-          text: `Parece que o usuário ou senha está incorreta.`,
+          title: 'Usuário e/ou senha incorreto(s)!',
+          text: `Parece que o usuário e/ou senha está(ão) incorreto(s).`,
           icon: 'error',
           confirmButtonText: 'Tentar novamente!'
         })

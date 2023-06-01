@@ -13,6 +13,7 @@ import Swal from 'sweetalert2'
 import { parseCookies } from "nookies";
 
 import '../styles/criar-usuarios.css'
+import url from '../services/config';
 
 export default function EditarUsuarios() {
     const cookies = parseCookies();
@@ -31,6 +32,7 @@ export default function EditarUsuarios() {
     const [usuario, setUsuario] = useState({
         nome: '',
         email: '',
+        senha: '',
         tipoUsuario: tipoUsuario,
     })
 
@@ -72,7 +74,7 @@ export default function EditarUsuarios() {
             usuario.email = user?.email ?? ''
         }
 
-        axios.put(`http://localhost:5000/user/atualizarUsuario/${id}`, {
+        axios.put(`${url.baseURL}/user/atualizarUsuario/${id}`, {
             // colocar o campo de tipo aqui
             nome: usuario.nome,
             email: usuario.email,
@@ -93,7 +95,7 @@ export default function EditarUsuarios() {
 
     useEffect(() => {
         async function render() {
-            axios.get(`http://localhost:5000/user/pegarUsuariosPorId/${id}`, {
+            axios.get(`${url.baseURL}/user/pegarUsuariosPorId/${id}`, {
                 headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
             }).then((res) => {
                 setUser(res.data)
