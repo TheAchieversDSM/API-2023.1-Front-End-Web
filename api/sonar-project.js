@@ -11,7 +11,8 @@ sonarqubeScanner(
             "sonar.test.inclusions": "./src/cypress/**/*.cy.ts",
             "sonar.key": "api-2023-1-front-end",
             "sonar.login": process.env.SONAR_LOGIN,
-            "sonar.javascript.lcov.reportPaths": "./coverage/lcov.info"
+            "sonar.javascript.lcov.reportPaths": "./coverage/lcov.info",
+            "sonar.organization": "TheAchieversDSM",
         },
     },
     () => {
