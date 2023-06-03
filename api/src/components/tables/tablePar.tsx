@@ -90,21 +90,6 @@ export default function TablePar(props: any) {
 				});
 		}
 		render();
-
-		axios
-        .get(`${url.baseURL}/user/pegarUsuarios`, {
-          headers: {
-            Authorization: `Bearer ${cookies["tecsus.token"]}`,
-          },
-        })
-        .then((re) => {
-          re.data.map((user: any) => {
-            if (user.user_id == cookies["tecsus.user_id"]) {			
-              setNivelUser(user.tipoUsuario);
-			  console.log(nivelUser);
-            }
-          });
-        });
 	}, []);
 
 	function handleChange(parametros: IParametro) {
