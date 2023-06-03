@@ -13,6 +13,7 @@ import Swal from 'sweetalert2'
 import { parseCookies } from "nookies";
 
 import "../styles/criar-estacoes.css";
+import url from "../services/config";
 
 export default function EditarEstacoes() {
     const cookies = parseCookies();
@@ -65,7 +66,7 @@ export default function EditarEstacoes() {
             estacao.utc = estacao2?.UTC ?? ''
         }
 
-        axios.put(`http://localhost:5000/estacao/atualizarEstacao/${id}`, {
+        axios.put(`${url.baseURL}/estacao/atualizarEstacao/${id}`, {
             nome_estacao: estacao.nome,
             latitude: estacao.latitude,
             longitude: estacao.longitude,
@@ -89,7 +90,7 @@ export default function EditarEstacoes() {
     // get unidade de medidas & tipos de parâmetros ✨
     useEffect(() => {
         async function render() {
-            axios.get(`http://localhost:5000/estacao/pegarEstacoesPorId/${id}`, {
+            axios.get(`${url.baseURL}/estacao/pegarEstacoesPorId/${id}`, {
                 headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
             }).then((res) => {
                 setEstacao2(res.data)

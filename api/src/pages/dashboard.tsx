@@ -13,6 +13,7 @@ import { MdUpdate } from "react-icons/md"
 import { parseCookies } from "nookies";
 import dadosDiarios from "../utils/chart_utils/dadosDiarios";
 import { generateOptions } from "../utils/chart_utils/options/optionsGenerate";
+import url from "../services/config";
 
 export default function Dashboard() {
   const cookies = parseCookies();
@@ -30,7 +31,7 @@ export default function Dashboard() {
     function render() {
       axios
         .get(
-          `http://localhost:5000/parametro/pegarMedidaEstacaoParametro/${id}`,
+          `${url.baseURL}/parametro/pegarMedidaEstacaoParametro/${id}`,
           { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
         )
         .then((res) => {

@@ -10,6 +10,7 @@ import { OverlayTrigger, Tab, Tabs, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { parseCookies } from "nookies";
 import Swal from 'sweetalert2'
+import url from "../../services/config";
 
 interface IParametro {
 	parametro_id: number;
@@ -52,7 +53,7 @@ export default function TablePar(props: any) {
 	useEffect(() => {
 		function render() {
 			axios
-				.get("http://localhost:5000/parametro/pegarParametrosAtivos", {
+				.get(`${url.baseURL}/parametro/pegarParametrosAtivos`, {
 					headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
 				})
 				.then((res) => {
@@ -62,7 +63,7 @@ export default function TablePar(props: any) {
 		render();
 
 		axios
-        .get(`http://localhost:5000/user/pegarUsuarios`, {
+        .get(`${url.baseURL}/user/pegarUsuarios`, {
           headers: {
             Authorization: `Bearer ${cookies["tecsus.token"]}`,
           },
@@ -81,7 +82,7 @@ export default function TablePar(props: any) {
 	useEffect(() => {
 		function render() {
 			axios
-				.get("http://localhost:5000/parametro/pegarParametrosInativos", {
+				.get(`${url.baseURL}/parametro/pegarParametrosInativos`, {
 					headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` },
 				})
 				.then((res) => {
@@ -89,6 +90,21 @@ export default function TablePar(props: any) {
 				});
 		}
 		render();
+
+		axios
+        .get(`${url.baseURL}/user/pegarUsuarios`, {
+          headers: {
+            Authorization: `Bearer ${cookies["tecsus.token"]}`,
+          },
+        })
+        .then((re) => {
+          re.data.map((user: any) => {
+            if (user.user_id == cookies["tecsus.user_id"]) {			
+              setNivelUser(user.tipoUsuario);
+			  console.log(nivelUser);
+            }
+          });
+        });
 	}, []);
 
 	function handleChange(parametros: IParametro) {
@@ -106,7 +122,7 @@ export default function TablePar(props: any) {
 			if (result.isConfirmed) {
 				Swal.fire('Atualizado!', '', 'success')
 
-				axios.put(`http://localhost:5000/parametro/atualizarEstado/${id}`,{ ativo },
+				axios.put(`${url.baseURL}/parametro/atualizarEstado/${id}`,{ ativo },
 				{ headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
 				)
 				.then((response) => {
