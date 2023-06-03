@@ -17,7 +17,8 @@ export default function DocParametro(){
                     <ul className="doc-formula">
                         <li>T = temperatura em °C</li>
                         <li>R = resistência elétrica do sensor termômetro</li> 
-                        <li>a e b = constantes que dependem das características do sensor e são determinadas durante o processo de calibração</li>
+                        <li>a = fator de conversão</li>
+                        <li>b = offset</li>
                     </ul>
 
                     <br/>
@@ -44,40 +45,26 @@ export default function DocParametro(){
 
                     <br/>
 
-                    <h4>Barômetro</h4>
-                    <p>O sensor barômetro é responsável pela medição da pressão atmosférica em um determinado local. A pressão atmosférica é a força exercida pelo peso da atmosfera sobre a superfície da Terra, e varia de acordo com fatores como altitude, temperatura e umidade.</p>
-                    <p>O sensor barômetro mais comum em estações meteorológicas é o sensor de pressão absoluta, que mede a pressão em relação ao vácuo. A fórmula envolvida para obter a medida correta da pressão atmosférica é a seguinte:</p>
-                    <p><i><b>P = ρgh</b></i></p>
-                    <ul className="doc-formula">
-                        <li>P = pressão atmosférica em pascals (Pa)</li>
-                        <li>ρ = densidade do ar em kg/m³</li> 
-                        <li>g = aceleração da gravidade em m/s²</li>
-                        <li>h = altura da coluna de ar acima do sensor em metros (m)</li>
-                    </ul>
-
-                    <br/>
-
-                    <h4>Anemômetro</h4>
-                    <p>O anemômetro é o sensor utilizado para medir a velocidade do vento em uma estação meteorológica. Ele possui um conjunto de pás que são movidas pela força do vento, e um mecanismo interno que converte o movimento das pás em um sinal elétrico que pode ser lido pelo instrumento de medição.</p>
-                    <p>A velocidade do vento é proporcional ao número de rotações dos copos por unidade de tempo.</p>
-                    <p><i><b>V = d/t</b></i></p>
+                    <h4>Anemômetro (sensor de vento de copos e direção)</h4>
+                    <p>O anemômetro de direção é um tipo de sensor usado para medir a direção do vento. Ele geralmente consiste em uma haste vertical com um conjunto de aletas ou uma hélice montada na parte superior. As aletas ou a hélice são projetadas para apontar na direção do vento, permitindo que o sensor determine a orientação do vento.</p>
+                    <p>A direção do vento é determinada por meio de sensores óticos ou magnéticos que detectam a posição das aletas ou da hélice em relação a um ponto de referência, como o norte. Com base nessas leituras, o sensor fornece a direção do vento em graus, onde <b>0° ou 360° geralmente representa o norte, 90° representa o leste, 180° representa o sul e 270° representa o oeste</b>.</p>
+                    <p>Para calcular a velocidade do vento, um anemômetro de velocidade do vento é utilizado em conjunto com o anemômetro de direção. O anemômetro de velocidade mede a velocidade do vento em unidades como metros por segundo (m/s) ou quilômetros por hora (km/h). A fórmula básica para calcular a velocidade do vento é:</p>
+                    <p><i><b>V = (N * C) / T</b></i></p>
                     <ul className="doc-formula">
                         <li>V = velocidade do vento</li>
-                        <li>d = distância percorrida pelos copos</li> 
-                        <li>t = tempo</li>
+                        <li>N = número de rotações completas dos copos</li> 
+                        <li>C = fator de conversão (relação entre rotações e velocidade do vento) **</li>
+                        <li>T = tempo</li>
                     </ul>
+                    <p>**O fator de conversão C é determinado com base no design do anemômetro e pode variar de um modelo para outro. É importante consultar as especificações técnicas do anemômetro para obter o valor correto do fator de conversão.</p>
                     <p>Para obter a velocidade média do vento em um determinado período de tempo, é necessário calcular a média das leituras de velocidade em intervalos regulares.</p>
                 
                     <br/>
 
                     <h4>Pluviômetro</h4>
-                    <p>O pluviômetro é um instrumento utilizado para medir a quantidade de chuva que cai em determinado local. Ele é composto por um recipiente cilíndrico graduado, onde a água da chuva é coletada e medida em milímetros ou litros por metro quadrado. A fórmula para calcular a quantidade de chuva coletada pelo pluviômetro é simples: basta medir a altura da água acumulada no recipiente graduado e multiplicá-la pela área da base do cilindro.</p>
-                    <p>A fórmula para calcular a área da base do cilindro é:</p>
-                    <p><i><b>A = πr²</b></i></p>
-                    <ul className="doc-formula">
-                        <li>π = 3,1415</li>
-                        <li>r = raio da base do cilindro</li> 
-                    </ul>
+                    <p>O pluviômetro por pulso é um sensor utilizado para medir a quantidade de chuva. Ele gera um pulso elétrico sempre que uma gota de chuva atinge o sensor. A quantidade de pulsos está diretamente relacionada à quantidade de chuva, e cada pulso representa uma unidade de medida pré-determinada, como milímetros.</p>
+                    <p>Nesse caso, o pulso está calibrado em 0,25 mm. Então, em um exemplo, se ocorrerem 5 pulsos, a quantidade de chuva será igual a <b>0,25mm * 5 = 1,25mm</b>.</p>
+                    <p>Agora para obter uma medida mais realista, precisamos converter a medida de mm para L, <b>1mm = 1L/m^2</b></p>
                 </div>
             </Container>
         </>
