@@ -1,0 +1,58 @@
+name: Deploy to Production
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+on:
+  push:
+    branches:
+      - main
+jobs:
+  Deploy-Production:
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_GIT_COMMIT_REF: ${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Verify Branch
+        run: |
+          if [[ "${{ github.ref }}" != "refs/heads/main" ]]; then
+            echo "🛑 Build canceled. Branch not allowed for Production deployment"
+            exit 1
+          fi
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        id: build
+        run: |
+          echo "🚀 Starting build..."
+          echo "::set-output name=exit-code::$?"
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: SonarQube Scan
+        env:
+          SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
+          SONAR_PASSWORD: ${{ secrets.SONAR_PASSWORD }}
+        run: |
+          cd api 
+          npm install sonar-scanner
+          npm install sonarqube-scanner
+          npm run sonar:build
+      - name: Check SonarQube Quality Gate
+        run: |
+          SONAR_PROJECT_STATUS=$(curl -s -u ${{ secrets.SONAR_TOKEN }}: "{{ secrets.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=api-2023-1-front-end" | jq -r '.projectStatus.status')
+          if [[ "$SONAR_PROJECT_STATUS" != "OK" ]]; then
+            echo "❌ SonarQube Quality Gate failed. Status: $SONAR_PROJECT_STATUS"
+            exit 1
+          fi
+      - name: Deploy Project Artifacts to Vercel
+        if: ${{ steps.build.outputs.exit-code == 0 }}
+        run: |
+          echo "💫 Deploying project to production..."
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Check Build Status
+        if: ${{ steps.build.outputs.exit-code == 0 }}
+        run: echo "✅ Build successful"
+      - name: Display Build Output
+        if: ${{ steps.build.outputs.exit-code == 2 }}
+        run: echo "🛑 Build canceled. Branch not allowed for Production deployment"

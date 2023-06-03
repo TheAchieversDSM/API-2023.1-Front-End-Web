@@ -7,9 +7,11 @@
 
 # testing
 /coverage
-/instrumented
 /.scannerwork
 /.nyc_output
+/instrumented
+/cypress/videos
+/cypress/screenshots
 
 # production
 /build

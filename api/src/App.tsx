@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // components ✨
 import Routes from './routes/routes';
 import { AuthProvider } from "./hooks/useAuth";
-import { BrowserRouter, Link } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
