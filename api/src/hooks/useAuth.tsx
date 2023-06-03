@@ -37,12 +37,14 @@ import url from "../services/config";
     email: string;
     token: string;
     user_id: number;
+    tipoUsuario: string;
   }
   export const AuthContext = createContext({} as AuthContextData);
   
   export function signOut() {
     Cookies.remove("tecsus.token");
     Cookies.remove("tecsus.user_id");
+    Cookies.remove("tecsus.nivel");
 
 	  window.location.href = 'http://localhost:3000/home'
   }
@@ -65,6 +67,11 @@ import url from "../services/config";
         });
   
         setCookie(null, "tecsus.user_id", String(data.user_id), {
+          maxAge: 60 * 60 * 24,
+          path: "/",
+        });
+
+        setCookie(null, "tecsus.nivel", String(data.tipoUsuario), {
           maxAge: 60 * 60 * 24,
           path: "/",
         });

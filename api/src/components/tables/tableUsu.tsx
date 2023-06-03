@@ -124,7 +124,7 @@ export default function TableUsu() {
 					<td>{user.tipoUsuario}</td>
 					<td>
 
-					{ Number(nivelUser) == 1 ? 
+					{Number(cookies["tecsus.nivel"]) === 1 ? (
 						<>
 						<OverlayTrigger
 							placement="top"
@@ -147,9 +147,8 @@ export default function TableUsu() {
 								<BsTrash3 className="icon" />
 							</Button>
 						</OverlayTrigger>
-              </>
-						: null
-					}
+              			</>
+					):null}
 					</td>
 				</tr>
 			));

@@ -31,7 +31,6 @@ export default function TableAlert() {
 	const [inativos, setInativos] = useState<IAlerta[]>([])
 	const [searchTerm, setSearchTerm] = useState('');
 	const cookies = parseCookies();
-	const [nivelUser, setNivelUser] = useState("");
 
 	useEffect(() => {
 		function render() {
@@ -139,8 +138,8 @@ export default function TableAlert() {
 					<td>{alerta.parametro?.nome}</td>
 					<td>
 					
-					{Number(nivelUser) == 1 ? 
-							<>
+					{Number(cookies["tecsus.nivel"]) == 1 ? (
+						<>
 						<Link to={`/editar-alerta/${alerta.alerta_id}`}>
 							<OverlayTrigger
       							placement="top"
@@ -161,8 +160,8 @@ export default function TableAlert() {
 								<BsXOctagon className="icon" />
 							</Button>
 						</OverlayTrigger>
-							</>: null
-						}
+						</>
+					) : null} 
 					</td>
 				</tr>
 			));
@@ -193,31 +192,30 @@ export default function TableAlert() {
 					<td>{inativo.valorMinimo}</td>
 					<td>{inativo.parametro?.nome}</td>
 					<td>
-
-						{Number(nivelUser) == 1 ? 
-							<>
-						<Link to={`/editar-alerta/${inativo.alerta_id}`}>
+					{Number(cookies["tecsus.nivel"]) == 1 ? (
+						<>
+							<Link to={`/editar-alerta/${inativo.alerta_id}`}>
+								<OverlayTrigger
+      								placement="top"
+      								delay={{ show: 150, hide: 200 }}
+      								overlay={editTooltip}
+    							>
+									<Button className="bt bt-edit">
+										<BsPencil className="icon" />
+									</Button>
+								</OverlayTrigger>
+							</Link>
 							<OverlayTrigger
-      							placement="top"
-      							delay={{ show: 150, hide: 200 }}
-      							overlay={editTooltip}
-    						>
-								<Button className="bt bt-edit">
-									<BsPencil className="icon" />
+								placement="top"
+								delay={{ show: 150, hide: 200 }}
+								overlay={activateTooltip}
+							>
+								<Button className="bt bt-active" onClick={() => handleChange(inativo)}>
+									<BsCheckLg className="icon" />
 								</Button>
 							</OverlayTrigger>
-						</Link>
-						<OverlayTrigger
-							placement="top"
-							delay={{ show: 150, hide: 200 }}
-							overlay={activateTooltip}
-						>
-							<Button className="bt bt-active" onClick={() => handleChange(inativo)}>
-								<BsCheckLg className="icon" />
-							</Button>
-						</OverlayTrigger>
-							</>:null
-						}
+						</>)
+						:null}
 					</td>
 				</tr>
 			));
