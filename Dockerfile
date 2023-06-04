@@ -2,7 +2,7 @@ FROM cypress/browsers:node18.12.0-chrome107
 
 WORKDIR /app
 
-COPY . .
+COPY ./api/ .
 
 RUN npm install
 
