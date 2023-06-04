@@ -32,7 +32,7 @@ jobs:
     - name: Build e rodar container Docker
       run: |
         docker build -t cypress-tests .
-        docker run --name service -d -p 3000:3000 cypress-tests
+        docker run --name service -d cypress-tests
 
     - name: Executar testes Cypress
       run: |
