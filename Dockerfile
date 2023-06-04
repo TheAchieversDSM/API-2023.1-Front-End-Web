@@ -2,11 +2,11 @@ FROM node:18
 
 USER root
 
-RUN mkdir -p /home/tecsus/app/node_modules && chown -R tecsus:tecsus /home/tecsus/app
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
-USER tecsus
+USER node
 
-WORKDIR /home/tecsus/app
+WORKDIR /home/node/app
 
 COPY ./api/package.json ./
 
