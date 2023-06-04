@@ -1,10 +1,15 @@
 FROM node:18
 
-WORKDIR /app
+RUN useradd -ms /bin/bash api
+RUN apt-get update && apt-get install -y sudo
+
+USER api
+
+WORKDIR /home/api/app
 
 COPY ./api/package.json ./
 
-RUN npm install
+RUN npm install --ignore-scripts
 
 COPY ./api/ ./
 
