@@ -2,9 +2,9 @@ name: Develop
 
 on:
   push:
-    branches: [ "API20231-203---StockChart" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "API20231-203---StockChart" ]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -33,3 +33,9 @@ jobs:
       
     - name: Run Cypress Tests
       run: cd api && npx cypress run
+
+    - name: Generate Report
+      run: cd api && npx nyc report --reporter=text-summary
+
+    - name: Upload Report
+      run: cd api && npm run sonar:build
