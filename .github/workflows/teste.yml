@@ -35,16 +35,11 @@ jobs:
 
     - name: Executar o container com o Projeto
       run: |
-        docker run --name service -d cypress-tests bash -c "npm start"
+        docker run --name service cypress-tests bash -c "npm start"
 
-    - name: Executar testes Cypress
+    - name: Ver a listagem do container
       run: |
-        docker exec service npm run cypress:run
-
-    - name: Parar e remover container Docker
-      run: |
-        docker stop service
-        docker rm service
+        docker ls
     
     - name: Install Dependencies
       run: cd api && npm install
@@ -60,6 +55,11 @@ jobs:
 
     - name: Generate Report
       run: cd api && npx nyc report --reporter=text-summary
+
+    - name: Parar e remover container Docker
+      run: |
+        docker stop service
+        docker rm service
 
     - name: Upload Report
       run: cd api && npm run sonar:build
