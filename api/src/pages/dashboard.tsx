@@ -86,6 +86,20 @@ export default function Dashboard() {
     setOptionsState(newOptionsState);
   }, [estacaoParametros]);
 
+  useEffect(()=>{
+    console.log(selectedDate)
+    axios
+    .get(
+      `${url.baseURL}/parametro/pegarMedidaEstacaoParametro/${id}`,
+      { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` }, params: { startTime: obterUnixtimeDia(selectedDate).startOf, endTime: obterUnixtimeDia(selectedDate).endOf } }
+    )
+    .then((res) => {
+      console.log(res);
+      setEstacaoParametros(res.data);
+    });
+  }, [selectedDate])
+
+
   return (
     <>
       <Sidebar />
