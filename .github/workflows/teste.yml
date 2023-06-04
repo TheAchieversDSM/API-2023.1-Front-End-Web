@@ -28,7 +28,7 @@ jobs:
 
     - name: Executar o container com o Projeto
       run: |
-        docker run -p 8000:3000 -d cypress-test npm start
+        docker run -p 8000:3000 -d cypress-tests npm start
 
     - name: Ver a listagem do container
       run: |
