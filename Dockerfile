@@ -2,10 +2,10 @@ FROM cypress/browsers:node14.17.0-chrome91-ff89
 
 WORKDIR /app
 
-COPY ./API/package.json ./
+COPY ./api/package.json ./
 
 RUN npm install
 
-COPY ./API/ ./
+COPY ./api/ ./
 
 CMD ["npm", "run", "cypress:run"]
