@@ -1,4 +1,4 @@
-FROM cypress/browsers:node14.17.0-chrome91-ff89
+FROM node:18
 
 WORKDIR /app
 
