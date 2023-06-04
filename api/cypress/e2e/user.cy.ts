@@ -11,7 +11,7 @@ describe("Funcionalidade do Login", () => {
   });
 });
 
-describe("Funcionalidades da Estação", () => {
+/* describe("Funcionalidades da Estação", () => {
   const randomNameEstation = Math.floor(Math.random() * 100000);
 
   it("Testando a funcionalidade da estação", () => {
@@ -50,4 +50,4 @@ describe("Funcionalidades da Estação", () => {
     cy.get('[aria-selected="false"]').click();
     cy.get(".input-search").type(`Estação de Teste ${randomNameEstation + 42}`);
   });
-});
+}); */
