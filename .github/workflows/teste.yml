@@ -35,7 +35,7 @@ jobs:
 
     - name: Executar o container com o Projeto
       run: |
-        docker run --name service cypress-tests bash -c "npm start"
+        docker run --name service -d cypress-tests bash -c "npm start"
 
     - name: Ver a listagem do container
       run: |
