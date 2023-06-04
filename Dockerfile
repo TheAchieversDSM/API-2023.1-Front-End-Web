@@ -1,4 +1,4 @@
-FROM cypress/browsers:node14.17.0-chrome91-ff89
+FROM node:18
 
 WORKDIR /app
 
@@ -8,4 +8,4 @@ RUN npm install
 
 COPY ./api/ ./
 
-CMD npm run cypress:run && npm run nyc:coverage-report && npm run sonar:build 
+CMD ["npm", "run", "start"]
