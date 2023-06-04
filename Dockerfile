@@ -5,7 +5,7 @@ USER api
 WORKDIR /home/api/app
 
 COPY ./api/package.json .
-RUN npm install --ignore-scripts
+RUN sudo npm install --ignore-scripts
 
 COPY ./api/ .
 
