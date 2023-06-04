@@ -22,6 +22,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Build and test with Cypress
+      run: |
+        docker build -t cypress-tests .
+        docker run --rm -v $(pwd):/app cypress-tests
+    
     - name: Install Dependencies
       run: cd api && npm install
 
