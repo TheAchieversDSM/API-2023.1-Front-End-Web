@@ -15,6 +15,7 @@ jobs:
         node-version: [18.x]
 
     services:
+      docker:
         image: docker:dind
         ports:
           - 3000:3000
