@@ -14,6 +14,13 @@ jobs:
       matrix:
         node-version: [18.x]
 
+    services:
+      - name: docker
+        image: docker:dind
+        ports:
+          - 3000:3000
+        options: --privileged
+
     steps:
     - uses: actions/checkout@v3
 
@@ -21,11 +28,20 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-
-    - name: Build and test with Cypress
+    
+    - name: Build e rodar container Docker
       run: |
         docker build -t cypress-tests .
-        docker run --rm -v $(pwd) -p 3000:3000 cypress-tests
+        docker run --name service -d -p 3000:3000 cypress-tests
+
+    - name: Executar testes Cypress
+      run: |
+        docker exec service npm run cypress:run
+
+    - name: Parar e remover container Docker
+      run: |
+        docker stop my-app
+        docker rm my-app
     
     - name: Install Dependencies
       run: cd api && npm install
