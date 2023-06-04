@@ -14,13 +14,6 @@ jobs:
       matrix:
         node-version: [18.x]
 
-    services:
-      docker:
-        image: docker:dind
-        ports:
-          - 3000:3000
-        options: --privileged
-
     steps:
     - uses: actions/checkout@v3
 
@@ -35,7 +28,7 @@ jobs:
 
     - name: Executar o container com o Projeto
       run: |
-        docker run --name service -d cypress-tests bash -c "npm start"
+        docker run --name service -p 3000:3000 -d cypress-tests bash -c npm start
 
     - name: Ver a listagem do container
       run: |
@@ -43,18 +36,12 @@ jobs:
     
     - name: Install Dependencies
       run: cd api && npm install
-
-    - name: Install Cypress
-      run: cd api && npx cypress install
-
-    - name: Start application
-      run: cd api && npm start &
       
     - name: Run Cypress Tests
-      run: cd api && npx cypress run
+      run: cd api && npm run cypress:run
 
     - name: Generate Report
-      run: cd api && npx nyc report --reporter=text-summary
+      run: cd api && npm run nyc:coverage-report
 
     - name: Parar e remover container Docker
       run: |
