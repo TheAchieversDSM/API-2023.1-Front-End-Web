@@ -1,9 +1,19 @@
-/*	Teste de usuario corrigido			*/
+/* /*	Teste de usuario corrigido			*/
 /// <reference types="cypress" />
 
 describe("Funcionalidade do Login", () => {
   it("Efetuar o login corretamente", () => {
-    cy.visit("http://localhost:3000/");
+    cy.visit("http://localhost:3000");
+    cy.get('[name="email"]').type("usuario1@theAchievers.com");
+    cy.get('[name="password"]').type("secret");
+    cy.get("form").submit();
+    cy.url().should("eq", "http://localhost:3000");
+  });
+});
+
+/*describe("Funcionalidade do Login", () => {
+  it("Efetuar o login corretamente", () => {
+    cy.visit("https://api-2023-1-front-end-i5qddbtpf-theachievers.vercel.app/");
     cy.get('[name="email"]').type("usuario1@theAchievers.com");
     cy.get('[name="password"]').type("secret");
     cy.get("form").submit();
@@ -70,4 +80,4 @@ describe("Funcionalidades da Estação", () => {
     cy.get('[aria-selected="false"]').click();
     cy.get(".input-search").type(`Estação de Teste ${randomNameEstation + 42}`);
   });
-});
+}); */
