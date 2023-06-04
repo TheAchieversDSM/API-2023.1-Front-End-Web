@@ -39,7 +39,7 @@ jobs:
 
     - name: Ver a listagem do container
       run: |
-        docker ls
+        docker ps
     
     - name: Install Dependencies
       run: cd api && npm install
