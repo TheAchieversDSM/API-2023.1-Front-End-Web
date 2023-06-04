@@ -1,9 +1,11 @@
-FROM cypress/browsers:node18.12.0-chrome107
+FROM cypress/browsers:node14.17.0-chrome91-ff89
 
 WORKDIR /app
 
-COPY ./api/ .
+COPY ./API/package.json ./
 
 RUN npm install
+
+COPY ./API/ ./
 
 CMD ["npm", "run", "cypress:run"]
