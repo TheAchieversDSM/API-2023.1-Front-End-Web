@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import { Calendar } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 import "../styles/dashboard.css";
 import Chart from "../components/chart";
 import Sidebar from "../components/sidebar";
@@ -14,41 +16,46 @@ import { parseCookies } from "nookies";
 import dadosDiarios from "../utils/chart_utils/dadosDiarios";
 import { generateOptions } from "../utils/chart_utils/options/optionsGenerate";
 import url from "../services/config";
+import obterUnixtimeDia from "../utils/chart_utils/getUnixtimesOfDay";
 
 export default function Dashboard() {
   const cookies = parseCookies();
 
   const { id } = useParams();
 
-  const estacaoNome = localStorage.getItem("estacaoNome") || ""
+  const estacaoNome = localStorage.getItem("estacaoNome") || "";
   const [estacaoParametros, setEstacaoParametros] = useState<EstacaoParametro[]>([]);
-  const [renderButton, setRenderButton] = useState(false)
-  const [fetchData, setFetchData] = useState(true)
+  const [renderButton, setRenderButton] = useState(false);
+  const [fetchData, setFetchData] = useState(true);
   const [options, setOptions] = useState<Options>();
   const [optionsState, setOptionsState] = useState<any>({});
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
     function render() {
+      console.log(obterUnixtimeDia(new Date()));
       axios
         .get(
           `${url.baseURL}/parametro/pegarMedidaEstacaoParametro/${id}`,
-          { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
+          { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` }, params: { startTime: obterUnixtimeDia().startOf, endTime: obterUnixtimeDia().endOf } }
         )
         .then((res) => {
+          console.log(res);
           setEstacaoParametros(res.data);
-
         });
     }
+
     if (fetchData) {
+      console.log(obterUnixtimeDia(new Date()));
       render();
-      setFetchData(false)
-      setRenderButton(false)
+      setFetchData(false);
+      setRenderButton(false);
     }
   }, [fetchData]);
 
   useEffect(() => {
-    setOptions(generateOptions(estacaoParametros, estacaoNome))
-  }, [])
+    setOptions(generateOptions(estacaoParametros, estacaoNome));
+  }, []);
 
   const setDadosDiarios = (category: any) => {
     const newEstacaoParametros = estacaoParametros.map((estacParam, index) => {
@@ -59,8 +66,12 @@ export default function Dashboard() {
       setOptionsState(newOpts);
       return updatedEstacParam;
     });
-    setRenderButton(true)
+    setRenderButton(true);
     setEstacaoParametros(newEstacaoParametros);
+  };
+
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
   };
 
   useEffect(() => {
@@ -68,12 +79,26 @@ export default function Dashboard() {
     estacaoParametros.forEach((param, index) => {
       const opts = generateOptions([param], param.nome.bold() || estacaoNome);
       opts.setFuncao((event: any) => {
-        setDadosDiarios(event.point.category)
+        setDadosDiarios(event.point.category);
       });
       newOptionsState[index] = opts;
     });
     setOptionsState(newOptionsState);
   }, [estacaoParametros]);
+
+  useEffect(()=>{
+    console.log(selectedDate)
+    axios
+    .get(
+      `${url.baseURL}/parametro/pegarMedidaEstacaoParametro/${id}`,
+      { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` }, params: { startTime: obterUnixtimeDia(selectedDate).startOf, endTime: obterUnixtimeDia(selectedDate).endOf } }
+    )
+    .then((res) => {
+      console.log(res);
+      setEstacaoParametros(res.data);
+    });
+  }, [selectedDate])
+
 
   return (
     <>
@@ -81,7 +106,8 @@ export default function Dashboard() {
       <div className="main-body">
         <h1 className="TitImp">{estacaoNome}</h1>
         <div className="container_dashboard">
-          {renderButton ? <Button className="chartResetButton" onClick={() => setFetchData(true)}><MdUpdate className="buttonIcon"/> Redefinir</Button> : <></>}
+          <Calendar onChange={handleDateChange} date={selectedDate} maxDate={new Date()} />
+          {renderButton ? <Button className="chartResetButton" onClick={() => setFetchData(true)}><MdUpdate className="buttonIcon" /> Redefinir</Button> : <></>}
           <Row>
             {estacaoParametros.length > 1 ? (
               estacaoParametros.map((param, index) => (
