@@ -1,6 +1,8 @@
 FROM node:18
 
-RUN useradd -ms /bin/bash tecsus
+USER root
+
+RUN mkdir -p /home/tecsus/app/node_modules && chown -R tecsus:tecsus /home/tecsus/app
 
 USER tecsus
 
