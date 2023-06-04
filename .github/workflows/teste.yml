@@ -32,7 +32,10 @@ jobs:
     - name: Build e rodar container Docker
       run: |
         docker build -t cypress-tests .
-        docker run --name service -d cypress-tests
+
+    - name: Executar o container com o Projeto
+      run: |
+        docker run --name service -d cypress-tests bash -c "npm start"
 
     - name: Executar testes Cypress
       run: |
@@ -40,8 +43,8 @@ jobs:
 
     - name: Parar e remover container Docker
       run: |
-        docker stop my-app
-        docker rm my-app
+        docker stop service
+        docker rm service
     
     - name: Install Dependencies
       run: cd api && npm install

@@ -8,4 +8,4 @@ RUN npm install
 
 COPY ./api/ ./
 
-CMD npm run start
+CMD ["npm", "run", "start"]
