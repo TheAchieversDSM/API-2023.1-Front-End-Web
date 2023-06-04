@@ -43,10 +43,5 @@ jobs:
     - name: Generate Report
       run: cd api && npm run nyc:coverage-report
 
-    - name: Parar e remover container Docker
-      run: |
-        docker stop cypress-tests
-        docker rm cypress-tests
-
     - name: Upload Report
       run: cd api && npm run sonar:build
