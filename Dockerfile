@@ -5,6 +5,7 @@ USER api
 WORKDIR /home/api/app
 
 COPY ./api/package.json .
+RUN apt-get update
 RUN sudo npm install --ignore-scripts
 
 COPY ./api/ .
