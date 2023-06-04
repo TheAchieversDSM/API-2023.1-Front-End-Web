@@ -43,7 +43,7 @@ export default function CriarEstacoes() {
         });
 
         console.log(estacao);
-        
+
     };
 
     // select's handleChange ✨
@@ -75,7 +75,7 @@ export default function CriarEstacoes() {
                 latitude: estacao.latitude,
                 longitude: estacao.longitude,
                 uid: estacao.uid,
-                utc: estacao.utc,
+                utc: 0,
                 parametros: estacao.parametro,
             },
             {
@@ -172,7 +172,7 @@ export default function CriarEstacoes() {
                                     onChange={handleChange}
                                 />
                             </Col>
-                            <Col md={5}>
+                            {           /*                 <Col md={5}>
                                 <Input
                                     label="UTC"
                                     name="utc"
@@ -181,7 +181,7 @@ export default function CriarEstacoes() {
                                     placeholder="Insira a UTC do local."
                                     onChange={handleChange}
                                 />
-                            </Col>
+                            </Col>*/}
                         </Row>
                         <Row className="create-station-content">
                             <Col md={11}>

@@ -106,7 +106,7 @@ export default function Dashboard() {
       <div className="main-body">
         <h1 className="TitImp">{estacaoNome}</h1>
         <div className="container_dashboard">
-          <Calendar onChange={handleDateChange} date={selectedDate} maxDate={new Date()} />
+          <Calendar onChange={handleDateChange} date={selectedDate} maxDate={new Date()} className="calendario"/>
           {renderButton ? <Button className="chartResetButton" onClick={() => setFetchData(true)}><MdUpdate className="buttonIcon" /> Redefinir</Button> : <></>}
           <Row>
             {estacaoParametros.length > 1 ? (
