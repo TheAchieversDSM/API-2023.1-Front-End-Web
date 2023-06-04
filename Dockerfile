@@ -8,4 +8,4 @@ RUN npm install
 
 COPY ./api/ ./
 
-CMD ["npm", "run", "cypress:run"]
+CMD npm run cypress:run && npm run nyc:coverage-report && npm run sonar:build 
