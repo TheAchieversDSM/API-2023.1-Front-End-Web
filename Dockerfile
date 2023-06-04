@@ -1,11 +1,12 @@
 FROM node:18
 
-WORKDIR /app
+RUN useradd -ms /bin/bash api
+USER api
+WORKDIR /home/api/app
 
-COPY ./api/package.json ./
+COPY ./api/package.json .
+RUN npm install --ignore-scripts
 
-RUN npm install
-
-COPY ./api/ ./
+COPY ./api/ .
 
 CMD ["npm", "run", "start"]
