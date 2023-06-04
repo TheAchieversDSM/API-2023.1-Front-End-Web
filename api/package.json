@@ -38,7 +38,7 @@
     },
     "scripts": {
         "start": "react-scripts -r @cypress/instrument-cra start",
-        "build": "bash build-script.sh && react-scripts -r @cypress/instrument-cra build",
+        "build": "bash build-script.sh && react-scripts build",
         "sonar:build": "node sonar-project.js",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
