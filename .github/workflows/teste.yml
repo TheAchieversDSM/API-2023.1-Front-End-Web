@@ -25,7 +25,7 @@ jobs:
     - name: Build and test with Cypress
       run: |
         docker build -t cypress-tests .
-        docker run --rm -v $(pwd) cypress-tests
+        docker run --rm -v $(pwd) -p 3000:3000 cypress-tests
     
     - name: Install Dependencies
       run: cd api && npm install
