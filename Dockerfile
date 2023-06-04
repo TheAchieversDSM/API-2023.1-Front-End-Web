@@ -9,7 +9,7 @@ WORKDIR /home/api/app
 
 COPY ./api/package.json ./
 
-RUN sudo npm install --ignore-scripts
+RUN npm install --ignore-scripts
 
 COPY ./api/ ./
 
