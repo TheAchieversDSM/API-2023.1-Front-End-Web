@@ -45,8 +45,8 @@ jobs:
 
     - name: Parar e remover container Docker
       run: |
-        docker stop service
-        docker rm service
+        docker stop cypress-tests
+        docker rm cypress-tests
 
     - name: Upload Report
       run: cd api && npm run sonar:build
