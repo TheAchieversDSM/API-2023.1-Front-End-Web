@@ -1,6 +1,10 @@
 FROM node:18
 
-WORKDIR /app
+RUN useradd -ms /bin/bash tecsus
+
+USER tecsus
+
+WORKDIR /home/tecsus/app
 
 COPY ./api/package.json ./
 
