@@ -3,11 +3,11 @@
 
 describe("Funcionalidade do Login", () => {
   it("Efetuar o login corretamente", () => {
-    cy.visit("http://localhost:3000");
+    cy.visit("https://api-2023-1-front-end-i5qddbtpf-theachievers.vercel.app/");
     cy.get('[name="email"]').type("usuario1@theAchievers.com");
     cy.get('[name="password"]').type("secret");
     cy.get("form").submit();
-    cy.url().should("eq", "http://localhost:3000");
+    cy.url().should("eq", "https://api-2023-1-front-end-i5qddbtpf-theachievers.vercel.app/");
   });
 });
 
