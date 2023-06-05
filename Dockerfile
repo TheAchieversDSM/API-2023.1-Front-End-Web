@@ -1,10 +1,12 @@
 FROM node:18
 
-RUN useradd -ms /bin/bash tecsus
+USER root
 
-USER tecsus
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
-WORKDIR /home/tecsus/app
+USER node
+
+WORKDIR /home/node/app
 
 COPY ./api/package.json ./
 

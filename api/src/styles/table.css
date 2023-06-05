@@ -39,47 +39,89 @@ tr{
 }
 
 .bt-view{
-    background: #01C3FF !important;
+    background: #fff !important;
+    border: 1.3px solid #5751D3 !important;
+    color: #5751D3 !important;
     transition: 0.3s;
 }
-.bt-view:hover{
-    background: #0280ff !important;
+
+.bt-view svg,
+.bt-edit svg,
+.bt-dash svg,
+.bt-record svg,
+.bt-delete svg {
+    color: #5751D3 !important;
+}
+
+.bt-view:hover {
+    color: #2BF400 !important;
+    background: #ffff !important;
+    border: 1.3px solid #2BF400 !important;
+    transition: 0.3s;
+}
+
+.bt-view svg:hover,
+.bt-edit svg:hover,
+.bt-dash svg:hover,
+.bt-record svg:hover  {
+    color: #2BF400 !important;
+    transition: 0.3s;
+}
+
+.bt-delete svg:hover {
+    color: #FF0000 !important;
     transition: 0.3s;
 }
 
 .bt-edit{
-    background: #F9D80D !important;
+    background: #fff !important;
+    border: 1.3px solid #5751D3 !important;
+    color: #5751D3 !important;
     transition: 0.3s;
 }
 .bt-edit:hover{
-    background: #fdb101 !important;
+    color: #2BF400 !important;
+    background: #ffff !important;
+    border: 1.3px solid #2BF400 !important;
     transition: 0.3s;
 }
 
 .bt-delete{
-    background: #FE7235 !important;
+    background: #fff !important;
+    border: 1.3px solid #5751D3 !important;
+    color: #5751D3 !important;
     transition: 0.3s;
 }
 .bt-delete:hover{
-    background: #ff4d00 !important;
+    color: red !important;
+    background: #ffff !important;
+    border: 1.3px solid red !important;
     transition: 0.3s;
 }
 
 .bt-record{
-    background: #2BF400 !important;
+    background: #fff !important;
+    border: 1.3px solid #5751D3 !important;
+    color: #5751D3 !important;
     transition: 0.3s;
 }
 .bt-record:hover{
-    background: #21b101 !important;
+    color: #2BF400 !important;
+    background: #ffff !important;
+    border: 1.3px solid #2BF400 !important;
     transition: 0.3s;
 }
 
 .bt-dash{
-    background: #655ef0 !important;
+    background: #fff !important;
+    border: 1.3px solid #5751D3 !important;
+    color: #5751D3 !important;
     transition: 0.3s;
 }
 .bt-dash:hover{
-    background: #5b54d6 !important;
+    color: #2BF400 !important;
+    background: #ffff !important;
+    border: 1.3px solid #2BF400 !important;
     transition: 0.3s;
 }
 
