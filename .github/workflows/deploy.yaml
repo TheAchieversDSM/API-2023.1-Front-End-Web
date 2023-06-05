@@ -15,11 +15,41 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [18.x]
+
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-      - import: ./teste.yml
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+    - name: Build e rodar container Docker
+      run: |
+        docker build -t cypress-tests .
 
+    - name: Executar o container com o Projeto
+      run: |
+        docker run -p 8000:3000 -d cypress-tests npm start
+
+    - name: Ver a listagem do container
+      run: |
+        docker ps
+    
+    - name: Install Dependencies
+      run: cd api && npm install
+      
+    - name: Run Cypress Tests
+      run: cd api && npm run cypress:run
+
+    - name: Generate Report
+      run: cd api && npm run nyc:coverage-report
+
+    - name: Upload Report
+      run: cd api && npm run sonar:build
   Deploy-Production:
     name: Deploy-Production
     runs-on: ubuntu-latest
