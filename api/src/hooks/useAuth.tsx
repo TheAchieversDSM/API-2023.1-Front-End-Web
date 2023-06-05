@@ -46,7 +46,7 @@ import url from "../services/config";
     Cookies.remove("tecsus.user_id");
     Cookies.remove("tecsus.nivel");
 
-	  window.location.href = 'http://localhost:3000/home'
+	  window.location.href = 'https://theachievers-front-end.vercel.app/'
   }
   
   export function AuthProvider({ children }: AuthProviderProps) {
