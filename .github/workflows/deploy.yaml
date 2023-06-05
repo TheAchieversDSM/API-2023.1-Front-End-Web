@@ -11,12 +11,22 @@ on:
     branches: [ "main" ]
 
 jobs:
-   Deploy-Production:
+ Test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - import: ./teste.yml
+
+  Deploy-Production:
+    name: Deploy-Production
     runs-on: ubuntu-latest
     env:
       VERCEL_GIT_COMMIT_REF: ${{ github.ref }}
     
-    needs: teste.Test
+    needs: Test
 
     steps:
       - uses: actions/checkout@v2
@@ -42,7 +52,7 @@ jobs:
           vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       
       - name: Deploy Project Artifacts to Vercel
-        if: ${{ needs.Test.Test.result == 'success' }}
+        if: ${{ needs.Test.result == 'success' }}
         run: |
           echo "💫 Deploying project to production..."
           vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
