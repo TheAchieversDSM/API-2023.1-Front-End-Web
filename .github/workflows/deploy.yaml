@@ -13,31 +13,12 @@ on:
       - main
 
 jobs:
-  Test:
-    name: Run Tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      # Configurar o ambiente para execução dos testes
-      - name: Configure Environment
-        run: |
-          # Configurar seu ambiente de teste aqui
-          # Exemplo: Instalar dependências, configurar banco de dados, etc.
-
-      # Executar os testes
-      - name: Run Tests
-        run: |
-          # Comandos para executar os testes
-          # Exemplo: npm test, python run_tests.py, etc.
-
-  Deploy-Production:
+   Deploy-Production:
     runs-on: ubuntu-latest
     env:
       VERCEL_GIT_COMMIT_REF: ${{ github.ref }}
     
-    needs: Test
+    needs: teste.Test
 
     steps:
       - uses: actions/checkout@v2
@@ -63,7 +44,7 @@ jobs:
           vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
       
       - name: Deploy Project Artifacts to Vercel
-        if: ${{ needs.Test.result == 'success' }}
+        if: ${{ needs.Test.Test.result == 'success' }}
         run: |
           echo "💫 Deploying project to production..."
           vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
