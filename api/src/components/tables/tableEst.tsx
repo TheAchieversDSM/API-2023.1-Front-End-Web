@@ -362,7 +362,7 @@ export default function TableEst() {
                   coluna2="Latitude: " resp2={modalData?.lati}
                   coluna3="Longitude: " resp3={modalData?.long}
                   coluna4="UID: " resp4={modalData?.uid}
-                  coluna5="UTC: " resp5={modalData?.UTC}
+/*                coluna5="UTC: " resp5={modalData?.UTC}*/                  
                   coluna6="UnixTime: " resp6={modalData?.unixtime}
                   coluna7="Parâmetros: " resp7={modalData?.parametros?.map((itens) => {
                     return (

@@ -70,7 +70,7 @@ export default function EditarEstacoes() {
             nome_estacao: estacao.nome,
             latitude: estacao.latitude,
             longitude: estacao.longitude,
-            utc: estacao.utc,
+            utc: 0,
         },
             { headers: { Authorization: `Bearer ${cookies["tecsus.token"]}` } }
         ).then((res) => {
@@ -144,7 +144,7 @@ export default function EditarEstacoes() {
                                 />
                             </Col>
                         </Row>
-                        <Row className="create-station-content">
+                        {/* <Row className="create-station-content">
                             <Col md={11}>
                                 <Input
                                     label="UTC"
@@ -156,7 +156,7 @@ export default function EditarEstacoes() {
                                     default={estacao2?.UTC}
                                 />
                             </Col>
-                        </Row>
+                        </Row> */}
 
                         <div className="create-station-button">
                             <Button

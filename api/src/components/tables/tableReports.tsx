@@ -59,7 +59,7 @@ export default function TableReport() {
                     <tr>
                         <th>ID</th>
                         <th>Valor</th>
-                        <th>Unixtime</th>
+                        <th>Data</th>
                         <th>Alerta</th>
                         <th>Nível</th>
                         <th>Parâmetro</th>
