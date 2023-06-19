@@ -15,7 +15,7 @@
 <img src="https://img.shields.io/badge/TypeScript-5751D3?style=for-the-badge&logo=typescript&logoColor=EDF0F9"/> 
 
 </p>
-
+ 
 <span id="execution">
 <h3>⚙️ Execução do Sistema</h3>
 <p>Para rodar o projeto localmente, será necessário ter o <a href="https://nodejs.org/en/download/">Node</a> instalado.</p>
